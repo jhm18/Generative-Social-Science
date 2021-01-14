@@ -1,0 +1,34 @@
+digraph AISF_Workflow  {
+    dpi = 350;
+    /*size = "13,15";*/
+    penwidth = 3;
+    rankdir=TB;
+    /*nodesep=1;*/
+    ranksep = 1;
+    compound = true; 
+
+    /*Importing Images Requries Running from the Command Line*/
+    /* dot -v  -Tpng AISF_Workflow.gv -o AISF_Workflow.png*/
+
+/*###############################
+  #   Creating Graph Entities   #
+  ###############################*/
+
+    Team_1 [shape=none, label="", image="AISF_Team_1.png"];
+    Team_2 [shape=none, label="", image="AISF_Team_2.png"];
+    Team_3 [shape=none, label="", image="AISF_Team_3.png"];
+
+    Network_Games [label = "Networked\n Social Policy Games"] [shape = ellipse, style=filled, color=lightgrey, fontcolor=black];
+    
+
+/*#################
+  #   Relations   #
+  #################*/
+    
+   {rank=same; Team_1; Team_2; Team_3}
+
+   Team_1 -> Network_Games [label="Team 1"];
+   Team_2 -> Network_Games [label="Team 2"];
+   Team_3 ->  Network_Games [label="Team 3"];
+
+}

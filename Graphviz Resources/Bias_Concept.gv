@@ -1,0 +1,363 @@
+/*Jonathan H. Morgan*/
+/*Bias Conceptual Diagram*/
+/*11 August 2019*/
+
+/*To Do Items*/
+
+/* dot -v  -Tpng Bias_Concept.gv -o Bias_Concept.png*/
+
+digraph Bias_Concept {
+dpi = 350;
+size = "13,15";
+penwidth = 3;
+rankdir=LR;
+nodesep=1;
+ranksep = 1;
+compound = true; 
+pad = 0.08;
+
+/*###############################
+  #   Creating Graph Entities   #
+  ###############################*/
+
+/*CENTRALIZATION OF THE GRAPH*/
+Centralized_1 [label = "Centralized"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Centralized_2 [label = "Centralized"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+
+/*ModCent_1 [label = "Moderate\n Centralization"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+ModCent_2 [label = "Moderate\n Centralization"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];*/
+
+Decentralized_1 [label = "Decentralized"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Decentralized_2 [label = "Decentralized"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+
+/*MEASURE TYPE*/
+Centrality_1c [label = "Centrality\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Centralization_1c [label = "Centralization\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Topology_1c [label = "Topology\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+
+/*Centrality_1mc [label = "Centrality\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Centralization_1mc [label = "Centralization\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Topology_1mc [label = "Topology\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];*/
+
+Centrality_1d [label = "Centrality\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Centralization_1d [label = "Centralization\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Topology_1d [label = "Topology\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+
+Centrality_2c [label = "Centrality\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Centralization_2c [label = "Centralization\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Topology_2c [label = "Topology\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+
+/*Centrality_2mc [label = "Centrality\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Centralization_2mc [label = "Centralization\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Topology_2mc [label = "Topology\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];*/
+
+Centrality_2d [label = "Centrality\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Centralization_2d [label = "Centralization\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Topology_2d [label = "Topology\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+
+/*MEASURES*/
+Degree_1ccn [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Degree_1cct [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+/*Degree_1mccn [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Degree_1mcct [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];*/
+Degree_1dcn [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Degree_1dct [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+
+Degree_2ccn [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Degree_2cct [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+/*Degree_2mccn [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Degree_2mcct [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];*/
+Degree_2dcn [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Degree_2dct [label = "Degree Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+
+Power_1ccn [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Power_1cct [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+/*Power_1mccn [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Power_1mcct [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];*/
+Power_1dcn [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Power_1dct [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+
+Power_2ccn [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Power_2cct [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+/*Power_2mccn [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Power_2mcct [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];*/
+Power_2dcn [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Power_2dct [label = "Bon. Power\n Centrality"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+
+Path_1ccn [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Path_1cct [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+/*Path_1mccn [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Path_1mcct [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];*/
+Path_1dcn [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+Path_1dct [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+
+Path_2ccn [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Path_2cct [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+/*Path_2mccn [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Path_2mcct [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];*/
+Path_2dcn [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+Path_2dct [label = "Path Based\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+
+Component_1ct [label = "Component & Distance\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+/*Component_1mct [label = "Component & Distance\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];*/
+Component_1dt [label = "Component & Distance\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+
+Component_2ct [label = "Component & Distance\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+/*Component_2mct [label = "Component & Distance\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];*/
+Component_2dt [label = "Component & Distance\n Measures"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+
+Transitivity_1ct [label = "Transitivity"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+/*Transitivity_1mct [label = "Transitivity"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];*/
+Transitivity_1dt [label = "Transitivity"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+
+Transitivity_2ct [label = "Transitivity"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+/*Transitivity_2mct [label = "Transitivity"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];*/
+Transitivity_2dt [label = "Transitivity"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+
+Tau_1ct [label = "Tau RC"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+/*Tau_1mct [label = "Tau RC"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];*/
+Tau_1dt [label = "Tau RC"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=white];
+
+Tau_2ct [label = "Tau RC"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+/*Tau_2mct [label = "Tau RC"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];*/
+Tau_2dt [label = "Tau RC"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled];
+
+/*IMPUTATION METHODS*/
+
+/*Directed Networks*/
+Directed_1cctd [label = "Directed"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=burlywood4, fontcolor=white];
+Directed_1cctpow [label = "Directed"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=burlywood4, fontcolor=white];
+Probabilistic_1cctpath [label = "Probabilistic"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=plum, fontcolor=black];
+
+Complex_1ccnd [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Complex_1ccnpow [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Nothing_1ccnpow [label = "None"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=olivedrab3, fontcolor=black];
+Probabilistic_1ccnpath [label = "Probabilistic"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=plum, fontcolor=black];
+
+Complex_1ctcomp [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Probabilistic_1ctcomp [label = "Probabilistic (SNC)"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=plum, fontcolor=black];
+Directed_1cttrans [label = "Directed"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=burlywood4, fontcolor=white];
+Probabilistic_1cttau [label = "Probabilistic"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=plum, fontcolor=black];
+
+Probabilistic_1dctd [label = "Probabilistic"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=plum, fontcolor=black];
+Probabilistic_1dctpow [label = "Probabilistic"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=plum, fontcolor=black];
+Probabilistic_1dctpath [label = "Probabilistic"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=plum, fontcolor=black];
+Complex_1dctpath [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+
+Reciprocated_1dcnd [label = "Reciprocated"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_1dcnd  [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Complex_1dcnpow  [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Reciprocated_1dcnpath [label = "Reciprocated"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_1dcnpath [label = "Complex\n Model-Based (SPC)"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Probabilistic_1dcnpath [label = "Probabilistic (SNC)"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=plum, fontcolor=black];
+Complex_1dtcomp  [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Simple_1dtcomp [label = "Simple\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=dodgerblue2, fontcolor=white];
+Directed_1dttrans [label = "Directed"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=burlywood4, fontcolor=white];
+Probabilistic_1dttau [label = "Probabilistic"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=plum, fontcolor=black];
+
+/*Undirected Networks*/
+Reciprocated_2cctd [label = "Reciprocated"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_2cctd [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Reciprocated_2cctpow [label = "Reciprocated"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_2cctpow [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Simple_2cctpath [label = "Simple\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=dodgerblue2, fontcolor=white];
+Complex_2cctpath [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+
+Reciprocated_2ccnd [label = "Reciprocated"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_2ccnd [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Nothing_2ccnpow [label = "None"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=olivedrab3, fontcolor=black];
+Reciprocated_2ccnpath [label = "Reciprocated"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_2ccnpath [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+
+Reciprocated_2ctcomp  [label = "Reciprocated (SNC)"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_2ctcomp [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Nothing_2cttrans [label = "None"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=olivedrab3, fontcolor=black];
+Complex_2cttau [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+
+Reciprocated_2dctd [label = "Reciprocated"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_2dctd [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Reciprocated_2dctpow [label = "Reciprocated"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_2dctpow [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Simple_2dctpath [label = "Simple\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=dodgerblue2, fontcolor=white];
+
+Reciprocated_2dcnd [label = "Reciprocated"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_2dcnd [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+Nothing_2dcnpow [label = "None"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=olivedrab3, fontcolor=black];
+Complex_2dcnpath [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+
+Simple_2dtcomp [label = "Simple\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=dodgerblue2, fontcolor=white];
+Simple_2dtdist [label = "Simple\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=dodgerblue2, fontcolor=white];
+Reciprocated_2dttrans [label = "Reciprocated (SNC)"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=goldenrod2, fontcolor=black];
+Complex_2dttau [label = "Complex\n Model-Based"] [shape = ellipse, width=4, height=1, penwidth=4, fontsize=200, style=filled, color=cyan2, fontcolor=black];
+
+/*#################
+  #   Relations   #
+  #################*/
+
+conn_1 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+conn_2 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+conn_3 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+conn_4 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+
+subgraph cluster0 {
+  graph[color=lightgrey, style=filled];
+
+  conn_1 -> Centralized_2 [constraint=true, style=invisible, arrowhead=none];
+  conn_2 -> Decentralized_2 [constraint=true, style=invisible, arrowhead=none];
+  conn_3 -> Centralized_1 [constraint=true, style=invisible, arrowhead=none];
+  conn_4 -> Decentralized_1 [constraint=true, style=invisible, arrowhead=none];
+  
+  Probabilistic_1dctpath  -> conn_2 [constraint=true, style=invisible, arrowhead=none];
+  Complex_1dcnpath -> conn_1 [constraint=true, style=invisible, arrowhead=none];
+
+  {rank=same; conn_3; conn_4;}
+  {rank=same; conn_2; conn_1;}
+    
+  /*DIRECTED*/
+    subgraph cluster1 {
+      graph [rank=min, label="Directed", labelloc=t, labeljust=l, fontsize=250, fontname="times-bold"];
+      node [style=filled,color=white];
+        Centralized_1 -> Centrality_1c [style=bold, penwidth=6];
+        Centralized_1 -> Centralization_1c [style=bold, penwidth=6];
+        Centralized_1 -> Topology_1c [style=bold, penwidth=6];
+
+        Decentralized_1 -> Centrality_1d [style=bold, penwidth=6];
+        Decentralized_1 -> Centralization_1d [style=bold, penwidth=6];
+        Decentralized_1 -> Topology_1d [style=bold, penwidth=6];
+
+        Centrality_1c -> Degree_1cct [style=bold, penwidth=6];
+        Centralization_1c -> Degree_1ccn [style=bold, penwidth=6];
+        Centrality_1d -> Degree_1dct [style=bold, penwidth=6];
+        Centralization_1d -> Degree_1dcn [style=bold, penwidth=6];
+
+        Centrality_1c -> Power_1cct [style=bold, penwidth=6];
+        Centralization_1c -> Power_1ccn [style=bold, penwidth=6];
+        Centrality_1d -> Power_1dct [style=bold, penwidth=6];
+        Centralization_1d -> Power_1dcn [style=bold, penwidth=6];
+
+        Centrality_1c -> Path_1cct [style=bold, penwidth=6];
+        Centralization_1c -> Path_1ccn [style=bold, penwidth=6];
+        Centrality_1d -> Path_1dct [style=bold, penwidth=6];
+        Centralization_1d -> Path_1dcn [style=bold, penwidth=6];
+
+        Topology_1c -> Component_1ct [style=bold, penwidth=6];
+        Topology_1d -> Component_1dt [style=bold, penwidth=6];
+
+        Topology_1c -> Transitivity_1ct [style=bold, penwidth=6];
+        Topology_1d -> Transitivity_1dt [style=bold, penwidth=6];
+
+        Topology_1c -> Tau_1ct [style=bold, penwidth=6];
+        Topology_1d -> Tau_1dt [style=bold, penwidth=6];
+
+        Degree_1cct ->  Directed_1cctd [style=bold, penwidth=6];
+        Power_1cct -> Directed_1cctpow [style=bold, penwidth=6];
+        Path_1cct -> Probabilistic_1cctpath [style=bold, penwidth=6];
+
+        Degree_1ccn -> Complex_1ccnd [style=bold, penwidth=6];
+        Power_1ccn -> Complex_1ccnpow [style=bold, penwidth=6];
+        Power_1ccn -> Nothing_1ccnpow [style=bold, penwidth=6];
+        Path_1ccn -> Probabilistic_1ccnpath [style=bold, penwidth=6];
+
+        Component_1ct -> Complex_1ctcomp [style=bold, penwidth=6];
+        Component_1ct -> Probabilistic_1ctcomp [style=bold, penwidth=6];
+        Transitivity_1ct -> Directed_1cttrans [style=bold, penwidth=6];
+        Tau_1ct -> Probabilistic_1cttau [style=bold, penwidth=6];
+
+        Degree_1dct -> Probabilistic_1dctd [style=bold, penwidth=6];
+        Power_1dct -> Probabilistic_1dctpow [style=bold, penwidth=6];
+        Path_1dct -> Probabilistic_1dctpath [style=bold, penwidth=6];
+        Path_1dct -> Complex_1dctpath [style=bold, penwidth=6];
+       
+        Degree_1dcn -> Reciprocated_1dcnd [style=bold, penwidth=6];
+        Degree_1dcn -> Complex_1dcnd [style=bold, penwidth=6];
+        Power_1dcn -> Complex_1dcnpow [style=bold, penwidth=6];
+        Path_1dcn -> Complex_1dcnpath [style=bold, penwidth=6];
+        Path_1dcn -> Reciprocated_1dcnpath [style=bold, penwidth=6];
+        Path_1dcn -> Probabilistic_1dcnpath [style=bold, penwidth=6];
+
+        Component_1dt -> Complex_1dtcomp [style=bold, penwidth=6];
+        Component_1dt -> Simple_1dtcomp [style=bold, penwidth=6];
+        Transitivity_1dt -> Directed_1dttrans [style=bold, penwidth=6];
+        Tau_1dt -> Probabilistic_1dttau [style=bold, penwidth=6];
+    }
+
+  /*UNDIRECTED*/
+   subgraph cluster2 {
+     graph [syle=filled, color=white, rank=min, label="Undirected", labelloc=t, labeljust=l, fontsize=250, fontname="times-bold"];
+     node [style=filled];
+        Centralized_2 -> Centrality_2c [style=bold, penwidth=6];
+        Centralized_2 -> Centralization_2c [style=bold, penwidth=6];
+        Centralized_2 -> Topology_2c [style=bold, penwidth=6];
+
+        Decentralized_2 -> Centrality_2d [style=bold, penwidth=6];
+        Decentralized_2 -> Centralization_2d [style=bold, penwidth=6];
+        Decentralized_2 -> Topology_2d [style=bold, penwidth=6];
+
+        Centrality_2c -> Degree_2cct [style=bold, penwidth=6];
+        Centralization_2c -> Degree_2ccn [style=bold, penwidth=6];
+        Centrality_2d -> Degree_2dct [style=bold, penwidth=6];
+        Centralization_2d -> Degree_2dcn [style=bold, penwidth=6];
+
+        Centrality_2c -> Power_2cct [style=bold, penwidth=6];
+        Centralization_2c -> Power_2ccn [style=bold, penwidth=6];
+        Centrality_2d -> Power_2dct [style=bold, penwidth=6];
+        Centralization_2d -> Power_2dcn [style=bold, penwidth=6];
+
+        Centrality_2c -> Path_2cct [style=bold, penwidth=6];
+        Centralization_2c -> Path_2ccn [style=bold, penwidth=6];
+        Centrality_2d -> Path_2dct [style=bold, penwidth=6];
+        Centralization_2d -> Path_2dcn [style=bold, penwidth=6];
+
+        Topology_2c -> Component_2ct [style=bold, penwidth=6];
+        Topology_2d -> Component_2dt [style=bold, penwidth=6];
+
+        Topology_2c -> Transitivity_2ct [style=bold, penwidth=6];
+        Topology_2d -> Transitivity_2dt [style=bold, penwidth=6];
+
+        Topology_2c -> Tau_2ct [style=bold, penwidth=6];
+        Topology_2d -> Tau_2dt [style=bold, penwidth=6];
+
+        Degree_2cct -> Reciprocated_2cctd [style=bold, penwidth=6];
+        Degree_2cct -> Complex_2cctd [style=bold, penwidth=6];
+        Power_2cct -> Reciprocated_2cctpow [style=bold, penwidth=6];
+        Power_2cct -> Complex_2cctpow [style=bold, penwidth=6];
+        Path_2cct -> Simple_2cctpath [style=bold, penwidth=6];
+        Path_2cct -> Complex_2cctpath [style=bold, penwidth=6];
+
+        Degree_2ccn -> Reciprocated_2ccnd [style=bold, penwidth=6];
+        Degree_2ccn -> Complex_2ccnd [style=bold, penwidth=6];
+        Power_2ccn -> Nothing_2ccnpow [style=bold, penwidth=6];
+        Path_2ccn -> Reciprocated_2ccnpath [style=bold, penwidth=6];
+        Path_2ccn -> Complex_2ccnpath [style=bold, penwidth=6];
+
+        Component_2ct -> Reciprocated_2ctcomp [style=bold, penwidth=6];
+        Component_2ct -> Complex_2ctcomp [style=bold, penwidth=6];
+        Transitivity_2ct -> Nothing_2cttrans [style=bold, penwidth=6];
+        Tau_2ct -> Complex_2cttau [style=bold, penwidth=6];
+
+        Degree_2dct -> Reciprocated_2dctd [style=bold, penwidth=6];
+        Degree_2dct -> Complex_2dctd [style=bold, penwidth=6];
+        Power_2dct -> Reciprocated_2dctpow [style=bold, penwidth=6];
+        Power_2dct -> Complex_2dctpow [style=bold, penwidth=6];
+        Path_2dct -> Simple_2dctpath [style=bold, penwidth=6];
+
+        Degree_2dcn -> Reciprocated_2dcnd [style=bold, penwidth=6];
+        Degree_2dcn -> Complex_2dcnd [style=bold, penwidth=6];
+        Power_2dcn -> Nothing_2dcnpow [style=bold, penwidth=6];
+        Path_2dcn -> Complex_2dcnpath [style=bold, penwidth=6];
+
+        Component_2dt -> Simple_2dtcomp [style=bold, penwidth=6];
+        Transitivity_2dt -> Simple_2dtdist [style=bold, penwidth=6];
+        Tau_2dt -> Complex_2dttau [style=bold, penwidth=6];
+        Tau_2dt -> Reciprocated_2dttrans [style=bold, penwidth=6];
+   }
+
+
+}
+
+}
+
+/*NOTES*/
+/*Allows you to put nodes in differ subclusters at the same rank*/
+/*newrank=true;
+{ rank=same; Centralized_1; Centralized_2; }*/
