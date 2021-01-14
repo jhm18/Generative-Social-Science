@@ -1,0 +1,238 @@
+. Bayesian Pipline: Linear2
+. Jonathan H. Morgan
+. 23 September 20220
+
+. CALL /Users/jonathan.h.morgan/Desktop/Linear2.DP
+
+CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+CD /Users/jonathan.h.morgan/Desktop
+DIMENSION 20 COLUMNS
+
+. ######################
+. #   SYNTHETIC DATA   #
+. ######################
+
+READ X Y Y_Pred
+1 5.19 6.083785000000001
+2 6.56 6.645265
+3 9.19 6.960785
+4 8.09 7.362375
+5 7.6 7.778485
+6 7.08 8.246855
+7 6.74 8.703695
+8 9.3 9.104685
+9 8.98 9.51271
+10 11.5 9.947115
+END OF DATA
+
+. ##############################
+. #   DESCRIPTIVE STATISTICS   #
+. ##############################
+
+COMMENT Looking at Basic 4-Plots
+  TITLES AUTOMATIC
+  LINE COLOR BROWN
+  BAR BORDER COLOR BROWN
+  CHARACTER COLOR BROWN
+  GRID ON
+  GRID THICKNESS 0.05
+  X1TIC MARK LABEL SIZE 3
+  Y1TIC MARK LABEL SIZE 3
+  CHARACTER CIRCLE
+  CHARACTER COLOR BROWN
+  CHARACTER FILL ON
+  4PLOT X
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat X_4Plot_21August2020.eps
+  SUMMARY X
+
+  4PLOT Y
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat Y_4Plot_21August2020.eps
+  SUMMARY Y
+
+COMMENT Testing for Drift of X
+  LET n = size y
+  LET x_var = sequence 1 1 n
+  FIT x x_var
+  LET idf2 = n - 2
+  SKIP 1
+  READ dpst1f.dat  COEF COEF_SD T_VALUE L_BONF_CONF U_BONF_CONF
+  LET bsd = COEF_SD(2)
+  LET lclb = bsd - tppf(0.975,idf2)*bsd
+  LET uclb = bsd + tppf(0.975,idf2)*bsd
+  LET string idrift = NO
+  LET atemp = lclb*uclb
+  IF atemp =< 0
+    LET string idrift = YES
+  END OF IF
+
+  COMMENT X Autocorrelation Plot
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    GRID OFF
+    LINE COLOR BROWN BLACK BLACK BLACK
+    LINE BLANK SOLID DOT DOT
+    SPIKE ON
+    SPIKE BASE 0
+    X1LABEL Lag
+    Y1LABEL Autocorrelation
+    TITLE X
+    AUTOCORRELATION PLOT X
+
+    DEVICE 3 CLOSE
+    SYSTEM cp dppl2f.dat X_Autocorrelations_21August2020.eps
+
+    X1LABEL Frequency
+    SPECTRAL PLOT X
+
+COMMENT Testing for Heterogeneous Variances
+    LET x_var = code4 x_var
+    LEVENE TEST x x_var
+
+COMMENT Grubbs Test
+. Grubbs Test is inappropriate in this case because the distribution is uniform.
+
+COMMENT Testing for Drift of Y
+  LET n = size y
+  LET x_var = sequence 1 1 n
+  FIT y x_var
+  LET idf2 = n - 2
+  SKIP 1
+  READ dpst1f.dat  COEF COEF_SD T_VALUE L_BONF_CONF U_BONF_CONF
+  LET bsd = COEF_SD(2)
+  LET lclb = bsd - tppf(0.975,idf2)*bsd
+  LET uclb = bsd + tppf(0.975,idf2)*bsd
+  LET string idrift = NO
+  LET atemp = lclb*uclb
+  IF atemp =< 0
+    LET string idrift = YES
+  END OF IF
+
+  COMMENT Y Autocorrelation
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    GRID OFF
+    LINE COLOR BROWN BLACK BLACK BLACK
+    LINE BLANK SOLID DOT DOT
+    SPIKE ON
+    SPIKE BASE 0
+    XLABEL Lag
+    YLABEL Autocorrelation
+    TITLE Y
+    AUTOCORRELATION PLOT Y
+
+    DEVICE 3 CLOSE
+    SYSTEM cp dppl2f.dat Y_Autocorrelations_21August2020.eps
+
+    X1LABEL Frequency
+    SPECTRAL PLOT Y
+
+COMMENT Testing for Heterogeneous Variances
+  LET x_var = code4 x_var
+  LEVENE TEST y x_var
+
+COMMENT Testing for Outliers
+. Unlikely because the distribution has small tails
+  GRUBBS TEST Y
+
+COMMENT 6PLOT
+. Calculating Residuals
+  LET resid = y - y_pred
+  LET resid_sd = STANDARD DEVIATION resid
+
+. Plotting
+  GRID OFF
+  TITLE SIZE 3
+  Y1LABEL SIZE 3
+  X1LABEL SIZE 3
+  TIC MARK SIZE = 2
+  TIC MARK LABEL SIZE = 3
+  MULTIPLOT 2 3
+    TITLE Response & Predicted Values
+    Y1LABEL DISPLACEMENT 14
+    X1LABEL x
+    Y1LABEL y
+    CHAR CIRC() BLANK
+    CHARACTER COLOR BROWN
+    LINE COLOR BLACK
+    LINES BLANK SOLID
+    PLOT y y_pred VS x
+
+    TITLE Residuals vs. Independent Variable
+    Y1LABEL DISPLACEMENT 10
+    X1LABEL x
+    Y1LABEL Residuals
+    PLOT resid VS x
+
+    TITLE Residuals vs. Predicted Values
+    X1LABEL Predicted Y
+    Y1LABEL Residuals
+    PLOT resid VS y_pred
+
+    TITLE DISPLACEMENT 2
+    TITLE Lag Plot of Residuals
+    X1LABEL Residuals (i-1)
+    Y1LABEL Residuals
+    LAG PLOT resid
+
+    TITLE Histogram of Residuals
+    X1LABEL Residuals
+    Y1LABEL
+    HISTOGRAM resid
+
+    TITLE Normal Probability Plot
+    X1LABEL Theoretical Values
+    Y1LABEL Ordered Residuals
+    LINE SOLID
+    NORMAL PROBABILITY PLOT resid
+  END OF MULTIPLOT
+
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat Linear2_6Plot_24Sept2020.eps
+
+COMMENT Half-Normal Probability Plot
+. Reading in Model Coefficients
+  READ Coeff
+  0.42
+  0.23
+  END OF DATA
+
+. Calculating Transforming the Coefficients to Reflect their Absolute Values
+  LET coef2 = ABS(Coeff)
+
+. Plotting Half-Normal Pobability Plot
+  TITLE Linear2: Half-normal Probability Plot of Effects
+  TITLE DISPLACEMENT 4
+  Y1LABEL Ordered |Effects|
+  X1LABEL Half-Normal Distribution Order Statistic Medians
+  LIMITS
+  TIC OFFSET UNITS SCREEN
+  TIC OFFSET 5 5
+  GRID ON
+  CHAR CIRC()
+  CHARACTER COLOR BROWN
+  LINE BLANK
+  CHARACTER FILL ON
+  HALFNORMAL PROBABILITY PLOT coef2
+
+. Getting Point Coordinates
+  LET x_coord = XPLOT
+  LET y_coord = YPLOT
+
+. Adding Labels
+  LEGEND CASE LOWER
+  LEGEND 1 GAMM()
+  LEGEND 1 COORDINATES 25 55
+  LEGEND 2 BETA()
+  LEGEND 2 COORDINATES 76 78
+  Y1LIMITS 0 0.5
+  HALFNORMAL PROBABILITY PLOT coef2
+  LINE SOLID
+  LINE COLORS BLUE
+  DRAWDATA 0.23 0 1.17 0
+  LINE COLORS BLACK
+  LINE DASH
+  DRAWDATA 0.376 0  0.376 0.23
+  DRAWDATA 1.052 0 1.052 0.42
+
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat Linear2_EffectPlot_24Sept2020.eps
