@@ -1,0 +1,141 @@
+COMMENT CogSci 2020 Survey Plots
+COMMENT Jonathan H. Morgan
+COMMENT 25 July 2020
+
+CD /Users/jonathan.h.morgan/Desktop/Personal/ACS
+
+COMMENT CALL CogSci_Analysis.DP
+
+COMMENT Reading-In Basic Visualization Parameters
+      DEVICE 1 x11
+      SET X11 PIXMAP ON
+      SET X11 FONT 9X15
+      SET POSTSCRIPT DEFAULT COLOR ON
+      SET POSTSCRIPT PPI 600
+      SET WRITE DECIMALS 3
+      Y2FRAME OFF
+      X2FRAME OFF
+      FRAME THICKNESS = 0.1
+      X1LIMITS 0 1
+      Y1LABEL SIZE 2.5
+      X1LABEL SIZE 2.5
+      X1LABEL DISPLACEMENT 11
+      TIC MARK SIZE = 2
+      TIC MARK LABEL SIZE = 2
+      CASE ASIS
+      TITLE CASE ASIS
+      LEGEND CASE ASIS
+      LABEL CASE ASIS
+      Y1TIC MARK LABEL CASE ASIS
+      X1TIC MARK LABEL CASE ASIS
+      FONT COMPLEX
+      YTIC MARK LABEL SIZE 2
+      Y1TIC MARK LABEL FORMAT ALPHA
+      TITLE DISPLACEMENT 2
+      TITLE SIZE 3
+      LINE BLANK ALL
+      BAR WIDTH .5 ALL
+      BAR ON ALL
+      BAR FILL ON ALL
+      HORIZONTAL SWITCH ON
+
+COMMENT Reading-In Values
+      DIMENSION 15 COLUMNS
+      READ  topics      exp   role  num_st
+            12          9     10    9
+            13          7     14    3
+            12          6     5     3
+            8           8     1     0
+            4           2     0     0
+            2           0     0     0
+            1           0     0     0
+      END OF DATA
+
+COMMENT Deleting 0 values
+      RETAIN exp FOR I = 1 1 5
+      RETAIN role FOR I = 1 1 4
+      RETAIN num_st FOR I = 1 1 3
+
+COMMENT Normalizing Scales
+      LET exp_norm = exp/15
+      LET r_norm = role/15
+      LET ns_norm = num_st/15
+      LET tp_norm = topics/15
+
+COMMENT Plot Elements
+      exp_n = SIZE exp
+      role_n = SIZE role
+      num_n = SIZE num_st
+      topic_n = SIZE topics
+      LET exp_x = SEQUENCE 1 1 exp_n
+      LET role_x = SEQUENCE 1 1 role_n
+      LET num_x = SEQUENCE 1 1 num_n
+      LET topic_x = SEQUENCE 1 1 topic_n
+
+COMMENT Plot Bar Charts
+      MULTIPLOT 2 2
+            TITLE Study Experiences
+            FRAME COORDINATES 37 15 90 90
+            YLIMITS 1 5
+            YTIC OFFSET 1 1
+            Y1TIC LABEL CONTENT HCI Reactionsp()Time Psychophysicalsp()Responses Mixedsp()Methods Other
+            Y1LABEL Study Experiences
+            MAJOR Y1TIC MARK NUMBER 5
+            MINOR Y1TIC MARK NUMBER 0
+            X1LABEL Relative Proportion
+            YLABEL DISPLACEMENT 39
+            XTIC OFFSET 0 0
+            BAR PATTERN D2 D2 D2 D2 D2
+            BAR FILL COLOR BLUE BLUE BLUE BLUE BLUE
+            BAR PATTERN COLOR BLUE BLUE BLUE BLUE BLUE
+            BAR PLOT exp_norm exp_x
+
+            TITLE Study Roles
+            YLIMITS 1 4
+            YTIC OFFSET 1 1
+            Y1TIC LABEL CONTENT Participant Experimenter PI IRBsp()Member
+            Y1LABEL Roles
+            MAJOR Y1TIC MARK NUMBER 4
+            MINOR Y1TIC MARK NUMBER 0
+            X1LABEL Relative Proportion
+            YLABEL DISPLACEMENT 25
+            XTIC OFFSET 0 0
+            BAR PATTERN D2 D2 D2 D2
+            BAR FILL COLOR BROWN BROWN BROWN BROWN
+            BAR PATTERN COLOR BROWN BROWN BROWN BROWN
+            BAR PLOT r_norm role_x
+
+            TITLE Number of Studies
+            YLIMITS 1 3
+            YTIC OFFSET 1 1
+            Y1TIC LABEL CONTENT 1-4 5-10 Moresp()thansp()10
+            Y1LABEL Frequency
+            MAJOR Y1TIC MARK NUMBER 3
+            MINOR Y1TIC MARK NUMBER 0
+            X1LABEL Relative Proportion
+            YLABEL DISPLACEMENT 25
+            XTIC OFFSET 0 0
+            BAR PATTERN D2 D2 D2 D2
+            BAR FILL COLOR G40 G40 G40
+            BAR PATTERN COLOR G40 G40 G40
+            BAR PLOT ns_norm num_x
+
+            TITLE Topics of Interest
+            YLIMITS 1 7
+            YTIC OFFSET 1 1
+            Y1TIC LABEL CONTENT Prepsp()&sp()Setup Conductingsp()ansp()Experiment Assessmentsp()&sp()Piloting Repeatability Ethicalsp()&sp()Safetysp()Challenges Workingsp()withsp()IRB Othersp()Concerns
+            Y1LABEL Topics
+            MAJOR Y1TIC MARK NUMBER 7
+            MINOR Y1TIC MARK NUMBER 0
+            X1LABEL Relative Proportion
+            YLABEL DISPLACEMENT 41
+            XTIC OFFSET 0 0
+            BAR PATTERN D2 D2 D2 D2 D2 D2 D2
+            BAR FILL COLOR GREEN GREEN GREEN GREEN GREEN GREEN GREEN
+            BAR PATTERN COLOR GREEN GREEN GREEN GREEN GREEN GREEN GREEN
+            BAR PLOT tp_norm topic_x
+      END OF MULTIPLOT
+
+COMMENT Outputting Image
+      DEVICE 3 CLOSE
+      SYSTEM cp dppl2f.dat CogSci2020_SurveyResults_26July2020.eps
