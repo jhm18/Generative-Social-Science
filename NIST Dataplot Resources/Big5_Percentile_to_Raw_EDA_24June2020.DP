@@ -1,0 +1,617 @@
+COMMENT Jonathan H. Morgan
+COMMENT Percentile to Raw Score Conversion: Visual Analyses
+COMMENT 24 June 2020
+
+DIMENSION 25 COLUMNS
+
+CD /Users/jonathan.h.morgan/Desktop/Themis.Cog/Big_5/Data_Scripts
+COMMENT CALL Big5_Percentile_to_Raw_EDA_24June2020.DP
+
+COMMENT Reading-In Data
+  CALL read_closer_set.DP
+  CALL read_requester_set.DP
+
+COMMENT Confirming Variables Are Correct
+  WRITE ALL VARIABLES FOR I = 1 1 3
+
+COMMENT Visualization Settings
+  CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+  SET RELATIVE HISTOGRAM AREA
+
+COMMENT Bi-Histogram: Closers vs. Requesters
+  MULTIPLOT SCALE FACTOR 2
+  X1LIMITS 0 1
+  X1LABEL IBM Insights Percentiles
+  X1LABEL DISPLACEMENT 13
+  TITLE DISPLACEMENT 2
+  BAR BORDER COLOR BLACK BROWN
+  MULTIPLOT 2 3
+    TITLE Openness
+    RELATIVE BIHISTOGRAM  OPEN_C OPEN_R
+
+    TITLE Conscientiousness
+    RELATIVE BIHISTOGRAM  CONSC_C CONSC_R
+
+    TITLE Extraversion
+    RELATIVE BIHISTOGRAM  EXTRA_C EXTRA_R
+
+    TITLE Agreeableness
+    RELATIVE BIHISTOGRAM  AGREE_C AGREE_R
+
+    TITLE Neuroticism
+    RELATIVE BIHISTOGRAM  NEUR_C NEUR_R
+  END OF MULTIPLOT
+
+COMMENT Stacking Data and Reading in Agile Data
+  APPEND OPEN_C OPEN_R
+  DELETE OPEN_C
+  APPEND O_PRED_C O_PRED_R
+  DELETE O_PRED_C
+  APPEND CONSC_C CONSC_R
+  DELETE CONSC_C
+  APPEND C_PRED_C C_PRED_R
+  DELETE C_PRED_C
+  APPEND EXTRA_C EXTRA_R
+  DELETE EXTRA_C
+  APPEND E_PRED_C E_PRED_R
+  DELETE E_PRED_C
+  APPEND AGREE_C AGREE_R
+  DELETE AGREE_C
+  APPEND A_PRED_C A_PRED_R
+  DELETE A_PRED_C
+  APPEND NEUR_C NEUR_R
+  DELETE NEUR_C
+  APPEND N_PRED_C N_PRED_R
+  DELETE N_PRED_C
+  CALL read_agile_set.DP
+
+COMMENT Bi-Histogram: GitHub vs. Agile
+  MULTIPLOT 2 3
+    TITLE Openness
+    BAR BORDER COLOR BLACK BROWN
+    RELATIVE BIHISTOGRAM OPEN_R O_PER
+
+    TITLE Conscientiousness
+    RELATIVE BIHISTOGRAM CONSC_R C_PER
+
+    TITLE Extraversion
+    RELATIVE BIHISTOGRAM EXTRA_R E_PER
+
+    TITLE Agreeableness
+    RELATIVE BIHISTOGRAM AGREE_R A_PER
+
+    TITLE Neuroticism
+    RELATIVE BIHISTOGRAM NEUR_R N_PER
+
+    limits 0 8
+    line blank
+    FRAME OFF
+    TIC MARK OFF
+    TIC MARK LABEL OFF
+    GRID OFF
+    TITLE
+    X1LABEL
+    LEGEND 1 COORDINATES 30 35
+    LEGEND 1 COLOR BLACK
+    LEGEND 1 GitHub Sample
+    LEGEND 2 COORDINATES 30 25
+    LEGEND 2 COLOR BROWN
+    LEGEND 2 Agile Sample
+    plot x for x = 1 1 7
+    LEGEND 1
+    LEGEND 2
+  END OF MULTIPLOT
+
+COMMENT Outputting Image
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat Big5_PercentileComparison_25June2020.eps
+
+COMMENT Scatter Multiplot
+  LIMITS
+  CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+  X1FRAME ON
+  Y1FRAME ON
+  X1TIC MARK ON
+  Y1TIC MARK ON
+  X1TIC MARK LABEL ON
+  Y1TIC MARK LABEL ON
+  TIC OFFSET UNITS ABSOLUTE
+  TIC MARK LABEL DECIMALS 2
+  MAJOR XTIC MARK NUMBER 5
+  MAJOR YTIC MARK NUMBER 5
+  LINE COLOR BLACK BROWN
+  LINES SOLID
+  X1LABEL Percentile Scores
+  Y1LABEL Raw Scores
+  Y1LABEL DISPLACEMENT 14
+
+  MULTIPLOT 2 3
+    TITLE Openness
+    CHAR X BLANK
+    LINES BLANK SOLID
+    PLOT O_RAW O_PRED VS O_PER
+
+    TITLE Conscientiousness
+    CHAR X BLANK
+    LINES BLANK SOLID
+    PLOT C_RAW C_PRED VS C_PER
+
+    TITLE Extraversion
+    CHAR X BLANK
+    LINES BLANK SOLID
+    PLOT E_RAW E_PRED VS E_PER
+
+    TITLE Agreeableness
+    X1TIC MARK LABEL DECIMALS 3
+    CHAR X BLANK
+    LINES BLANK SOLID
+    PLOT A_RAW A_PRED VS A_PER
+
+    TITLE Neuroticism
+    X1TIC MARK LABEL DECIMALS 2
+    CHAR X BLANK
+    LINES BLANK SOLID
+    PLOT N_RAW N_PRED VS N_PER
+
+    limits 0 8
+    line blank
+    FRAME OFF
+    TIC MARK OFF
+    TIC MARK LABEL OFF
+    GRID OFF
+    TITLE
+    X1LABEL
+    Y1LABEL
+    CHAR BLANK
+    LEGEND 1 COORDINATES 30 35
+    LEGEND 1 COLOR BLACK
+    LEGEND 1 X Data Values
+    LEGEND 2 COORDINATES 30 25
+    LEGEND 2 COLOR BROWN
+    LEGEND 2 Predicted Raw Scores
+    plot x for x = 1 1 7
+    LEGEND 1
+    LEGEND 2
+  END OF MULTIPLOT
+
+COMMENT BI-HISTOGRAM FITS
+  CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+  LIMITS
+  X1LABEL IBM Big 5 Scores
+  X1FRAME ON
+  Y1FRAME ON
+  X1TIC MARK ON
+  Y1TIC MARK ON
+  X1TIC MARK LABEL ON
+  Y1TIC MARK LABEL ON
+  TIC OFFSET UNITS ABSOLUTE
+  TIC MARK LABEL DECIMALS 2
+  MAJOR XTIC MARK NUMBER 5
+  MAJOR YTIC MARK NUMBER 5
+  BAR BORDER COLOR BLACK BROWN
+
+  MULTIPLOT 2 3
+    TITLE Openness
+    RELATIVE BIHISTOGRAM O_RAW O_PRED
+
+    TITLE Conscientiousness
+    RELATIVE BIHISTOGRAM C_RAW C_PRED
+
+    TITLE Extraversion
+    RELATIVE BIHISTOGRAM E_RAW E_PRED
+
+    TITLE Agreeableness
+    RELATIVE BIHISTOGRAM A_RAW A_PRED
+
+    TITLE Neuroticism
+    RELATIVE BIHISTOGRAM N_RAW N_PRED
+
+    limits 0 8
+    line blank
+    FRAME OFF
+    TIC MARK OFF
+    TIC MARK LABEL OFF
+    GRID OFF
+    TITLE
+    X1LABEL
+    LEGEND 1 COORDINATES 30 35
+    LEGEND 1 COLOR BLACK
+    LEGEND 1 Agile Raw Scores
+    LEGEND 2 COORDINATES 30 25
+    LEGEND 2 COLOR BROWN
+    LEGEND 2 Predicted Scores
+    plot x for x = 1 1 7
+    LEGEND 1
+    LEGEND 2
+  END OF MULTIPLOT
+
+COMMENT GitHub Prediction Distribution vs. Raw
+  CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+  LIMITS
+  X1LABEL IBM Big 5 Scores
+  X1FRAME ON
+  Y1FRAME ON
+  X1TIC MARK ON
+  Y1TIC MARK ON
+  X1TIC MARK LABEL ON
+  Y1TIC MARK LABEL ON
+  TIC OFFSET UNITS ABSOLUTE
+  TIC MARK LABEL DECIMALS 2
+  MAJOR XTIC MARK NUMBER 5
+  MAJOR YTIC MARK NUMBER 5
+  BAR BORDER COLOR BLACK BROWN
+
+  MULTIPLOT 2 3
+    TITLE Openness
+    RELATIVE BIHISTOGRAM O_PRED_R O_RAW
+
+    TITLE Conscientiousness
+    RELATIVE BIHISTOGRAM C_PRED_R C_RAW
+
+    TITLE Extraversion
+    RELATIVE BIHISTOGRAM E_PRED_R C_RAW
+
+    TITLE Agreeableness
+    RELATIVE BIHISTOGRAM A_PRED_R A_RAW
+
+    TITLE Neuroticism
+    RELATIVE BIHISTOGRAM N_PRED_R A_RAW
+
+    limits 0 8
+    line blank
+    FRAME OFF
+    TIC MARK OFF
+    TIC MARK LABEL OFF
+    GRID OFF
+    TITLE
+    X1LABEL
+    LEGEND 1 COORDINATES 30 35
+    LEGEND 1 COLOR BLACK
+    LEGEND 1 GitHub Sample
+    LEGEND 2 COORDINATES 30 25
+    LEGEND 2 COLOR BROWN
+    LEGEND 2 Agile Sample
+    plot x for x = 1 1 7
+    LEGEND 1
+    LEGEND 2
+  END OF MULTIPLOT
+
+COMMENT Outputting Image
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat Big5_Prediction_vs_Raw_25June2020.eps
+
+COMMENT Agile: Percent vs. Raw
+  CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+  LIMITS
+  X1LIMITS -0.1 1
+  X1LABEL IBM Big 5 Scores
+  X1LABEL DISPLACEMENT 13
+  X1FRAME ON
+  Y1FRAME ON
+  X1TIC MARK ON
+  Y1TIC MARK ON
+  X1TIC MARK LABEL ON
+  Y1TIC MARK LABEL ON
+  TIC OFFSET UNITS ABSOLUTE
+  TIC MARK LABEL DECIMALS 2
+  MAJOR XTIC MARK NUMBER 5
+  MAJOR YTIC MARK NUMBER 5
+  X1TIC MARK LABEL SIZE 3
+  Y1TIC MARK LABEL SIZE 3
+  TITLE DISPLACEMENT 2
+  TITLE SIZE 3
+  BAR BORDER COLOR BLACK BROWN
+
+  MULTIPLOT 2 3
+    TITLE Openness
+    RELATIVE BIHISTOGRAM O_PER O_RAW
+
+    TITLE Conscientiousness
+    RELATIVE BIHISTOGRAM C_PER C_RAW
+
+    TITLE Extraversion
+    RELATIVE BIHISTOGRAM E_PER E_RAW
+
+    TITLE Agreeableness
+    RELATIVE BIHISTOGRAM A_PER A_RAW
+
+    TITLE Neuroticism
+    RELATIVE BIHISTOGRAM N_PER A_RAW
+
+    limits 0 8
+    line blank
+    FRAME OFF
+    TIC MARK OFF
+    TIC MARK LABEL OFF
+    GRID OFF
+    TITLE
+    X1LABEL
+    LEGEND 1 SIZE 3
+    LEGEND 1 COORDINATES 30 35
+    LEGEND 1 COLOR BLACK
+    LEGEND 1 Percentile Scores
+    LEGEND 2 SIZE 3
+    LEGEND 2 COORDINATES 30 25
+    LEGEND 2 COLOR BROWN
+    LEGEND 2 Raw Scores
+    plot x for x = 1 1 7
+    LEGEND 1
+    LEGEND 2
+  END OF MULTIPLOT
+
+COMMENT Outputting Image
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat Agile_PercentRaw_29June2020.eps
+
+
+COMMENT GitHub: Percent vs. Predicted
+  CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+  LIMITS
+  X1LIMITS -0.1 1
+  X1LABEL IBM Big 5 Scores
+  X1LABEL DISPLACEMENT 13
+  X1FRAME ON
+  Y1FRAME ON
+  X1TIC MARK ON
+  Y1TIC MARK ON
+  X1TIC MARK LABEL ON
+  Y1TIC MARK LABEL ON
+  TIC OFFSET UNITS ABSOLUTE
+  TIC MARK LABEL DECIMALS 2
+  MAJOR XTIC MARK NUMBER 5
+  MAJOR YTIC MARK NUMBER 5
+  X1TIC MARK LABEL SIZE 3
+  Y1TIC MARK LABEL SIZE 3
+  TITLE DISPLACEMENT 2
+  TITLE SIZE 3
+  BAR BORDER COLOR BLACK BROWN
+
+  MULTIPLOT 2 3
+    TITLE Openness
+    RELATIVE BIHISTOGRAM OPEN_R O_PRED_R
+
+    TITLE Conscientiousness
+    RELATIVE BIHISTOGRAM Consc_R C_PRED_R
+
+    TITLE Extraversion
+    RELATIVE BIHISTOGRAM EXTRA_R E_PRED_R
+
+    TITLE Agreeableness
+    RELATIVE BIHISTOGRAM AGREE_R A_PRED_R
+
+    TITLE Neuroticism
+    RELATIVE BIHISTOGRAM NEUR_R N_PRED_R
+
+    limits 0 8
+    line blank
+    FRAME OFF
+    TIC MARK OFF
+    TIC MARK LABEL OFF
+    GRID OFF
+    TITLE
+    X1LABEL
+    LEGEND 1 SIZE 3
+    LEGEND 1 COORDINATES 30 35
+    LEGEND 1 COLOR BLACK
+    LEGEND 1 Percentile Scores
+    LEGEND 2 SIZE 3
+    LEGEND 2 COORDINATES 30 25
+    LEGEND 2 COLOR BROWN
+    LEGEND 2 Predicted Raw Scores
+    plot x for x = 1 1 7
+    LEGEND 1
+    LEGEND 2
+  END OF MULTIPLOT
+
+  COMMENT Outputting Image
+    DEVICE 3 CLOSE
+    SYSTEM cp dppl2f.dat GitHub_PercentPredicted_29June2020.eps
+
+#COMMENT Preparing for 6-Plot Fit Analyses
+DELETE OPEN_R O_PRED_R CONSC_R C_PRED_R EXTRA_R E_PRED_R AGREE_R A_PRED_R NEUR_R N_PRED_R
+CALL read_agile_residuals.DP
+
+COMMENT 6-Plots Assessing Openness Fit
+  CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+  LIMITS
+  X1FRAME ON
+  Y1FRAME ON
+  X1TIC MARK ON
+  Y1TIC MARK ON
+  X1TIC MARK LABEL ON
+  Y1TIC MARK LABEL ON
+  TIC OFFSET UNITS ABSOLUTE
+  LINE COLOR BLACK BROWN
+  MULTIPLOT 2 3
+    TITLE DISPLACEMENT DEFAULT
+    TITLE Response & Predicted Values
+    X1LABEL Openness Percentile Score
+    Y1LABEL Raw Scores
+    CHAR X BLANK
+    CHARACTER COLOR BLACK
+    LINES BLANK SOLID
+    PLOT O_RAW, O_PRED, VS O_PER,
+
+    CHARACTER COLOR BROWN
+    TITLE Residuals vs. Independent Variable
+    X1LABEL Openness Percentile Score
+    Y1LABEL Residuals
+    PLOT O_RESID VS O_PER
+
+    TITLE Residuals vs. Predicted Values
+    X1LABEL Openness Raw Score Predictions
+    Y1LABEL Residuals
+    PLOT O_RESID VS O_PRED
+
+    TITLE DISPLACEMENT 2
+    TITLE Lag Plot of Residuals
+    X1LABEL Residuals (i-1)
+    Y1LABEL Residuals
+    LAG PLOT O_RESID
+
+    TITLE Histogram of Residuals
+    X1LABEL Residuals
+    HISTOGRAM O_RESID
+
+    TITLE Normal Probability Plot
+    X1LABEL Theoretical Values
+    Y1LABEL Ordered Residuals
+    LINE SOLID
+    NORMAL PROBABILITY PLOT O_RESID
+  END OF MULTIPLOT
+
+COMMENT 6-PLOT Fit Analysis: Conscientiousness
+  MULTIPLOT 2 3
+    TITLE DISPLACEMENT DEFAULT
+    TITLE Response & Predicted Values
+    X1LABEL Openness Percentile Score
+    Y1LABEL Raw Scores
+    CHAR X BLANK
+    CHARACTER COLOR BLACK
+    LINES BLANK SOLID
+    PLOT C_RAW C_PRED VS C_PER
+
+    CHARACTER COLOR BROWN
+    TITLE Residuals vs. Independent Variable
+    X1LABEL Openness Percentile Score
+    Y1LABEL Residuals
+    PLOT C_RESID VS C_PER
+
+    TITLE Residuals vs. Predicted Values
+    X1LABEL Openness Raw Score Predictions
+    Y1LABEL Residuals
+    PLOT C_RESID VS C_PRED
+
+    TITLE DISPLACEMENT 2
+    TITLE Lag Plot of Residuals
+    X1LABEL Residuals (i-1)
+    Y1LABEL Residuals
+    LAG PLOT C_RESID
+
+    TITLE Histogram of Residuals
+    X1LABEL Residuals
+    HISTOGRAM C_RESID
+
+    TITLE Normal Probability Plot
+    X1LABEL Theoretical Values
+    Y1LABEL Ordered Residuals
+    LINE SOLID
+    NORMAL PROBABILITY PLOT C_RESID
+  END OF MULTIPLOT
+
+COMMENT 6-PLOT Fit Analysis: Extraversion
+  MULTIPLOT 2 3
+    TITLE DISPLACEMENT DEFAULT
+    TITLE Response & Predicted Values
+    X1LABEL Openness Percentile Score
+    Y1LABEL Raw Scores
+    CHAR X BLANK
+    CHARACTER COLOR BLACK
+    LINES BLANK SOLID
+    PLOT E_RAW E_PRED VS E_PER
+
+    CHARACTER COLOR BROWN
+    TITLE Residuals vs. Independent Variable
+    X1LABEL Openness Percentile Score
+    Y1LABEL Residuals
+    PLOT E_RESID VS E_PER
+
+    TITLE Residuals vs. Predicted Values
+    X1LABEL Openness Raw Score Predictions
+    Y1LABEL Residuals
+    PLOT E_RESID VS E_PRED
+
+    TITLE DISPLACEMENT 2
+    TITLE Lag Plot of Residuals
+    X1LABEL Residuals (i-1)
+    Y1LABEL Residuals
+    LAG PLOT E_RESID
+
+    TITLE Histogram of Residuals
+    X1LABEL Residuals
+    HISTOGRAM E_RESID
+
+    TITLE Normal Probability Plot
+    X1LABEL Theoretical Values
+    Y1LABEL Ordered Residuals
+    LINE SOLID
+    NORMAL PROBABILITY PLOT E_RESID,
+  END OF MULTIPLOT
+
+COMMENT 6-PLOT Fit Analysis: Agreeableness
+  MULTIPLOT 2 3
+    TITLE DISPLACEMENT DEFAULT
+    TITLE Response & Predicted Values
+    X1LABEL Openness Percentile Score
+    Y1LABEL Raw Scores
+    CHAR X BLANK
+    CHARACTER COLOR BLACK
+    LINES BLANK SOLID
+    PLOT A_RAW A_PRED VS A_PER
+
+    CHARACTER COLOR BROWN
+    TITLE Residuals vs. Independent Variable
+    X1LABEL Openness Percentile Score
+    Y1LABEL Residuals
+    PLOT A_RESID VS A_PER
+
+    TITLE Residuals vs. Predicted Values
+    X1LABEL Openness Raw Score Predictions
+    Y1LABEL Residuals
+    PLOT A_RESID VS A_PRED
+
+    TITLE DISPLACEMENT 2
+    TITLE Lag Plot of Residuals
+    X1LABEL Residuals (i-1)
+    Y1LABEL Residuals
+    LAG PLOT A_RESID
+
+    TITLE Histogram of Residuals
+    X1LABEL Residuals
+    HISTOGRAM A_RESID
+
+    TITLE Normal Probability Plot
+    X1LABEL Theoretical Values
+    Y1LABEL Ordered Residuals
+    LINE SOLID
+    NORMAL PROBABILITY PLOT A_RESID
+  END OF MULTIPLOT
+
+COMMENT 6-PLOT Fit Analysis: Neuroticism
+  MULTIPLOT 2 3
+    TITLE DISPLACEMENT DEFAULT
+    TITLE Response & Predicted Values
+    X1LABEL Openness Percentile Score
+    Y1LABEL Raw Scores
+    CHAR X BLANK
+    CHARACTER COLOR BLACK
+    LINES BLANK SOLID
+    PLOT N_RAW N_PRED VS N_PER
+
+    CHARACTER COLOR BROWN
+    TITLE Residuals vs. Independent Variable
+    X1LABEL Openness Percentile Score
+    Y1LABEL Residuals
+    PLOT N_RESID VS N_PER
+
+    TITLE Residuals vs. Predicted Values
+    X1LABEL Openness Raw Score Predictions
+    Y1LABEL Residuals
+    PLOT N_RESID VS N_PRED
+
+    TITLE DISPLACEMENT 2
+    TITLE Lag Plot of Residuals
+    X1LABEL Residuals (i-1)
+    Y1LABEL Residuals
+    LAG PLOT N_RESID
+
+    TITLE Histogram of Residuals
+    X1LABEL Residuals
+    HISTOGRAM N_RESID
+
+    TITLE Normal Probability Plot
+    X1LABEL Theoretical Values
+    Y1LABEL Ordered Residuals
+    LINE SOLID
+    NORMAL PROBABILITY PLOT N_RESID
+  END OF MULTIPLOT

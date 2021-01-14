@@ -1,0 +1,553 @@
+. Duke10 Descriptive Analyses: Preparation for Bayesian Estimation
+. Jonathan H. Morgan
+. 1 September 2020
+
+. NOTE: Correct Drift Checks based on Linar2.DP and alighn the slides to match the Linear2 slides.
+
+CD /Users/jonathan.h.morgan/Desktop/ACT/Duke10/Scripts_&_Visualizations
+CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+
+COMMENT Importing Data
+  CALL read_Duke10_Ae.DP
+  DIMENSION 30 COLUMNS
+
+. ###############
+. #   Ae′ MODEL #
+. ###############
+
+. AE′
+
+COMMENT Ae′ 4PLOT
+  TITLES AUTOMATIC
+  SUMMARY COL_1_2
+  4PLOT COL_1_2
+
+COMMENT Ae′ Autocorrelation
+  LINE BLANK SOLID DOT DOT
+  SPIKE ON
+  SPIKE BASE 0
+  XLABEL LAG
+  Y1LABEL AUTOCORRELATION
+  TITLE Ae'
+  AUTOCORRELATION PLOT COL_1_2
+
+  X1LABEL Frequency
+  SPECTRAL PLOT COL_1_2
+
+COMMENT Testing for Drift
+  LET n = size COL_1_2
+  LET ymean = MEAN COL_1_2
+  LET ysdm = standard deviation of mean COL_1_2
+  LET idf = n - 1
+  .
+  LET lclm = ymean - tppf(0.975,idf)*ysdm
+  LET uclm = ymean + tppf(0.975,idf)*ysdm
+
+  LET x = SEQUENCE 1 1 n
+  FIT COL_1_2 x
+  LET idf2 = n - 2
+  READ dpst1f.dat coef coefsd
+  LET bsd = coefsd(2)
+  LET lclb = bsd - tppf(0.975,idf2)*bsd
+  LET uclb = bsd + tppf(0.975,idf2)*bsd
+  LET string idrift = NO
+  LET atemp = lclb*uclb
+  if atemp < 0
+    let string idrift = YES
+  end of if
+
+. Evidence of weak autocorrelation, mostly due to the sorting by concept
+
+COMMENT Levene Tests by Participant and by Module Order (Levene Test Statistic Value 13.037 and 8.168 respectively)
+  LEVENE TEST COL_1_2 COL_1_3
+  LEVENE TEST COL_1_2 COL_1_4
+
+.  Heterogeneous variances with respect to both participant ID or module order
+
+  LET ysd = standard deviation COL_1_2
+  LET ucls = idf*ysd*ysd/chsppf(0.025,idf)
+  LET ucls = sqrt(ucls)
+  LET lcls = idf*ysd*ysd/chsppf(0.975,idf)
+  LET lcls = sqrt(lcls)
+
+  LET x = code4 x
+  LEVENE TEST COL_1_2 x
+
+  . Evidence of unequal variances across quarters
+
+COMMENT Examining Outliers
+  GRUBBS TEST COL_1_2
+
+COMMENT Determining Distribution
+  SET BEST FIT METHOD PPCC
+  SET BEST FIT CRITERION  PPCC
+  BEST DISTRIBUTIONAL FIT COL_1_2
+
+. Candidates: Anglit, 2-Par Exponential, Normal
+. Normal: Anderson-Darling Test Statistic: 39.253
+. Double Exponential: 832.743
+
+  LET KSLOC = -0.251
+  LET KSSCALE = 1.894
+  SET GOODNESS OF FIT FIT METHOD ANDERSON DARLING TEST
+  SET GOODNESS OF FIT FIT METHOD ML
+  NORMAL ANDERSON DARLING GOODNESS OF FIT COL_1_2
+
+COMMENT Control Charts because Levene Results Indicate Differences
+  SET CONTROL CHART LIMITS DEFUALT
+  MULTIPLOT CORNER COORDINATES 2 2 98 98
+  MULTIPLOT SCALE FACTOR 2
+  MULTIPLOT 2 2
+    TITLE CASE ASIS
+    LABEL CASE ASIS
+    TITLE OFFSET 2
+    Y2FRAME OFF
+    X2FRAME OFF
+    FRAME THICKNESS = 0.1
+
+    YLIMIT -4.3 4.3
+    MAJOR YTIC MARK NUMBER 7
+    Y1TIC MARK LABEL DECIMAL 2
+    TITLE Raw Data Ae'
+    PLOT COL_1_2
+
+    YLIMIT
+    XLIMIT 1 72
+    X1LABEL Participants
+    LINE BLANK SOLID DASH DASH DOTT DOTT
+    CHARACTER CIRCLE
+    CHARACTER FILL ON
+    CHARACTER HW 1 0.75
+    MAJOR YTIC MARK NUMBER
+    Y1TIC MARK LABEL DECIMAL
+    TITLE Mean Control Chart
+    LEGEND FONT FONT COMPLEX
+    LEGEND CASE LOWER
+    LEGEND 1 -3*SIGM()
+    LEGEND 1 COORDINATES 83 30
+    LEGEND 2 3*SIGM()
+    LEGEND 2 COORDINATES 84 70
+    LEGEND 3 -0.26
+    LEGEND 3 coordinates 83 50
+    MEAN CONTROL CHART COL_1_2 COL_1_3
+
+    TITLE Range Control Chart
+    LEGEND 1 -3*SIGM()
+    LEGEND 1 COORDINATES 83 43
+    LEGEND 2 3*SIGM()
+    LEGEND 2 COORDINATES 84 71
+    LEGEND 3 7.54
+    LEGEND 3 coordinates 83 54
+    RANGE CONTROL CHART COL_1_2 COL_1_3
+
+    TITLE SD Control Chart
+    LEGEND 1 -3*SIGM()
+    LEGEND 1 COORDINATES 83 46
+    LEGEND 2 3*SIGM()
+    LEGEND 2 COORDINATES 84 72
+    LEGEND 3 1.83
+    LEGEND 3 coordinates 83 59
+    STANDARD DEVIATION CONTROL CHART  COL_1_2 COL_1_3
+  END OF MULTIPLOT
+
+  MOVE 50 98
+  JUSTIFICATION CENTER
+  TEXT Control Charts for Ae' by Participant
+
+  COMMENT Control Charts by Session Order
+    MULTIPLOT CORNER COORDINATES 2 2 98 98
+    MULTIPLOT SCALE FACTOR 2
+    MULTIPLOT 2 2
+      TITLE CASE ASIS
+      LABEL CASE ASIS
+      TITLE OFFSET 2
+      Y2FRAME OFF
+      X2FRAME OFF
+      FRAME THICKNESS = 0.1
+
+      YLIMIT -4.3 4.3
+      MAJOR YTIC MARK NUMBER 7
+      Y1TIC MARK LABEL DECIMAL 2
+      TITLE Raw Data Ae'
+      PLOT COL_1_2
+
+      YLIMIT
+      XLIMIT 1 8
+      MAJOR YTIC MARK NUMBER
+      Y1TIC MARK LABEL DECIMAL
+      X1LABEL Session Order
+      LINE BLANK SOLID DASH DASH DOTT DOTT
+      CHARACTER CIRCLE
+      CHARACTER FILL ON
+      CHARACTER HW 1 0.75
+      MAJOR YTIC MARK NUMBER
+      Y1TIC MARK LABEL DECIMAL
+      TITLE Mean Control Chart
+      LEGEND FONT FONT COMPLEX
+      LEGEND CASE LOWER
+      LEGEND 1 -3*SIGM()
+      LEGEND 1 COORDINATES 85 22
+      LEGEND 2 3*SIGM()
+      LEGEND 2 COORDINATES 86 86
+      LEGEND 3 -0.25
+      LEGEND 3 coordinates 86 54
+      TITLE Mean Control Chart
+      MEAN CONTROL CHART COL_1_2 COL_1_4
+
+      TITLE Range Control Chart
+      LEGEND 1 -3*SIGM()
+      LEGEND 1 COORDINATES 86 28
+      LEGEND 2 3*SIGM()
+      LEGEND 2 COORDINATES 86 81
+      LEGEND 3 8.6
+      LEGEND 3 coordinates 86 49
+      RANGE CONTROL CHART COL_1_2 COL_1_4
+
+      TITLE SD Control Chart
+      LEGEND 1 -3*SIGM()
+      LEGEND 1 COORDINATES 86 27
+      LEGEND 2 3*SIGM()
+      LEGEND 2 COORDINATES 86 58
+      LEGEND 3 1.89
+      LEGEND 3 coordinates 86 43
+      STANDARD DEVIATION CONTROL CHART  COL_1_2 COL_1_4
+    END OF MULTIPLOT
+
+    MOVE 50 98
+    JUSTIFICATION CENTER
+    TEXT Control Charts for Ae' by Module Order
+
+  COMMENT Simulating Prior Distribution
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    TABULATE MEANS COL_1_2 COL_1_5
+    READ dpst1f.dat GROUP_ID g_mean
+    TABULATE SD COL_1_2 COL_1_5
+    READ dpst1f.dat GROUP_ID g_sd
+
+    LET YKERN XKERN = NORMAL KERNEL DENSITY MIXTURE g_mean g_sd
+    TIC OFFSET UNITS ABSOLUTE
+    X1LABEL Value
+    Y1Label Frequency
+    LINE COLOR BLACK BROWN
+    KERNEL DENSITY COL_1_6
+    PLOT YKERN XKERN
+
+    ECHO OFF
+    CAPTURE Ae'_Density.DAT
+    WRITE YKERN XKERN
+    END OF CAPTURE
+    ECHO ON
+
+. AE
+
+CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+
+COMMENT Ae 4PLOT
+  TITLES AUTOMATIC
+  SUMMARY COL_1_6
+  4PLOT COL_1_6
+
+COMMENT Ae′ Autocorrelation
+  LINE BLANK SOLID DOT DOT
+  SPIKE ON
+  SPIKE BASE 0
+  XLABEL Lag
+  Y1LABEL Autocorrelation
+  TITLE Ae
+  AUTOCORRELATION PLOT COL_1_6
+
+  X1LABEL Frequency
+  SPECTRAL PLOT COL_1_6
+
+  COMMENT Testing for Drift
+    LET n = size COL_1_6
+    LET ymean = MEAN COL_1_6
+    LET ysdm = standard deviation of mean COL_1_6
+    LET idf = n - 1
+
+    LET lclm = ymean - tppf(0.975,idf)*ysdm
+    LET uclm = ymean + tppf(0.975,idf)*ysdm
+
+    LET x = SEQUENCE 1 1 n
+    FIT COL_1_6 x
+    LET idf2 = n - 2
+    READ dpst1f.dat coef coefsd
+    LET bsd = coefsd(2)
+    LET lclb = bsd - tppf(0.975,idf2)*bsd
+    LET uclb = bsd + tppf(0.975,idf2)*bsd
+    LET string idrift = NO
+    LET atemp = lclb*uclb
+    if atemp < 0
+      let string idrift = YES
+    end of if
+
+  . Evidence of weak autocorrelation, mostly due to the sorting by concept
+
+  COMMENT Levene Tests by Participant and by Module Order (Levene Test Statistic Value 13.037 and 8.168 respectively)
+    LEVENE TEST COL_1_6 COL_1_3
+    LEVENE TEST COL_1_6 COL_1_4
+
+  .  Heterogeneous variances with respect to participant ID but not module order.
+
+    LET ysd = standard deviation COL_1_6
+    LET ucls = idf*ysd*ysd/chsppf(0.025,idf)
+    LET ucls = sqrt(ucls)
+    LET lcls = idf*ysd*ysd/chsppf(0.975,idf)
+    LET lcls = sqrt(lcls)
+
+    LET x = code4 x
+    LEVENE TEST COL_1_6 x
+
+    . Evidence of unequal variances across quarters
+
+  COMMENT Examining Outliers
+    GRUBBS TEST COL_1_6
+
+COMMENT Control Charts because Levene Results Indicate Differences
+  MULTIPLOT CORNER COORDINATES 2 2 98 98
+  MULTIPLOT SCALE FACTOR 2
+  MULTIPLOT 2 2
+    TITLE CASE ASIS
+    LABEL CASE ASIS
+    TITLE OFFSET 2
+    Y2FRAME OFF
+    X2FRAME OFF
+    FRAME THICKNESS = 0.1
+
+    YLIMIT -4.3 4.3
+    MAJOR YTIC MARK NUMBER 7
+    Y1TIC MARK LABEL DECIMAL 2
+    TITLE Raw Data Ae
+    PLOT COL_1_5
+
+    YLIMIT
+    XLIMIT 1 72
+    X1LABEL Participants
+    LINE BLANK SOLID DASH DASH DOTT DOTT
+    CHARACTER CIRCLE
+    CHARACTER FILL ON
+    CHARACTER HW 1 0.75
+    MAJOR YTIC MARK NUMBER
+    Y1TIC MARK LABEL DECIMAL
+    TITLE Mean Control Chart
+    LEGEND FONT FONT COMPLEX
+    LEGEND CASE LOWER
+    LEGEND 1 -3*SIGM()
+    LEGEND 1 COORDINATES 83 31
+    LEGEND 2 3*SIGM()
+    LEGEND 2 COORDINATES 84 77
+    LEGEND 3 -1.83
+    LEGEND 3 coordinates 83 54
+    MEAN CONTROL CHART COL_1_5 COL_1_3
+
+    TITLE Range Control Chart
+    LEGEND 1 -3*SIGM()
+    LEGEND 1 COORDINATES 83 50.5
+    LEGEND 2 3*SIGM()
+    LEGEND 2 COORDINATES 84 73.5
+    LEGEND 3 7.3
+    LEGEND 3 coordinates 83 59
+    RANGE CONTROL CHART COL_1_5 COL_1_3
+
+    TITLE SD Control Chart
+    LEGEND 1 -3*SIGM()
+    LEGEND 1 COORDINATES 83 46
+    LEGEND 2 3*SIGM()
+    LEGEND 2 COORDINATES 84 59
+    LEGEND 3 2.12
+    LEGEND 3 coordinates 83 52.5
+    STANDARD DEVIATION CONTROL CHART  COL_1_5 COL_1_3
+  END OF MULTIPLOT
+
+  MOVE 50 98
+  JUSTIFICATION CENTER
+  TEXT Control Charts for Ae by Participant
+
+COMMENT Determining Distribution
+  SET BEST FIT METHOD PPCC
+  SET BEST FIT CRITERION  PPCC
+  BEST DISTRIBUTIONAL FIT COL_1_5
+
+. Estimate of Location -0.251, Estimate of Scale 3.195, and Estimate of Shaep 3.540
+  LET LAMBDA = 3.54
+  LET Y = TUKEY LAMBDA RANDOM NUMBERS FOR I = 1 1 100
+
+  TIC OFFSET UNITS ABSOLUTE
+  X1LABEL Value
+  Y1Label Frequency
+  KERNEL DENSITY COL_1_6
+
+COMMENT Simulating Prior Distribution
+  CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+. https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/nkdm.htm
+  TABULATE MEANS COL_1_6 COL_1_5
+  READ dpst1f.dat GROUP_ID g_mean
+  TABULATE SD COL_1_6 COL_1_5
+  READ dpst1f.dat GROUP_ID g_sd
+
+  LET YKERN XKERN = NORMAL KERNEL DENSITY MIXTURE g_mean g_sd
+  TIC OFFSET UNITS ABSOLUTE
+  X1LABEL Value
+  Y1Label Frequency
+  LINE COLOR BLACK BROWN
+  KERNEL DENSITY COL_1_6 AND
+  PLOT YKERN XKERN
+
+  ECHO OFF
+  CAPTURE Ae_Density.DAT
+  WRITE YKERN XKERN
+  END OF CAPTURE
+  ECHO ON
+
+. AP
+
+COMMENT Ap 4PLOT
+  TITLES AUTOMATIC
+  SUMMARY COL_1_6
+  4PLOT COL_1_6
+
+COMMENT Ap Autocorrelation
+  LINE BLANK SOLID DOT DOT
+  SPIKE ON
+  SPIKE BASE 0
+  XLABEL Lag
+  Y1LABEL Autocorrelation
+  TITLE Ap
+  AUTOCORRELATION PLOT COL_1_6
+
+  X1LABEL Frequency
+  SPECTRAL PLOT COL_1_6
+
+  COMMENT Testing for Drift
+    LET n = size COL_1_6
+    LET ymean = MEAN COL_1_6
+    LET ysdm = standard deviation of mean COL_1_6
+    LET idf = n - 1
+
+    LET lclm = ymean - tppf(0.975,idf)*ysdm
+    LET uclm = ymean + tppf(0.975,idf)*ysdm
+
+    LET x = SEQUENCE 1 1 n
+    FIT COL_1_6 x
+    LET idf2 = n - 2
+    READ dpst1f.dat coef coefsd
+    LET bsd = coefsd(2)
+    LET lclb = bsd - tppf(0.975,idf2)*bsd
+    LET uclb = bsd + tppf(0.975,idf2)*bsd
+    LET string idrift = NO
+    LET atemp = lclb*uclb
+      if atemp < 0
+        let string idrift = YES
+      end of if
+
+. Evidence of weak autocorrelation, mostly due to the sorting by concept, but no support in the linear model.
+
+COMMENT Levene Tests by Participant and by Module Order (Levene Test Statistic Value 14.033 and 1.284 respectively)
+  LEVENE TEST COL_1_6 COL_1_3
+  LEVENE TEST COL_1_6 COL_1_4
+
+.  Heterogeneous variances with respect to participant ID but not module order.
+
+  LET ysd = standard deviation COL_1_6
+  LET ucls = idf*ysd*ysd/chsppf(0.025,idf)
+  LET ucls = sqrt(ucls)
+  LET lcls = idf*ysd*ysd/chsppf(0.975,idf)
+  LET lcls = sqrt(lcls)
+
+  LET x = code4 x
+  LEVENE TEST COL_1_6 x
+
+  . Evidence of unequal variances across quarters: Levene Statistic of 31.398
+
+  COMMENT Examining Outliers
+    GRUBBS TEST COL_1_6
+
+    . No evidence of a clear outlier
+
+  COMMENT Simulating Prior Distribution
+      CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    . https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/nkdm.htm
+      TABULATE MEANS COL_1_6 COL_1_3
+      READ dpst1f.dat GROUP_ID g_mean
+      TABULATE SD COL_1_6 COL_1_3
+      READ dpst1f.dat GROUP_ID g_sd
+
+      LET YKERN XKERN = NORMAL KERNEL DENSITY MIXTURE g_mean g_sd
+      TIC OFFSET UNITS ABSOLUTE
+      X1LABEL Value
+      Y1Label Frequency
+      LINE COLOR BLACK BROWN
+      KERNEL DENSITY COL_1_6
+      PLOT YKERN XKERN
+
+      ECHO OFF
+      CAPTURE Ap_Density.DAT
+      WRITE YKERN XKERN
+      END OF CAPTURE
+      ECHO ON
+
+COMMENT Control Charts because Levene Results Indicate Differences
+  SET CONTROL CHART LIMITS DEFUALT
+  MULTIPLOT CORNER COORDINATES 2 2 98 98
+  MULTIPLOT SCALE FACTOR 2
+  MULTIPLOT 2 2
+    TITLE CASE ASIS
+    LABEL CASE ASIS
+    TITLE OFFSET 2
+    Y2FRAME OFF
+    X2FRAME OFF
+    FRAME THICKNESS = 0.1
+
+    YLIMIT -4.3 4.3
+    MAJOR YTIC MARK NUMBER 7
+    Y1TIC MARK LABEL DECIMAL 2
+    TITLE Raw Data Ap
+    PLOT COL_1_6
+
+    YLIMIT
+    XLIMIT 1 72
+    X1LABEL Participants
+    LINE BLANK SOLID DASH DASH DOTT DOTT
+    CHARACTER CIRCLE
+    CHARACTER FILL ON
+    CHARACTER HW 1 0.75
+    MAJOR YTIC MARK NUMBER
+    Y1TIC MARK LABEL DECIMAL
+    TITLE Mean Control Chart
+    LEGEND FONT FONT COMPLEX
+    LEGEND CASE LOWER
+    LEGEND 1 -3*SIGM()
+    LEGEND 1 COORDINATES 83 41
+    LEGEND 2 3*SIGM()
+    LEGEND 2 COORDINATES 84 73
+    LEGEND 3 0.59
+    LEGEND 3 coordinates 83 57
+    MEAN CONTROL CHART COL_1_6 COL_1_3
+
+    TITLE Range Control Chart
+    LEGEND 1 -3*SIGM()
+    LEGEND 1 COORDINATES 83 42.5
+    LEGEND 2 3*SIGM()
+    LEGEND 2 COORDINATES 84 75
+    LEGEND 3 8.6
+    LEGEND 3 coordinates 83 55.5
+    RANGE CONTROL CHART COL_1_6 COL_1_3
+
+    TITLE SD Control Chart
+    LEGEND 1 -3*SIGM()
+    LEGEND 1 COORDINATES 83 45
+    LEGEND 2 3*SIGM()
+    LEGEND 2 COORDINATES 84 58
+    LEGEND 3 1.79
+    LEGEND 3 coordinates 83 52
+    STANDARD DEVIATION CONTROL CHART  COL_1_6 COL_1_3
+  END OF MULTIPLOT
+
+  MOVE 50 98
+  JUSTIFICATION CENTER
+  TEXT Control Charts for Ap by Participant
+
+. Aa
+
+. START BACK HERE
+. Pattern off of Ap.

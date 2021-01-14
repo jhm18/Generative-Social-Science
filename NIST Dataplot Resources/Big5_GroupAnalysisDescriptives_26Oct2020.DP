@@ -1,0 +1,580 @@
+. Big5 Group Analysis Descriptives
+. Jonathan H. Morgan
+. 26 October 2020
+
+CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+CD /Users/jonathan.h.morgan/Desktop/Themis.Cog/Big_5/Data_Scripts
+
+. ######################
+. #   IMPORTING DATA   #
+. ######################
+
+CALL read_group_features.DP
+
+DIMENSION 25 COLUMNS
+
+. ##########################
+. #  DESCRIPTIVE ANALYES   #
+. ##########################
+
+. OUTCOME VARIABLE: GROUP ACCEPTANCE RATE
+
+COMMENT Looking at Basic 4-Plots
+  LET n = SIZE COL_1_5
+  LET x = SEQUENCE 1 1 n
+  TITLE SIZE 3
+  X1LABEL SIZE 3
+  Y1LABEL SIZE 3
+
+  MULTIPLOT 2 2
+    TITLE Run Sequence Plot: Group Acceptance Rate
+    Y1LABEL Acceptance Rate
+    X1LABEL Sequence Number
+    LINE COLOR BROWN
+    PLOT COL_1_5 x
+
+    TITLE Lag Plot: Group Acceptance Rate
+    X1LABEL Group Acceptance Rate (i -1)
+    CHARACTER X
+    CHARACTER COLOR BROWN
+    LINES
+    LAG PLOT COL_1_5
+
+    TITLE Histogram: Group Acceptance Rate
+    X1LABEL
+    Y1LABEL
+    X1LIMITS 0 1
+    BAR BORDER COLOR BROWN
+    HISTOGRAM COL_1_5
+
+    TITLE Probability Plot: Group Acceptance Rate
+    X1LABEL Theoretical Value
+    Y1LABEL Observed Value
+    X1LIMITS
+    LINES SOLID
+    LINE COLOR BLACK
+    CHARACTER CIRCLE
+    CHARACTER FILL ON
+    NORMAL PROBABILITY PLOT COL_1_5
+    CHARACTER
+  END OF MULTIPLOT
+
+. Outputting Plot
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat GroupAR_4Plot_27Oct2020.eps
+
+. Getting Summary Statistics
+  SUMMARY COL_1_5
+
+COMMENT Levene Tests for Heterogeneity of Variances
+  LET x_var = code4 x
+  LEVENE TEST COL_1_5 x_var
+
+COMMENT Autocorrelation
+  TITLE SIZE 3
+  TITLE DISPLACEMENT 2
+  X1LABEL SIZE 2
+  Y1LABEL SIZE 2
+  Y1LIMITS -0.25 1
+  Y1TIC MARK LABEL DECIMALS 2
+  X1TIC MARK LABEL DECIMALS 0
+  Y1LABEL DISPLACEMENT 10
+  GRID OFF
+  SPIKE COLOR BROWN
+  LINE COLOR BROWN BLACK BLACK BLACK
+  LINE BLANK SOLID DOT DOT
+  SPIKE ON
+  SPIKE BASE 0
+  X1LABEL Lag
+  Y1LABEL Autocorrelation
+  TITLE Autocorrelation Plot: Group Acceptance Rate
+  AUTOCORRELATION PLOT COL_1_5
+  Y1TIC MARK LABEL DECIMALS
+  X1TIC MARK LABEL DECIMALS
+  TITLE DISPLACEMENT
+
+. Outputting Plot
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat GroupAR_Autocorrelation_27Oct2020.eps
+
+COMMENT Testing for Drift
+  FIT COL_1_5 x
+  LET idf2 = n - 2
+  SKIP 1
+  READ dpst1f.dat  COEF COEF_SD T_VALUE L_BONF_CONF U_BONF_CONF
+  LET bsd = COEF_SD(2)
+  LET lclb = bsd - tppf(0.975,idf2)*bsd
+  LET uclb = bsd + tppf(0.975,idf2)*bsd
+  LET string idrift = NO
+  LET atemp = lclb*uclb
+  IF atemp =< 0
+    LET string idrift = YES
+  END OF IF
+
+. EXPLANATORY VARIABLE: NUMBER OF REQUESTS
+
+COMMENT Looking at Basic 4-Plots
+  LET n = SIZE COL_1_3
+  LET x = SEQUENCE 1 1 n
+  TITLE SIZE 3
+  X1LABEL SIZE 3
+  Y1LABEL SIZE 3
+  Y1LABEL DISPLACEMENT 10
+
+  MULTIPLOT 2 2
+    TITLE Run Sequence Plot: Number of Requests
+    Y1LABEL Number of Requests
+    X1LABEL Sequence Number
+    LINE COLOR BROWN
+    PLOT COL_1_3 x
+
+    TITLE Lag Plot: Number of Requests
+    X1LABEL Number of Requests (i -1)
+    CHARACTER X
+    CHARACTER COLOR BROWN
+    LINES
+    LAG PLOT COL_1_3
+
+    TITLE Histogram: Number of Requests
+    X1LABEL
+    Y1LABEL
+    X1LIMITS 1 5325
+    GRID OFF
+    X1TIC MARK LABEL DECIMALS 0
+    BAR BORDER COLOR BROWN
+    HISTOGRAM COL_1_3
+    X1TIC MARK LABEL DECIMALS
+    GRID ON
+
+    TITLE Probability Plot: Number of Requests
+    X1LABEL Theoretical Value
+    Y1LABEL Observed Value
+    X1LIMITS
+    LINES SOLID
+    LINE COLOR BLACK
+    CHARACTER CIRCLE
+    CHARACTER FILL ON
+    NORMAL PROBABILITY PLOT COL_1_3
+    CHARACTER
+  END OF MULTIPLOT
+
+. Outputting Plot
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat NumActs_4Plot_27Oct2020.eps
+
+. Getting Summary Statistics
+  SUMMARY COL_1_3
+
+COMMENT Levene Tests for Heterogeneity of Variances
+  LET x_var = code4 x
+  LEVENE TEST COL_1_3 x_var
+
+COMMENT Autocorrelation
+  TITLE SIZE 3
+  TITLE DISPLACEMENT 2
+  X1LABEL SIZE 2
+  Y1LABEL SIZE 2
+  Y1LIMITS -0.25 1
+  Y1TIC MARK LABEL DECIMALS 2
+  X1TIC MARK LABEL DECIMALS 0
+  Y1LABEL DISPLACEMENT 10
+  GRID OFF
+  SPIKE COLOR BROWN
+  LINE COLOR BROWN BLACK BLACK BLACK
+  LINE BLANK SOLID DOT DOT
+  SPIKE ON
+  SPIKE BASE 0
+  X1LABEL Lag
+  Y1LABEL Autocorrelation
+  TITLE Autocorrelation Plot: Number of Requests
+  AUTOCORRELATION PLOT COL_1_3
+  Y1TIC MARK LABEL DECIMALS
+  X1TIC MARK LABEL DECIMALS
+  TITLE DISPLACEMENT
+
+. Outputting Plot
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat NumActs_Autocorrelation_27Oct2020.eps
+
+  COMMENT Testing for Drift
+    FIT COL_1_3 x
+    LET idf2 = n - 2
+    SKIP 1
+    READ dpst1f.dat  COEF COEF_SD T_VALUE L_BONF_CONF U_BONF_CONF
+    LET bsd = COEF_SD(2)
+    LET lclb = bsd - tppf(0.975,idf2)*bsd
+    LET uclb = bsd + tppf(0.975,idf2)*bsd
+    LET string idrift = NO
+    LET atemp = lclb*uclb
+    IF atemp =< 0
+      LET string idrift = YES
+    END OF IF
+
+. EXPLANATORY VARIABLE: STAR COUNT
+
+COMMENT Looking at Basic 4-Plots
+  LET n = SIZE COL_1_9
+  LET x = SEQUENCE 1 1 n
+  TITLE SIZE 3
+  X1LABEL SIZE 3
+  Y1LABEL SIZE 3
+
+  MULTIPLOT 2 2
+    TITLE Run Sequence Plot: Star Count
+    Y1LABEL DISPLACEMENT 10
+    Y1LABEL Star Count
+    X1LABEL Sequence Number
+    LINE COLOR BROWN
+    PLOT COL_1_9 x
+
+    TITLE Lag Plot: Star Count
+    X1LABEL Group Star Count (i -1)
+    CHARACTER X
+    CHARACTER COLOR BROWN
+    LINES
+    LAG PLOT COL_1_9
+
+    TITLE Histogram: Star Count
+    X1LABEL
+    Y1LABEL
+    GRID OFF
+    X1LIMITS 0 70300
+    X1TIC MARK LABEL SIZE 1
+    BAR BORDER COLOR BROWN
+    HISTOGRAM COL_1_9
+    GRID ON
+    X1TIC MARK LABEL SIZE
+
+    TITLE Probability Plot: Star Count
+    X1LABEL Theoretical Value
+    Y1LABEL Observed Value
+    X1LIMITS
+    LINES SOLID
+    LINE COLOR BLACK
+    CHARACTER CIRCLE
+    CHARACTER FILL ON
+    NORMAL PROBABILITY PLOT COL_1_9
+    CHARACTER
+  END OF MULTIPLOT
+
+. Outputting Plot
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat StarCount_4Plot_27Oct2020.eps
+
+. Getting Summary Statistics
+  SUMMARY COL_1_9
+
+COMMENT Levene Tests for Heterogeneity of Variances
+  LET x_var = code4 x
+  LEVENE TEST COL_1_9 x_var
+
+COMMENT Autocorrelation
+  TITLE SIZE 3
+  TITLE DISPLACEMENT 2
+  X1LABEL SIZE 2
+  Y1LABEL SIZE 2
+  Y1LIMITS -0.25 1
+  Y1TIC MARK LABEL DECIMALS 2
+  X1TIC MARK LABEL DECIMALS 0
+  Y1LABEL DISPLACEMENT 10
+  GRID OFF
+  SPIKE COLOR BROWN
+  LINE COLOR BROWN BLACK BLACK BLACK
+  LINE BLANK SOLID DOT DOT
+  SPIKE ON
+  SPIKE BASE 0
+  X1LABEL Lag
+  Y1LABEL Autocorrelation
+  TITLE Autocorrelation Plot: Star Count
+  AUTOCORRELATION PLOT COL_1_9
+  Y1TIC MARK LABEL DECIMALS
+  X1TIC MARK LABEL DECIMALS
+  TITLE DISPLACEMENT
+
+. Outputting Plot
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat StarCount_Autocorrelation_27Oct2020.eps
+
+COMMENT Testing for Drift
+  FIT COL_1_9 x
+  LET idf2 = n - 2
+  SKIP 1
+  READ dpst1f.dat  COEF COEF_SD T_VALUE L_BONF_CONF U_BONF_CONF
+  LET bsd = COEF_SD(2)
+  LET lclb = bsd - tppf(0.975,idf2)*bsd
+  LET uclb = bsd + tppf(0.975,idf2)*bsd
+  LET string idrift = NO
+  LET atemp = lclb*uclb
+  IF atemp =< 0
+    LET string idrift = YES
+  END OF IF
+
+. ####################################
+. #   COMMUNITY SENTIMENT PROFILES   #
+. ####################################
+
+CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+
+COMMENT Importing Data
+CD /Users/jonathan.h.morgan/Desktop/Themis.Cog/Big_5/Data_Scripts
+CALL read_epa_communities.DP
+
+COMMENT Closer Density Plots
+  MULTIPLOT 1 3
+    GRID OFF
+    TITLE Closer Evaluation
+    TITLE DISPLACEMENT 3
+    TITLE SIZE 4
+    X1LABEL SIZE 3
+    Y1LABEL Density
+    X1LABEL Evalution
+    Y1LIMITS 0 15
+    LEGEND 1 COORDINATES 60 80
+    LEGEND 1 SIZE 3
+    LEGEND 1 COLOR YELLOW
+    LEGEND 1 FILL SOLID
+    LEGEND 1 CIRC()
+    LEGEND 2 COORDINATES 63 80
+    LEGEND 2 SIZE 2
+    LEGEND 2 COLOR BLACK
+    LEGEND 2 Community 1
+    LEGEND 3 COORDINATES 60 75
+    LEGEND 3 SIZE 3
+    LEGEND 3 COLOR GREEN
+    LEGEND 3 FILL SOLID
+    LEGEND 3 CIRC()
+    LEGEND 4 COORDINATES 63 75
+    LEGEND 4 SIZE 2
+    LEGEND 4 COLOR BLACK
+    LEGEND 4 Community 2
+    LEGEND 5 COORDINATES 60 70
+    LEGEND 5 SIZE 3
+    LEGEND 5 COLOR RED
+    LEGEND 5 FILL SOLID
+    LEGEND 5 CIRC()
+    LEGEND 6 COORDINATES 63 70
+    LEGEND 6 SIZE 2
+    LEGEND 6 COLOR BLACK
+    LEGEND 6 Community 3
+    LEGEND 7 COORDINATES 60 65
+    LEGEND 7 SIZE 3
+    LEGEND 7 COLOR BLUE
+    LEGEND 7 FILL SOLID
+    LEGEND 7 CIRC()
+    LEGEND 8 COORDINATES 63 65
+    LEGEND 8 SIZE 2
+    LEGEND 8 COLOR BLACK
+    LEGEND 8 Community 4
+    LEGEND 9 COORDINATES 60 60
+    LEGEND 9 SIZE 3
+    LEGEND 9 COLOR PINK
+    LEGEND 9 FILL SOLID
+    LEGEND 9 CIRC()
+    LEGEND 10 COORDINATES 63 60
+    LEGEND 10 SIZE 2
+    LEGEND 10 COLOR BLACK
+    LEGEND 10 Community 5
+    LEGEND 11 COORDINATES 60 55
+    LEGEND 11 SIZE 3
+    LEGEND 11 COLOR BLACK
+    LEGEND 11 FILL SOLID
+    LEGEND 11 CIRC()
+    LEGEND 12 COORDINATES 63 55
+    LEGEND 12 SIZE 2
+    LEGEND 12 COLOR BLACK
+    LEGEND 12 Community 6
+    LEGEND 13 COORDINATES 60 50
+    LEGEND 13 SIZE 3
+    LEGEND 13 COLOR ORANGE
+    LEGEND 13 FILL SOLID
+    LEGEND 13 CIRC()
+    LEGEND 14 COORDINATES 63 50
+    LEGEND 14 SIZE 2
+    LEGEND 14 COLOR BLACK
+    LEGEND 14 Community 7
+    LEGEND 15 COORDINATES 60 45
+    LEGEND 15 SIZE 3
+    LEGEND 15 COLOR PURPLE
+    LEGEND 15 FILL SOLID
+    LEGEND 15 CIRC()
+    LEGEND 16 COORDINATES 63 45
+    LEGEND 16 SIZE 2
+    LEGEND 16 COLOR BLACK
+    LEGEND 16 Community 8
+    LINE COLOR YELLOW GREEN RED BLUE PINK BLACK ORANGE PURPLE
+    REPLICATED KERNEL DENSITY PLOT COL_1_4 COL_1_3
+
+    TITLE Closer Potency
+    X1LABEL Potency
+    Y1LIMITS 0 5
+    REPLICATED KERNEL DENSITY PLOT COL_1_6 COL_1_3
+
+    TITLE Closer Activity
+    X1LABEL Activity
+    Y1LIMITS 0 5
+    REPLICATED KERNEL DENSITY PLOT COL_1_5 COL_1_3
+  END OF MULTIPLOT
+
+. Outputting Plot
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat CommunityProfile_Closers_28Oct2020.eps
+
+COMMENT Requester Density Plots
+  MULTIPLOT 1 3
+    TITLE Requester Evaluation
+    X1LABEL Evaluation
+    Y1LIMITS 0 15
+    REPLICATED KERNEL DENSITY PLOT COL_1_7 COL_1_3
+
+    TITLE Requester Potency
+    X1LABEL Potency
+    Y1LIMITS 0 5
+    REPLICATED KERNEL DENSITY PLOT COL_1_9 COL_1_3
+
+    TITLE Requester Activity
+    X1LABEL Activity
+    Y1LIMITS 0 5
+    REPLICATED KERNEL DENSITY PLOT COL_1_8 COL_1_3
+  END OF MULTIPLOT
+
+. Outputting Plot
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat CommunityProfile_Requesters_28Oct2020.eps
+
+COMMENT Community EPA Profiles
+  MULTIPLOT 3 3
+    GRID OFF
+    Y1LIMITS 0
+    Y1LABEL Density
+    X1LABEL SIZE 3
+    X1LABEL Value
+    TITLE DISPLACEMENT 3
+    TITLE SIZE 4
+    LINE COLOR BLUE BLACK BROWN BLUE BLACK BROWN
+    LINE SOLID SOLID SOLID DOTTED DOTTED DOTTED
+    LEGEND 1 COORDINATES 51 80
+    LEGEND 1 SIZE 3
+    LEGEND 1 COLOR BLUE
+    LEGEND 1 LHBA()
+    LEGEND 2 COORDINATES 54 80
+    LEGEND 2 SIZE 2
+    LEGEND 2 COLOR BLACK
+    LEGEND 2 Closer Evaluation
+    LEGEND 3 COORDINATES 51 75
+    LEGEND 3 SIZE 3
+    LEGEND 3 COLOR BLUE
+    LEGEND 3 ..
+    LEGEND 4 COORDINATES 54 75
+    LEGEND 4 SIZE 2
+    LEGEND 4 COLOR BLACK
+    LEGEND 4 Requester Evaluation
+    LEGEND 5 COORDINATES 51 70
+    LEGEND 5 SIZE 3
+    LEGEND 5 COLOR BROWN
+    LEGEND 5 LHBA()
+    LEGEND 6 COORDINATES 54 70
+    LEGEND 6 SIZE 2
+    LEGEND 6 COLOR BLACK
+    LEGEND 6 Closer Potency
+    LEGEND 7 COORDINATES 51 65
+    LEGEND 7 SIZE 3
+    LEGEND 7 COLOR BROWN
+    LEGEND 7 ..
+    LEGEND 8 COORDINATES 54 65
+    LEGEND 8 SIZE 2
+    LEGEND 8 COLOR BLACK
+    LEGEND 8 Requester Potency
+    LEGEND 9 COORDINATES 51 60
+    LEGEND 9 SIZE 3
+    LEGEND 9 COLOR BLACK
+    LEGEND 9 LHBA()
+    LEGEND 10 COORDINATES 54 60
+    LEGEND 10 SIZE 2
+    LEGEND 10 COLOR BLACK
+    LEGEND 10 Closer Activity
+    LEGEND 11 COORDINATES 51 55
+    LEGEND 11 SIZE 3
+    LEGEND 11 COLOR BLACK
+    LEGEND 11 ..
+    LEGEND 12 COORDINATES 54 55
+    LEGEND 12 SIZE 2
+    LEGEND 12 COLOR BLACK
+    LEGEND 12 Requester Activity
+
+    TITLE Community 1
+    MULTIPLE KERNEL DENSITY PLOT COL_1_4 COL_1_5 COL_1_6 COL_1_7 COL_1_8 COL_1_9 SUBSET COL_1_3 = 1
+
+    TITLE Community 2
+    MULTIPLE KERNEL DENSITY PLOT COL_1_4 COL_1_5 COL_1_6 COL_1_7 COL_1_8 COL_1_9 SUBSET COL_1_3 = 2
+
+    TITLE Community 3
+    MULTIPLE KERNEL DENSITY PLOT COL_1_4 COL_1_5 COL_1_6 COL_1_7 COL_1_8 COL_1_9 SUBSET COL_1_3 = 3
+
+    TITLE Community 4
+    MULTIPLE KERNEL DENSITY PLOT COL_1_4 COL_1_5 COL_1_6 COL_1_7 COL_1_8 COL_1_9 SUBSET COL_1_3 = 4
+
+    TITLE Community 5
+    MULTIPLE KERNEL DENSITY PLOT COL_1_4 COL_1_5 COL_1_6 COL_1_7 COL_1_8 COL_1_9 SUBSET COL_1_3 = 5
+
+    TITLE Community 6
+    MULTIPLE KERNEL DENSITY PLOT COL_1_4 COL_1_5 COL_1_6 COL_1_7 COL_1_8 COL_1_9 SUBSET COL_1_3 = 6
+
+    TITLE Community 7
+    MULTIPLE KERNEL DENSITY PLOT COL_1_4 COL_1_5 COL_1_6 COL_1_7 COL_1_8 COL_1_9 SUBSET COL_1_3 = 7
+
+    TITLE Community 8
+    MULTIPLE KERNEL DENSITY PLOT COL_1_4 COL_1_5 COL_1_6 COL_1_7 COL_1_8 COL_1_9 SUBSET COL_1_3 = 8
+  END OF MULTIPLOT
+
+. Outputting Plot
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat Community_EPA_Profiles_29Oct2020.eps
+
+
+. ##############################################
+. #   CONTROL CHARTS: EPA CLUSTER ASSIGNMENT   #
+. ##############################################
+
+COMMENT Control Charts
+  SET CONTROL CHART LIMITS WECO
+  GRID OFF
+  TITLE DISPLACEMENT 3
+  TITLE SIZE 4
+  X1LABEL SIZE 3
+  Y1LABEL SIZE 3
+  Y1LIMITS 0 1
+  Y1LABEL DISPLACEMENT 10
+  Y1LABEL Acceptance Rate
+  X1LABEL Communities
+
+  MULTIPLOT 1 2
+    TITLE Mean Control Chart
+    LINE COLOR BROWN BLACK BLACK BLACK
+    LINE SOLID SOLID DASH DASH BLANK
+    CHARACTER CIRCLE
+    CHARACTER FILL ON
+    CHARACTER HW 1 0.75
+    MEAN CONTROL CHART COL_1_10 COL_1_3
+
+    TITLE SD Control Chart
+    STANDARD DEVIATION CONTROL CHART COL_1_10 COL_1_3
+  END OF MULTIPLOT
+
+. Outputting Plot
+  DEVICE 3 CLOSE
+  SYSTEM cp dppl2f.dat Community_ControlPlots_28Oct2020.eps
+
+. ####################
+. #   MODEL CHECKS   #
+. ####################
+
+
+. #############
+. #   NOTES   #
+. #############
+
+. Useful to highlight groups that are out of bounds
+. HIGHLIGHT MEAN CONTROL CHART COL_1_10 X TAG
+. LET N = SIZE Y
+. LET TAG = 0 FOR I = 1 1 N
+. LET TAG = 1 SUBSET Y > 0.58
