@@ -1,4 +1,8 @@
-This directory contains a modularity sweep routine based on Weir, W. H., Emmons, S., Gibson, R., Taylor, D., & Mucha, P. J. (2017). Post-processing partitions to identify domains of modularity optimization. Algorithms, 10(3), 93.    
+This directory contains a modularity sweep routine based on Weir, W. H., Emmons, S., Gibson, R., Taylor, D., & Mucha, P. J. (2017). 
+Post-processing partitions to identify domains of modularity optimization. Algorithms, 10(3), 93.    
+
+The routine also borrows heavily James Moody's SAS implementation, in particular the Convex Hull visualization.
+
 For the orginal Python version go to: https://github.com/wweir827/CHAMP
 
 This routine produces both a resolution sweep and Adjusted Rand Score optimality analysis.
