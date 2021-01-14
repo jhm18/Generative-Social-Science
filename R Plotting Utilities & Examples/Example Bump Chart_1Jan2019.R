@@ -10,7 +10,7 @@ rm(list = ls())
 gc()
 
 #Home Machine
-setwd("~/Desktop") 
+setwd("~/R Resources/R Plotting Utilities & Resources/R Plot Utilities Data")
 getwd()
 
 ################
@@ -29,7 +29,7 @@ library(magick)
 #################
 
 #Home Utilities
-source("~/R Resources/R Plotting Utilities & Resources/R Plot Utilities_13Dec2019.R")
+source("~/R Resources/R Plotting Utilities & Resources/R Plot Utilities_2Oct2020.R")
 source("~/R Resources/R Plotting Utilities & Resources/util.R")
 
 ######################
@@ -80,7 +80,7 @@ rm(cop_index, cop_id)
 #   VISUALIZING DATA   #
 ########################
 
-load('~/Desktop/COPs_Themes.Rdata')
+load('COPs_Themes.Rdata')
 
 #Creating Visualization Components
 index <- as.data.frame(seq(1,21,by=1))
@@ -133,7 +133,7 @@ greens <- c(0.5, 0.55, 0.6, 0.7, 0, 0.1, 0.2, 0.3, 0.4, 0.8, 0.9, 1)
 blues <- c(0, 0.1,  0.6, 0.7, 0.8, 0.9, 1, 0.2, 0.3, 0.4, 0.5, 0.55)
 
 #Plotting
-png("p_1.png", width=1243, height = 621, dpi=600)
+png('p_1.png', width=1243, height = 621)
   par(mar = c(3, 9, 3, 0), family='serif')  
   plot(0, type='n', xlim=c(1, 21), ylim=c(-20, 100), xlab=' ', ylab=' ', cex.lab=1.5, family='serif', 
      axes=FALSE, bty='n')
