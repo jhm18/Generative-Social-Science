@@ -1,0 +1,2 @@
+Groups Simulator & ACT Based Simulation of Interaction in Networked Groups (ACTING) are implemented in Netlog and Python respectively.
+This directory contains R and Julia files for calling this simulation, running batch experiments, and working with simulation outputs.
