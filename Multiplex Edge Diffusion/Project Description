@@ -1,0 +1,3 @@
+The files in this directory are a user file and simulator for a multiplex network diffusion implemented in R that extends Jim Moody's SAS based MR Edge Diffusion routine.
+The simulation supports running SI, SIR, and SIS infection processes. The user can specify relation specific diffusion probabilties, specifiy user specific infection latencies.
+The simulation produces an infection history, visual outputs, and a infection animation.
