@@ -1,0 +1,126 @@
+COMMENT Jonathan H. Morgan
+COMMENT Multiplot Test Plot
+COMMENT 11 March 2020
+
+COMMENT CALL /Users/jonathan.h.morgan/dataplot/Dataplot_Tests/Multiplot_Test_13March2020.DP
+
+COMMENT Set Directory
+CD /Users/jonathan.h.morgan/dataplot/Analysis_Scripts/GS
+
+COMMENT Set Graphics Device and Global Commands
+    ECHO ON
+    device 1 x11
+    SET POSTSCRIPT DEFAULT COLOR ON
+    SET X11 PIXMAP ON
+    SET X11 FONT 9X15
+    TITLE CASE ASIS
+    LABEL CASE ASIS
+    TIC LABEL CASE ASIS
+    LEGEND CASE ASIS
+    LEGEND FONT FONT COMPLEX
+    LEGEND 1 COORDINATES 30 29
+    LEGEND 1 SIZE 1.0
+    LEGEND 1 COLOR BLACK
+    LEGEND 1 CIRC() Group Simulator
+    LEGEND 2 COORDINATES 30 24
+    LEGEND 2 SIZE 1.0
+    LEGEND 2 COLOR BROWN
+    LEGEND 2 CIRC() Group Simulator (Fixed)
+    CASE ASIS
+    TITLE FONT COMPLEX
+    LABEL FONT COMPLEX
+    LEGEND FONT COMPLEX
+    LABEL THICKNESS 0.1
+    Y1LABEL SIZE 2
+    X1LABEL SIZE 2
+    TITLE SIZE 2
+    Y1LABEL DISPLACEMENT 8
+    X1LABEL DISPLACEMENT 12
+    MULTIPLOT SCALE FACTOR 2
+    MULTIPLOT CORNER COORDINATES 5 5 95 95
+
+COMMENT IMPORTING DATA
+    DIMENSION 20 columns
+    SKIP 1
+    SET READ DELIMITER ,
+    SET READ MISSING VALUE 999
+    READ test.csv exp run gs_def gsf_def
+
+COMMENT Plotting Elements
+    GRID ON
+    GRID THICKNESS 0.1
+    GRID PATTERN DASH
+    Y2FRAME OFF
+    X2FRAME OFF
+    FRAME THICKNESS = 0.1
+    TIC MARK SIZE = 2
+    TIC MARK LABEL SIZE = 2
+    XTIC OFFSET 0.2 0.2
+    YTIC OFFSET 0.2 0.2
+    LINE THICKNESS 0.1
+
+COMMENT Plotting
+    multiplot 2 2
+    x1label Sequence
+    LET N = SIZE gs_def
+    LET X = SEQUENCE 1 1 N
+    LET y1_mean = MEAN gs_def
+    LET y2_mean = MEAN gsf_def
+    LET y1 = CUMULATIVE MEAN gs_def
+    LET y2 = CUMULATIVE MEAN gsf_def
+
+    title Mean Cumulative Statistic Plot
+    y1label Cumulative Mean
+    LINE COLOR BLACK BROWN
+    COMMENT YLIMITS 0 3
+    PLOT y1 y2 VS X
+    DRAWDATA 1 y1_mean N y1_mean
+    DRAWDATA 1 y2_mean N y2_mean
+
+    title Median Cumulative Statistic Plot
+    y1label Cumulative Median
+    LINE COLOR BLACK BROWN
+    COMMENT YLIMITS 0 3
+    LET y1_median = MEDIAN gs_def
+    LET y2_median = MEDIAN gsf_def
+    LET y3 = CUMULATIVE MEDIAN gs_def
+    LET y4 = CUMULATIVE MEDIAN gsf_def
+    PLOT y3 y4 VS X
+    DRAWDATA 1 y1_median N y1_median
+    DRAWDATA 1 y2_median N y2_median
+
+    multiplot 2 2 3
+    title SD Cumulative Statistic Plot
+    y1label Cumulative SD
+    COMMENT YLIMITS -0.3 1.8
+    LINE COLOR BLACK BROWN
+    LET y1_sd = SD gs_def
+    LET y2_sd = SD gsf_def
+    LET y5 = CUMULATIVE SD gs_def
+    LET y6 = CUMULATIVE SD gsf_def
+    PLOT y5 y6 VS X
+    DRAWDATA 1 y1_sd N y1_sd
+    DRAWDATA 1 y2_sd N y2_sd
+
+    title Skewness Cumulative Statistic Plot
+    y1label Cumulative Skewness
+    COMMENT YLIMITS -0.3 1
+    LINE COLOR BLACK BROWN
+    LET y1_skew = SKEW gs_def
+    LET y2_skew = SKEW gsf_def
+    LET y7 = CUMULATIVE SKEW gs_def
+    LET y8 = CUMULATIVE SKEW gsf_def
+    PLOT y7 y8 VS X
+    DRAWDATA 1 y1_skew N y1_skew
+    DRAWDATA 1 y2_skew N y2_skew
+
+    end of multiplot
+
+    just center
+    move 50 100
+    HEIGHT 3
+    text Cumulative Statistic Plots for Address-the-Group Simulations: Egalitarian
+
+COMMENT Outputting Image
+    DEVICE 3 CLOSE
+    SYSTEM cp dppl2f.dat E_AG_Cumulative_Statistics

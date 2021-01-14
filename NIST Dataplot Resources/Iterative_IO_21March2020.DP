@@ -1,0 +1,19 @@
+COMMENT Jonathan H. Morgan
+COMMENT Iterative IO Tests
+COMMENT 11 March 2020
+
+#COMMENT If reading more than ten files, remember to use the DEMENTION option and check the row count.
+#COMMENT Alternatively, write multiple dat_file scripts in Julia and call them over the course of the program after erasing unneeded variables
+
+ECHO ON
+
+COMMENT Set Directory
+    SET SEARCH DIRECTORY /Users/jonathan.h.morgan/dataplot/Analysis_Scripts/GS
+    CD /Users/jonathan.h.morgan/dataplot/Dataplot_Tests
+    COMMENT CALL /Users/jonathan.h.morgan/dataplot/Dataplot_Tests/Iterative_IO_21March2020.DP
+
+COMMENT Calling a script that reads in the relevant files
+    SKIP = 4
+    CALL dat_files_list.DP
+
+COMMENT RESET

@@ -1,0 +1,393 @@
+Dataplot commands and output:
+
+.
+.  Starting Random Walk Case Study
+.
+. Setting Dataplot defaults
+reset data
+reset plot control
+erase
+x3label automatic
+dimension 100 variables
+tic offset units screen
+tic offset 5 5
+title displacement 2
+case asis
+title case asis
+label case asis
+tic label case asis
+character case asis all
+legend case asis
+.  Finished Setting Defaults
+.
+. Starting Step 1.1
+.
+skip 25
+read randwalk.dat y
+skip 0
+. Finished Step 1.1
+
+
+.
+.4-Plot 	
+.
+. Starting Step 2.1: Generate 4-plot
+.
+label size 6
+tic label size 6
+character size 4
+x3label displacement 11
+x3label automatic
+4-plot Y
+x3label
+.
+justification center
+height 4
+move 50 96
+text Random Walk:  4-Plot
+. Finished Step 2.1
+
+
+.
+.Summary 	
+.
+. Starting Step 2.2
+.
+summary y
+. Finished Step 2.2
+
+>                                 SUMMARY
+>  
+>                      NUMBER OF OBSERVATIONS =      500
+>  
+>  
+> ***********************************************************************
+> *        LOCATION MEASURES         *       DISPERSION MEASURES        *
+> ***********************************************************************
+> *  MIDRANGE     =   0.2888407E+01  *  RANGE        =   0.9053595E+01  *
+> *  MEAN         =   0.3216681E+01  *  STAND. DEV.  =   0.2078675E+01  *
+> *  MIDMEAN      =   0.4791331E+01  *  AV. AB. DEV. =   0.1660585E+01  *
+> *  MEDIAN       =   0.3612030E+01  *  MINIMUM      =  -0.1638390E+01  *
+> *               =                  *  LOWER QUART. =   0.1747245E+01  *
+> *               =                  *  LOWER HINGE  =   0.1741042E+01  *
+> *               =                  *  UPPER HINGE  =   0.4682273E+01  *
+> *               =                  *  UPPER QUART. =   0.4681717E+01  *
+> *               =                  *  MAXIMUM      =   0.7415205E+01  *
+> ***********************************************************************
+> *       RANDOMNESS MEASURES        *     DISTRIBUTIONAL MEASURES      *
+> ***********************************************************************
+> *  AUTOCO COEF  =   0.9868608E+00  *  ST. 3RD MOM. =  -0.4448926E+00  *
+> *               =   0.0000000E+00  *  ST. 4TH MOM. =   0.2397789E+01  *
+> *               =   0.0000000E+00  *  ST. WILK-SHA =  -0.1279870E+02  *
+> *               =                  *  UNIFORM PPCC =   0.9765666E+00  *
+> *               =                  *  NORMAL  PPCC =   0.9811183E+00  *
+> *               =                  *  TUK -.5 PPCC =   0.7754489E+00  *
+> *               =                  *  CAUCHY  PPCC =   0.4165502E+00  *
+> ***********************************************************************
+
+
+.
+.Location 	
+.
+. Starting Step 2.3
+.
+let n = size y
+let x = sequence 1 1 n
+fit y x
+let idf2 = n - 2
+read dpst1f.dat coef coefsd
+let bsd = coefsd(2)
+let lclb = bsd - tppf(0.975,idf2)*bsd
+let uclb = bsd + tppf(0.975,idf2)*bsd
+let string idrift = NO
+let atemp = lclb*uclb
+if atemp < 0
+  let string idrift = YES
+end of if
+. Finished Step 2.3
+
+> LEAST SQUARES MULTILINEAR FIT
+>       SAMPLE SIZE N       =      500
+>       NUMBER OF VARIABLES =        1
+>       NO REPLICATION CASE
+>  
+>  
+>               PARAMETER ESTIMATES           (APPROX. ST. DEV.)    T VALUE
+>        1  A0                   1.83351       (0.1721    )        10.65
+>        2  A1       X          0.552164E-02   (0.5953E-03)        9.275
+>  
+>       RESIDUAL    STANDARD DEVIATION =         1.921416
+>       RESIDUAL    DEGREES OF FREEDOM =         498
+>  
+>       COEF AND SD(COEF) WRITTEN OUT TO FILE DPST1F.DAT
+>       SD(PRED),95LOWER,95UPPER,99LOWER,99UPPER
+>                         WRITTEN OUT TO FILE DPST2F.DAT
+>       REGRESSION DIAGNOSTICS WRITTEN OUT TO FILE DPST3F.DAT
+>       PARAMETER VARIANCE-COVARIANCE MATRIX AND
+>       INVERSE OF X-TRANSPOSE X MATRIX
+>       WRITTEN OUT TO FILE DPST4F.DAT
+
+
+.
+.Variation 	
+.
+. Starting Step 2.4
+.
+let n = size y
+let ysd = standard deviation y
+.
+let x = sequence 1 1 n
+let x = code4 x
+levene test y x
+. Finished Step 2.4
+
+>               LEVENE F-TEST FOR SHIFT IN VARIATION
+>                      (ASSUMPTION: NORMALITY)
+>  
+> 1. STATISTICS
+>       NUMBER OF OBSERVATIONS    =      500
+>       NUMBER OF GROUPS          =        4
+>       LEVENE F TEST STATISTIC   =    10.45940
+>  
+>  
+>    FOR LEVENE TEST STATISTIC
+>       0          % POINT    =   0.0000000E+00
+>       50         % POINT    =   0.7897459
+>       75         % POINT    =    1.373753
+>       90         % POINT    =    2.094885
+>       95         % POINT    =    2.622929
+>       99         % POINT    =    3.821479
+>       99.9       % POINT    =    5.506884
+>  
+>  
+>          99.99989       % Point:     10.45940
+>  
+> 3. CONCLUSION (AT THE 5% LEVEL):
+>       THERE IS A SHIFT IN VARIATION.
+>       THUS: NOT HOMOGENEOUS WITH RESPECT TO VARIATION.
+
+
+.
+.Randomness 	
+.
+. Starting Step 2.5
+.
+runs y
+. Finished Step 2.5
+
+>                    RUNS UP
+>  
+>         STATISTIC = NUMBER OF RUNS UP
+>             OF LENGTH EXACTLY I
+>  
+> I         STAT     EXP(STAT)    SD(STAT)       Z
+>  
+> 1        63.0    104.2083     10.2792       -4.01
+> 2        34.0     45.7167      5.2996       -2.21
+> 3        17.0     13.1292      3.2297        1.20
+> 4         4.0      2.8563      1.6351        0.70
+> 5         1.0      0.5037      0.7045        0.70
+> 6         5.0      0.0749      0.2733       18.02
+> 7         1.0      0.0097      0.0982       10.08
+> 8         1.0      0.0011      0.0331       30.15
+> 9         0.0      0.0001      0.0106       -0.01
+>10         1.0      0.0000      0.0032      311.40
+>  
+>  
+>         STATISTIC = NUMBER OF RUNS UP
+>             OF LENGTH I OR MORE
+>  
+> I         STAT     EXP(STAT)    SD(STAT)       Z
+>  
+> 1       127.0    166.5000      6.6546       -5.94
+> 2        64.0     62.2917      4.4454        0.38
+> 3        30.0     16.5750      3.4338        3.91
+> 4        13.0      3.4458      1.7786        5.37
+> 5         9.0      0.5895      0.7609       11.05
+> 6         8.0      0.0858      0.2924       27.06
+> 7         3.0      0.0109      0.1042       28.67
+> 8         2.0      0.0012      0.0349       57.21
+> 9         1.0      0.0001      0.0111       90.14
+>10         1.0      0.0000      0.0034      298.08
+>  
+>  
+>                   RUNS DOWN
+>  
+>         STATISTIC = NUMBER OF RUNS DOWN
+>             OF LENGTH EXACTLY I
+>  
+> I         STAT     EXP(STAT)    SD(STAT)       Z
+>  
+> 1        69.0    104.2083     10.2792       -3.43
+> 2        32.0     45.7167      5.2996       -2.59
+> 3        11.0     13.1292      3.2297       -0.66
+> 4         6.0      2.8563      1.6351        1.92
+> 5         5.0      0.5037      0.7045        6.38
+> 6         2.0      0.0749      0.2733        7.04
+> 7         2.0      0.0097      0.0982       20.26
+> 8         0.0      0.0011      0.0331       -0.03
+> 9         0.0      0.0001      0.0106       -0.01
+>10         0.0      0.0000      0.0032        0.00
+>  
+>  
+>         STATISTIC = NUMBER OF RUNS DOWN
+>             OF LENGTH I OR MORE
+>  
+>  
+> I         STAT     EXP(STAT)    SD(STAT)       Z
+>  
+> 1       127.0    166.5000      6.6546       -5.94
+> 2        58.0     62.2917      4.4454       -0.97
+> 3        26.0     16.5750      3.4338        2.74
+> 4        15.0      3.4458      1.7786        6.50
+> 5         9.0      0.5895      0.7609       11.05
+> 6         4.0      0.0858      0.2924       13.38
+> 7         2.0      0.0109      0.1042       19.08
+> 8         0.0      0.0012      0.0349       -0.03
+> 9         0.0      0.0001      0.0111       -0.01
+>10         0.0      0.0000      0.0034        0.00
+>  
+>  
+>         RUNS TOTAL = RUNS UP + RUNS DOWN
+>  
+>       STATISTIC = NUMBER OF RUNS TOTAL
+>            OF LENGTH EXACTLY I
+>  
+> I         STAT     EXP(STAT)    SD(STAT)       Z
+>  
+> 1       132.0    208.4167     14.5370       -5.26
+> 2        66.0     91.4333      7.4947       -3.39
+> 3        28.0     26.2583      4.5674        0.38
+> 4        10.0      5.7127      2.3123        1.85
+> 5         6.0      1.0074      0.9963        5.01
+> 6         7.0      0.1498      0.3866       17.72
+> 7         3.0      0.0193      0.1389       21.46
+> 8         1.0      0.0022      0.0468       21.30
+> 9         0.0      0.0002      0.0150       -0.01
+>10         1.0      0.0000      0.0045      220.19
+>  
+>  
+>       STATISTIC = NUMBER OF RUNS TOTAL
+>             OF LENGTH I OR MORE
+>  
+> I         STAT     EXP(STAT)    SD(STAT)       Z
+>  
+> 1       254.0    333.0000      9.4110       -8.39
+> 2       122.0    124.5833      6.2868       -0.41
+> 3        56.0     33.1500      4.8561        4.71
+> 4        28.0      6.8917      2.5154        8.39
+> 5        18.0      1.1790      1.0761       15.63
+> 6        12.0      0.1716      0.4136       28.60
+> 7         5.0      0.0217      0.1474       33.77
+> 8         2.0      0.0024      0.0494       40.43
+> 9         1.0      0.0002      0.0157       63.73
+>10         1.0      0.0000      0.0047      210.77
+>  
+>  
+>        LENGTH OF THE LONGEST RUN UP         =    10
+>        LENGTH OF THE LONGEST RUN DOWN       =     7
+>        LENGTH OF THE LONGEST RUN UP OR DOWN =    10
+>  
+>        NUMBER OF POSITIVE DIFFERENCES =   258
+>        NUMBER OF NEGATIVE DIFFERENCES =   241
+>        NUMBER OF ZERO     DIFFERENCES =     0
+
+
+.
+.Autocorrelation Plot 	
+.
+. Starting Step 3.1
+.
+label case asis
+line solid
+character BLANK
+y1label Correlation
+x1label Lag
+let nlag = 100
+xlimits 0 100
+autocorrelation plot y
+xlimits
+y1label
+x1label
+. Finished Step 3.1
+
+
+.
+.Spectral Plot 	
+.
+. Starting Step 3.2
+.
+label case asis
+y1label Spectrum
+x1label Frequency
+spectral plot y
+. Finished Step 3.2
+
+
+.
+.Fit 	
+.
+. Starting Step 4.1
+.
+let n = size y
+let nm1 = n - 1
+let yi = y
+let yim1 = y
+retain yi for i = 2 1 n
+retain yim1 for i = 1 1 nm1
+fit yi yim1
+.
+. Finished Step 4.1
+
+> LEAST SQUARES MULTILINEAR FIT
+>       SAMPLE SIZE N       =      499
+>       NUMBER OF VARIABLES =        1
+>       NO REPLICATION CASE
+>  
+>  
+>               PARAMETER ESTIMATES           (APPROX. ST. DEV.)    T VALUE
+>        1  A0                  0.501650E-01   (0.2417E-01)        2.075
+>        2  A1       YIM1       0.987087       (0.6313E-02)        156.4
+>  
+>       RESIDUAL    STANDARD DEVIATION =        0.2931194
+>       RESIDUAL    DEGREES OF FREEDOM =         497
+
+
+.
+.Validate Fit 	
+.
+. Starting Step 4.3
+.
+char BLANK
+LINE SOLID
+label size 6
+tic label size 6
+character size 4
+x3label displacement 13
+x3label automatic
+4-plot RES
+x3label
+.
+justification center
+height 4
+move 50 96
+text Residuals:  4-Plot
+. Finished Step 4.3
+
+
+.
+.Uniform Probability Plot of Residuals 	
+.
+. Starting Step 4.4
+x3label automatic
+line solid
+character BLANK
+y1label Dlc()ata
+x1label Tlc()heoretical
+uniform probability plot res
+y1label
+x1label
+x3label
+label size
+tic label size
+. Finished Step 4.4

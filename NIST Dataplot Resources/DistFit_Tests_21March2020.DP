@@ -1,0 +1,40 @@
+COMMENT Jonathan H. Morgan
+COMMENT Distribution Fitting
+COMMENT 21 March 2020
+
+COMMENT: IMPORTANT: Scale Sentiment Distribution to be centered on 0 with a SD of 1
+
+ECHO ON
+
+COMMENT Set Directory
+    SET SEARCH DIRECTORY /Users/jonathan.h.morgan/dataplot/Analysis_Scripts/GS
+    CD /Users/jonathan.h.morgan/dataplot/Dataplot_Tests/Distribution_Tests
+    COMMENT CALL /Users/jonathan.h.morgan/dataplot/Dataplot_Tests/DistFit_Tests_21March2020.DP
+
+COMMENT Set Fit Parameters
+  SET BEST FIT METHOD PPCC
+  SET BEST FIT CRITERION PPCC
+
+COMMENT Getting Best Distribution Fits for the Iris Data
+  SKIP 25
+  READ IRIS.DAT Y1 Y2 Y3 Y4 SPECIES
+
+COMMENT NAMING VARIABLES
+  VARIABLE LABEL Y1 sepal_length
+  VARIABLE LABEL Y2 sepal_width
+
+COMMENT Getting Best For Sepal Length
+  ECHO OFF
+  CAPTURE iris_slength_bestdist.DAT
+    REPLICATED BEST DISTRIBUTIONAL FIT Y1 SPECIES
+  END OF CAPTURE
+  ECHO ON
+
+COMMENT Getting Best For Sepal Width
+  ECHO OFF
+  CAPTURE iris_swidth_bestdist.DAT
+    REPLICATED BEST DISTRIBUTIONAL FIT Y2 SPECIES
+  END OF CAPTURE
+  ECHO ON
+
+RESET

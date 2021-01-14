@@ -1,0 +1,1050 @@
+%!PS-Adobe-2.0
+%%Creator: Dataplot
+%%Title: Dataplot Postscript File
+%%CreationDate: NULL
+%%Pages: (atend)
+%%DocumentFonts: Times-Roman Times-Bold Times-Italic Times-BoldItalic
+%%+ Helvetica Helvetica-Bold Helvetica-Oblique Helvetica-BoldOblique Courier
+%%+ Courier-Bold Courier-Oblique  Courier-BoldOblique
+%%+ AvantGarde-Book AvantGarde-BookOblique AvantGarde-Demi AvantGarde-DemiOblique
+%%+ Bookman-Demi Bookman-DemiItalic       Bookman-Light Bookman-LightItalic      
+%%+ Helvetica-Narrow Helvetica-Narrow-Bold Helvetica-Narrow-BoldOblique          
+%%+ Helvetica-Narrow-Oblique              NewCentury-Schlbk-Bold                 
+%%+ NewCentury-Schlbk-Italic              NewCenturySchlbk-BoldItalic            
+%%+ Palatino-Roman Palatino-Bold          Palatino-Italic Palatino-BoldItalic    
+%%+ ZapfChancery-MediumItalic  Symbol                                            
+%%BoundingBox: 0 0 792 792
+% DATAPLOT POSTSCRIPT DRIVER, JANUARY, 1990
+% PROLOG SECTION: DATAPLOT DEFINITIONS     
+%DEFINE PROCEDURE "rightshow" TO PRINT RIGHT JUSTIFIED STRING.  CALL BY:
+%  /IX <XCOOR> def /IY <YCOOR> def 
+% (STRING) rightshow
+/rightshow
+  {dup stringwidth pop
+   IX exch sub
+   IY moveto
+   show} def
+%DEFINE PROCEDURE "centshow" TO PRINT CENTER JUSTIFIED STRING.  CALL BY:
+%  /IX <XCOOR> def /IY <YCOOR> def 
+% (STRING) centshow
+/centshow
+  {dup stringwidth pop
+   2 div
+   IX exch sub
+   IY moveto
+   show} def
+%DEFINE PROCEDURE "leftshow" TO PRINT LEFT   JUSTIFIED STRING.  CALL BY:
+%  /IX <XCOOR> def /IY <YCOOR> def 
+% (STRING) leftshow
+/leftshow
+  {IX IY moveto show} def
+%DEFINE PROCEDURE "vrightshow" TO PRINT RIGHT JUSTIFIED VERTICAL STRING.  CALL BY:
+%  /IX <XCOOR> def /IY <YCOOR> def 
+% newpath IX IY moveto gsave
+% (STRING) vrightshow grestore
+/vrightshow
+  {dup stringwidth pop
+   IY exch sub
+   IX exch moveto
+    90 rotate
+   show} def
+%DEFINE PROCEDURE "vcentshow" TO PRINT CENTER JUSTIFIED VERTICAL STRING.  CALL BY:
+%  /IX <XCOOR> def /IY <YCOOR> def 
+% newpath IX IY moveto gsave
+% (STRING) vcentshow grestore
+/vcentshow
+  {dup stringwidth pop
+   2 div
+   IY exch sub
+   IX exch moveto
+     90 rotate
+   show} def
+%DEFINE PROCEDURE "vleftshow" TO PRINT LEFT   JUSTIFIED VERTICAL STRING.  CALL BY:
+%  /IX <XCOOR> def /IY <YCOOR> def 
+% newpath IX IY moveto gsave
+% (STRING) vleftshow grestore
+/vleftshow
+  {IX IY moveto 90 rotate show} def 
+%DEFINE PROCEDURE "setpsfont" TO DEFINE THE POSTSCRIPT FONT NAME AND SIZE.  CALL BY:
+%  /PSFONT <FONTNAME> def /PSSIZE <FONTSIZE> def setpsfont
+/setpsfont
+  {PSFONT  findfont  PSSIZE  scalefont  setfont} def
+%DEFINE PROCEDURE "psstringwidthr" TO MOVE THE STARTING POSITION OF A RIGHT JUSTIFIED STRING.
+%CALL BY:
+%  (STRING) psstringwidthr
+/psstringwidthr
+  {dup stringwidth pop 0 exch sub 0 rmoveto} def
+%DEFINE PROCEDURE "psstringwidthc" TO MOVE THE STARTING POSITION OF A CENTER JUSTIFIED STRING.
+%CALL BY:
+%  (STRING) psstringwidthc
+/psstringwidthc
+  {dup stringwidth pop 2 div 0 exch sub 0 rmoveto}  def
+%DEFINE PROCEDURE "psstringwidthtv" TO MOVE THE STARTING POSITION OF A TOP JUSTIFIED VERTICA STRING.
+%CALL BY:
+%  (STRING) psstringwidthtv
+/psstringwidthtv
+  {dup stringwidth pop 0 exch sub 0 exch    rmoveto} def
+%DEFINE PROCEDURE "psstringwidthcv" TO MOVE THE STARTING POSITION OF A CENTER JUSTIFIEDVERTICAL STRING.
+%CALL BY:
+%  (STRING) psstringwidthcv
+/psstringwidthcv
+  {dup stringwidth pop 2 div 0 exch sub 0 exch rmoveto} def
+%DEFINE PROCEDURE "leftshow2" TO PRINT LEFT  JUSTIFIED STRING AT CURRENT POSITION.  CALL BY: 
+% (STRING) leftshow2
+/leftshow2
+  {show} def
+%DEFINE PROCEDURE "vleftshow2" TO PRINT BOTTOM  JUSTIFIED VERTICAL STRING.  CALL BY:
+% (STRING) vleftshow2
+/vleftshow2
+  {90 rotate show -90 rotate} def
+% DEFINE PROCEDURE "l" AS ABBREVIATION OF lineto    
+/l {lineto} def
+% DEFINE PROCEDURE "m" AS ABBREVIATION OF moveto    
+/m {moveto} def
+/Helvetica-Bold                           findfont  47 scalefont setfont
+gsave    % SAVE INITIAL GRAPHICS STATE   
+%%EndProlog
+%%Page: 1 1
+0 0 moveto    0.24000    0.24000 scale  2465    85 translate 90 rotate 
+1.00000 1.00000 1.00000 setrgbcolor
+    0     0 m
+ 3129     0 l
+ 3129  2379 l
+    0  2379 l
+    0     0 l
+closepath fill 0. 0. 0. setrgbcolor
+[ ] 0 setdash
+    5 setlinewidth
+0.64706 0.16471 0.16471 setrgbcolor
+newpath   558  1226 m   588  1698 l   618   559 l   647  1892 l   677   976 l   706  1726 l   736  1448 l   766  1059 l 
+  795  1559 l   825  1253 l   854  1892 l   884   893 l   914  1476 l   943  1031 l   973  1531 l  1002  1142 l 
+ 1032  2142 l  1062  1448 l  1091   948 l  1121  1975 l  1150  1337 l  1180  1531 l  1210  1309 l  1239  1587 l 
+ 1269  1142 l  1299  1503 l  1328  1309 l  1358  1170 l  1387   615 l  1417  1559 l  1447  1309 l  1476  1892 l 
+ 1506  1476 l  1535  1975 l  1565  1309 l  1595  1531 l  1624  1170 l  1654  1420 l  1683   920 l  1713  1420 l 
+ 1743  1253 l  1772  1448 l  1802  1170 l  1831  1503 l  1861  1309 l  1891  1642 l  1920  1142 l  1950  1698 l 
+ 1980  1115 l  2009  1365 l  2039   976 l  2068  1587 l  2098  1448 l  2128  1059 l  2157  1392 l  2187  1281 l 
+ 2216   865 l  2246   893 l  2276  1420 l  2305  1170 l  2335  1809 l  2364   976 l  2394  1309 l  2424  1587 l 
+ 2453  1004 l  2483  1559 l  2512  1031 l  2542  1503 l  2572  1420 l  2601   559 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   470   476 m  2661   476 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   470  2142 m   470   476 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   529   428 m   529   476 l stroke
+newpath   825   428 m   825   476 l stroke
+newpath  1121   428 m  1121   476 l stroke
+newpath  1417   428 m  1417   476 l stroke
+newpath  1713   428 m  1713   476 l stroke
+newpath  2009   428 m  2009   476 l stroke
+newpath  2305   428 m  2305   476 l stroke
+newpath  2601   428 m  2601   476 l stroke
+newpath   677   452 m   677   476 l stroke
+newpath   973   452 m   973   476 l stroke
+newpath  1269   452 m  1269   476 l stroke
+newpath  1565   452 m  1565   476 l stroke
+newpath  1861   452 m  1861   476 l stroke
+newpath  2157   452 m  2157   476 l stroke
+newpath  2453   452 m  2453   476 l stroke
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   422   476 m   470   476 l stroke
+newpath   422   754 m   470   754 l stroke
+newpath   422  1031 m   470  1031 l stroke
+newpath   422  1309 m   470  1309 l stroke
+newpath   422  1587 m   470  1587 l stroke
+newpath   422  1864 m   470  1864 l stroke
+newpath   422  2142 m   470  2142 l stroke
+newpath   446   615 m   470   615 l stroke
+newpath   446   893 m   470   893 l stroke
+newpath   446  1170 m   470  1170 l stroke
+newpath   446  1448 m   470  1448 l stroke
+newpath   446  1726 m   470  1726 l stroke
+newpath   446  2003 m   470  2003 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+/Helvetica-Bold                           findfont    71 scalefont setfont
+/IX   529 def /IY   334 def
+(0)
+centshow 
+/IX   825 def /IY   334 def
+(10)
+centshow 
+/IX  1121 def /IY   334 def
+(20)
+centshow 
+/IX  1417 def /IY   334 def
+(30)
+centshow 
+/IX  1713 def /IY   334 def
+(40)
+centshow 
+/IX  2009 def /IY   334 def
+(50)
+centshow 
+/IX  2305 def /IY   334 def
+(60)
+centshow 
+/IX  2601 def /IY   334 def
+(70)
+centshow 
+0.00000 0.00000 0.00000 setrgbcolor
+/IX   391 def /IY   441 def
+(20)
+rightshow
+/IX   391 def /IY   718 def
+(30)
+rightshow
+/IX   391 def /IY   996 def
+(40)
+rightshow
+/IX   391 def /IY  1274 def
+(50)
+rightshow
+/IX   391 def /IY  1551 def
+(60)
+rightshow
+/IX   391 def /IY  1829 def
+(70)
+rightshow
+/IX   391 def /IY  2107 def
+(80)
+rightshow
+[    17    17 ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   529   476 m   529  2142 l stroke
+newpath   825   476 m   825  2142 l stroke
+newpath  1121   476 m  1121  2142 l stroke
+newpath  1417   476 m  1417  2142 l stroke
+newpath  1713   476 m  1713  2142 l stroke
+newpath  2009   476 m  2009  2142 l stroke
+newpath  2305   476 m  2305  2142 l stroke
+newpath  2601   476 m  2601  2142 l stroke
+[    17    17 ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   470   754 m  2661   754 l stroke
+newpath   470  1031 m  2661  1031 l stroke
+newpath   470  1309 m  2661  1309 l stroke
+newpath   470  1587 m  2661  1587 l stroke
+newpath   470  1864 m  2661  1864 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1072  2356 m  1072  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1074  2356 m  1074  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1060  2356 m  1058  2343 l  1058  2356 l  1088  2356 l  1088  2343 l  1086  2356 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1066  2309 m  1080  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1109  2340 m  1109  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1111  2340 m  1111  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1111  2327 m  1113  2334 l  1117  2338 l  1121  2340 l  1127  2340 l  1129  2338 l  1129  2336 l  1127  2334 l 
+ 1125  2336 l  1127  2338 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1103  2340 m  1111  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1103  2309 m  1117  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1150  2336 m  1150  2334 l  1148  2334 l  1148  2336 l  1150  2338 l  1154  2340 l  1162  2340 l  1166  2338 l 
+ 1168  2336 l  1170  2331 l  1170  2315 l  1172  2311 l  1174  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1168  2336 m  1168  2315 l  1170  2311 l  1174  2309 l  1176  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1168  2331 m  1166  2329 l  1154  2327 l  1148  2324 l  1146  2320 l  1146  2315 l  1148  2311 l  1154  2309 l 
+ 1160  2309 l  1164  2311 l  1168  2315 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1154  2327 m  1150  2324 l  1148  2320 l  1148  2315 l  1150  2311 l  1154  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1217  2334 m  1215  2331 l  1217  2329 l  1219  2331 l  1219  2334 l  1215  2338 l  1211  2340 l  1205  2340 l 
+ 1199  2338 l  1195  2334 l  1193  2327 l  1193  2322 l  1195  2315 l  1199  2311 l  1205  2309 l  1209  2309 l 
+ 1215  2311 l  1219  2315 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1205  2340 m  1201  2338 l  1197  2334 l  1195  2327 l  1195  2322 l  1197  2315 l  1201  2311 l  1205  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1240  2327 m  1264  2327 l  1264  2331 l  1262  2336 l  1260  2338 l  1256  2340 l  1250  2340 l  1244  2338 l 
+ 1240  2334 l  1238  2327 l  1238  2322 l  1240  2315 l  1244  2311 l  1250  2309 l  1254  2309 l  1260  2311 l 
+ 1264  2315 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1262  2327 m  1262  2334 l  1260  2338 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1250  2340 m  1246  2338 l  1242  2334 l  1240  2327 l  1240  2322 l  1242  2315 l  1246  2311 l  1250  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1277  2256 m stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1309  2256 m stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1334  2340 m  1328  2338 l  1324  2334 l  1322  2327 l  1322  2322 l  1324  2315 l  1328  2311 l  1334  2309 l 
+ 1338  2309 l  1344  2311 l  1348  2315 l  1350  2322 l  1350  2327 l  1348  2334 l  1344  2338 l  1338  2340 l 
+ 1334  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1334  2340 m  1330  2338 l  1326  2334 l  1324  2327 l  1324  2322 l  1326  2315 l  1330  2311 l  1334  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1338  2309 m  1342  2311 l  1346  2315 l  1348  2322 l  1348  2327 l  1346  2334 l  1342  2338 l  1338  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1383  2354 m  1381  2352 l  1383  2349 l  1385  2352 l  1385  2354 l  1383  2356 l  1379  2356 l  1375  2354 l 
+ 1373  2349 l  1373  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1379  2356 m  1377  2354 l  1375  2349 l  1375  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1367  2340 m  1383  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1367  2309 m  1381  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1397  2256 m stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1428  2256 m stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1442  2356 m  1455  2331 l  1455  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1444  2356 m  1457  2331 l  1457  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1471  2356 m  1457  2331 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1438  2356 m  1450  2356 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1463  2356 m  1475  2356 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1450  2309 m  1463  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1495  2356 m  1493  2354 l  1495  2352 l  1497  2354 l  1495  2356 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1495  2340 m  1495  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1497  2340 m  1497  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1489  2340 m  1497  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1489  2309 m  1502  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1522  2327 m  1545  2327 l  1545  2331 l  1543  2336 l  1542  2338 l  1538  2340 l  1532  2340 l  1526  2338 l 
+ 1522  2334 l  1520  2327 l  1520  2322 l  1522  2315 l  1526  2311 l  1532  2309 l  1536  2309 l  1542  2311 l 
+ 1545  2315 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1543  2327 m  1543  2334 l  1542  2338 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1532  2340 m  1528  2338 l  1524  2334 l  1522  2327 l  1522  2322 l  1524  2315 l  1528  2311 l  1532  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1569  2356 m  1569  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1571  2356 m  1571  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1563  2356 m  1571  2356 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1563  2309 m  1577  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1618  2356 m  1618  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1620  2356 m  1620  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1618  2334 m  1614  2338 l  1610  2340 l  1606  2340 l  1600  2338 l  1596  2334 l  1594  2327 l  1594  2322 l 
+ 1596  2315 l  1600  2311 l  1606  2309 l  1610  2309 l  1614  2311 l  1618  2315 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1606  2340 m  1602  2338 l  1598  2334 l  1596  2327 l  1596  2322 l  1598  2315 l  1602  2311 l  1606  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1612  2356 m  1620  2356 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1618  2309 m  1626  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1637  2256 m stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1669  2256 m stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1694  2340 m  1688  2338 l  1684  2334 l  1682  2327 l  1682  2322 l  1684  2315 l  1688  2311 l  1694  2309 l 
+ 1698  2309 l  1704  2311 l  1708  2315 l  1710  2322 l  1710  2327 l  1708  2334 l  1704  2338 l  1698  2340 l 
+ 1694  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1694  2340 m  1690  2338 l  1686  2334 l  1684  2327 l  1684  2322 l  1686  2315 l  1690  2311 l  1694  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1698  2309 m  1702  2311 l  1706  2315 l  1708  2322 l  1708  2327 l  1706  2334 l  1702  2338 l  1698  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1729  2340 m  1741  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1731  2340 m  1741  2313 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1753  2340 m  1741  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1725  2340 m  1737  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1745  2340 m  1757  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1774  2327 m  1798  2327 l  1798  2331 l  1796  2336 l  1794  2338 l  1790  2340 l  1784  2340 l  1778  2338 l 
+ 1774  2334 l  1772  2327 l  1772  2322 l  1774  2315 l  1778  2311 l  1784  2309 l  1788  2309 l  1794  2311 l 
+ 1798  2315 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1796  2327 m  1796  2334 l  1794  2338 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1784  2340 m  1780  2338 l  1776  2334 l  1774  2327 l  1774  2322 l  1776  2315 l  1780  2311 l  1784  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1821  2340 m  1821  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1823  2340 m  1823  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1823  2327 m  1825  2334 l  1829  2338 l  1833  2340 l  1839  2340 l  1841  2338 l  1841  2336 l  1839  2334 l 
+ 1837  2336 l  1839  2338 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1815  2340 m  1823  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1815  2309 m  1829  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1853  2256 m stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1884  2256 m stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1909  2356 m  1909  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1911  2356 m  1911  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1898  2356 m  1896  2343 l  1896  2356 l  1925  2356 l  1925  2343 l  1923  2356 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1903  2309 m  1917  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1946  2356 m  1945  2354 l  1946  2352 l  1948  2354 l  1946  2356 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1946  2340 m  1946  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1948  2340 m  1948  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1941  2340 m  1948  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1941  2309 m  1954  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1976  2340 m  1976  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1978  2340 m  1978  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1978  2334 m  1982  2338 l  1988  2340 l  1991  2340 l  1997  2338 l  1999  2334 l  1999  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1991  2340 m  1995  2338 l  1997  2334 l  1997  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1999  2334 m  2003  2338 l  2009  2340 l  2013  2340 l  2019  2338 l  2021  2334 l  2021  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  2013  2340 m  2017  2338 l  2019  2334 l  2019  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1970  2340 m  1978  2340 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1970  2309 m  1984  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1991  2309 m  2005  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  2013  2309 m  2027  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  2046  2327 m  2070  2327 l  2070  2331 l  2068  2336 l  2066  2338 l  2062  2340 l  2056  2340 l  2050  2338 l 
+ 2046  2334 l  2044  2327 l  2044  2322 l  2046  2315 l  2050  2311 l  2056  2309 l  2060  2309 l  2066  2311 l 
+ 2070  2315 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  2068  2327 m  2068  2334 l  2066  2338 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  2056  2340 m  2052  2338 l  2048  2334 l  2046  2327 l  2046  2322 l  2048  2315 l  2052  2311 l  2056  2309 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1237   279 m  1239   286 l  1239   272 l  1237   279 l  1233   283 l  1228   286 l  1222   286 l  1216   283 l 
+ 1212   279 l  1212   274 l  1214   270 l  1216   267 l  1220   265 l  1231   261 l  1235   258 l  1239   254 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1212   274 m  1216   270 l  1220   267 l  1231   263 l  1235   261 l  1237   258 l  1239   254 l  1239   245 l 
+ 1235   240 l  1230   238 l  1224   238 l  1218   240 l  1214   245 l  1212   252 l  1212   238 l  1214   245 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1261   256 m  1284   256 l  1284   261 l  1282   265 l  1280   267 l  1276   270 l  1271   270 l  1265   267 l 
+ 1261   263 l  1259   256 l  1259   252 l  1261   245 l  1265   240 l  1271   238 l  1274   238 l  1280   240 l 
+ 1284   245 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1282   256 m  1282   263 l  1280   267 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1271   270 m  1267   267 l  1263   263 l  1261   256 l  1261   252 l  1263   245 l  1267   240 l  1271   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1327   270 m  1327   222 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1329   270 m  1329   222 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1327   263 m  1323   267 l  1319   270 l  1316   270 l  1310   267 l  1306   263 l  1304   256 l  1304   252 l 
+ 1306   245 l  1310   240 l  1316   238 l  1319   238 l  1323   240 l  1327   245 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1316   270 m  1312   267 l  1308   263 l  1306   256 l  1306   252 l  1308   245 l  1312   240 l  1316   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1321   222 m  1335   222 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1355   270 m  1355   245 l  1357   240 l  1363   238 l  1366   238 l  1372   240 l  1376   245 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1357   270 m  1357   245 l  1359   240 l  1363   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1376   270 m  1376   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1378   270 m  1378   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1349   270 m  1357   270 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1370   270 m  1378   270 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1376   238 m  1384   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1404   256 m  1427   256 l  1427   261 l  1425   265 l  1423   267 l  1419   270 l  1413   270 l  1408   267 l 
+ 1404   263 l  1402   256 l  1402   252 l  1404   245 l  1408   240 l  1413   238 l  1417   238 l  1423   240 l 
+ 1427   245 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1425   256 m  1425   263 l  1423   267 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1413   270 m  1409   267 l  1406   263 l  1404   256 l  1404   252 l  1406   245 l  1409   240 l  1413   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1451   270 m  1451   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1453   270 m  1453   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1453   263 m  1456   267 l  1462   270 l  1466   270 l  1472   267 l  1474   263 l  1474   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1466   270 m  1470   267 l  1472   263 l  1472   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1445   270 m  1453   270 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1445   238 m  1458   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1466   238 m  1480   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1521   263 m  1519   261 l  1521   258 l  1523   261 l  1523   263 l  1519   267 l  1515   270 l  1509   270 l 
+ 1503   267 l  1499   263 l  1498   256 l  1498   252 l  1499   245 l  1503   240 l  1509   238 l  1513   238 l 
+ 1519   240 l  1523   245 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1509   270 m  1505   267 l  1501   263 l  1499   256 l  1499   252 l  1501   245 l  1505   240 l  1509   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1544   256 m  1568   256 l  1568   261 l  1566   265 l  1564   267 l  1560   270 l  1554   270 l  1548   267 l 
+ 1544   263 l  1543   256 l  1543   252 l  1544   245 l  1548   240 l  1554   238 l  1558   238 l  1564   240 l 
+ 1568   245 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1566   256 m  1566   263 l  1564   267 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1554   270 m  1550   267 l  1546   263 l  1544   256 l  1544   252 l  1546   245 l  1550   240 l  1554   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1582   186 m stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1613   186 m stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1631   286 m  1631   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1632   286 m  1656   243 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1632   281 m  1656   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1656   286 m  1656   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1625   286 m  1632   286 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1650   286 m  1662   286 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1625   238 m  1636   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1683   270 m  1683   245 l  1685   240 l  1691   238 l  1695   238 l  1701   240 l  1705   245 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1685   270 m  1685   245 l  1687   240 l  1691   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1705   270 m  1705   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1707   270 m  1707   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1677   270 m  1685   270 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1699   270 m  1707   270 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1705   238 m  1713   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1734   270 m  1734   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1736   270 m  1736   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1736   263 m  1740   267 l  1746   270 l  1750   270 l  1756   267 l  1758   263 l  1758   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1750   270 m  1754   267 l  1756   263 l  1756   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1758   263 m  1762   267 l  1767   270 l  1771   270 l  1777   267 l  1779   263 l  1779   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1771   270 m  1775   267 l  1777   263 l  1777   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1728   270 m  1736   270 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1728   238 m  1742   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1750   238 m  1764   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1771   238 m  1785   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1807   286 m  1807   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1809   286 m  1809   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1809   263 m  1812   267 l  1816   270 l  1820   270 l  1826   267 l  1830   263 l  1832   256 l  1832   252 l 
+ 1830   245 l  1826   240 l  1820   238 l  1816   238 l  1812   240 l  1809   245 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1820   270 m  1824   267 l  1828   263 l  1830   256 l  1830   252 l  1828   245 l  1824   240 l  1820   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1801   286 m  1809   286 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1854   256 m  1877   256 l  1877   261 l  1875   265 l  1873   267 l  1869   270 l  1863   270 l  1857   267 l 
+ 1854   263 l  1852   256 l  1852   252 l  1854   245 l  1857   240 l  1863   238 l  1867   238 l  1873   240 l 
+ 1877   245 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1875   256 m  1875   263 l  1873   267 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1863   270 m  1859   267 l  1856   263 l  1854   256 l  1854   252 l  1856   245 l  1859   240 l  1863   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1900   270 m  1900   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1902   270 m  1902   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1902   256 m  1904   263 l  1908   267 l  1912   270 l  1918   270 l  1920   267 l  1920   265 l  1918   263 l 
+ 1916   265 l  1918   267 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1895   270 m  1902   270 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath  1895   238 m  1908   238 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1196 m   170  1210 l   193  1210 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1198 m   170  1212 l   193  1212 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1225 m   170  1212 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1192 m   145  1204 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1218 m   145  1229 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   193  1204 m   193  1218 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1249 m   148  1247 l   150  1249 l   148  1251 l   145  1249 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   161  1249 m   193  1249 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   161  1251 m   193  1251 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   161  1243 m   161  1251 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   193  1243 m   193  1257 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   175  1276 m   175  1300 l   170  1300 l   166  1298 l   163  1296 l   161  1292 l   161  1286 l   163  1280 l 
+  168  1276 l   175  1274 l   179  1274 l   186  1276 l   191  1280 l   193  1286 l   193  1290 l   191  1296 l 
+  186  1300 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   175  1298 m   168  1298 l   163  1296 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   161  1286 m   163  1282 l   168  1278 l   175  1276 l   179  1276 l   186  1278 l   191  1282 l   193  1286 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1323 m   193  1323 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1325 m   193  1325 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1317 m   145  1325 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   193  1317 m   193  1331 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1372 m   193  1372 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1374 m   193  1374 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   168  1372 m   163  1368 l   161  1364 l   161  1360 l   163  1354 l   168  1351 l   175  1349 l   179  1349 l 
+  186  1351 l   191  1354 l   193  1360 l   193  1364 l   191  1368 l   186  1372 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   161  1360 m   163  1356 l   168  1353 l   175  1351 l   179  1351 l   186  1353 l   191  1356 l   193  1360 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   145  1366 m   145  1374 l stroke
+[ ] 0 setdash
+    2 setlinewidth
+0.00000 0.00000 0.00000 setrgbcolor
+newpath   193  1372 m   193  1380 l stroke
+newpath   157  2261 moveto stroke
+newpath   157  2237 moveto stroke
+showpage
+grestore
+%%Trailer
+%%Pages:     1
+% END OF DATAPLOT POSTSCRIPT FILE

@@ -1,0 +1,172 @@
+COMMENT Dataplot Non-Linear Fit Example
+COMMENT Jonathan H. Morgan
+COMMENT 16 August 2020
+
+COMMENT: RPubs Article Discussing Fitting Non-Linear Equations (https://rpubs.com/mengxu/exponential-model)
+COMMENT: For more details regarding estimating the parameters (https://stats.stackexchange.com/questions/32824/how-to-minimize-residual-sum-of-squares-of-an-exponential-fit/32832)
+
+CD /Users/jonathan.h.morgan/dataplot/lib/data
+CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+
+COMMENT Reading-In Data
+  SKIP 25
+  READ CHWIRUT1.DAT Y X
+
+COMMENT Looking at the Distribution
+  PLOT Y X
+
+COMMENT Non-Linear Fit Using Maximum Likelihood Parameters: 1/βe−(x−μ)/β
+COMMENT Residual STD 0.190, Lack of Fit F Ratio = 1.547, Lack of Fit F CDF (%) 92.646
+  LET A = 0.01
+  LET B = 0.01
+  LET ALPHA = 0.1
+  FIT Y = EXP(-ALPHA*X)/(A+B*X)
+  LET pred_1 = PRED
+  LET res_1 = RES
+
+COMMENT Plotting Fit
+  LINE COLORS BLACK BROWN
+  LINE BLANK SOLID
+  CHARACTER CIRCLE
+  CHARACTER COLOR BLACK
+  PLOT Y pred_1 VS X
+
+COMMENT Fitting Same Line Using R Example
+  LET y_min = MINIMUM Y
+
+  COMMENT Select an approximate theta, since theta must be lower than min(y), and greater than zero
+  LET theta = y_min * 0.5
+
+  COMMENT ESTIMATING THE ALPHA AND BETA
+  LET y_log = y - theta
+  LET y_log = LOG(y_log)
+  FIT y_log x
+  LET alpha = EXP(A0)
+  LET beta = A1
+
+COMMENT Fitting Model with theta, alpha, and beta: y ~ alpha * exp(beta * x) + theta
+COMMENT Residual STD 3.369, Lack of Fit F Ratio 1.599, Lack of Fit CDF (%) 94.044
+  FIT y = alpha * EXP(beta * X) + theta
+  LET pred_2 = PRED
+  LET res_2 = RES
+
+COMMENT Examining Fit Using Estimated Theta, Alpha, and Beta
+  LINE COLORS BLACK BROWN BLUE
+  LINE BLANK SOLID SOLID
+  CHARACTER CIRCLE
+  CHARACTER COLOR BLACK
+  LEGEND FONT COMPLEX
+  LEGEND CASE ASIS
+  LEGEND 1 COORDINATES 55 70
+  LEGEND 1 SIZE 1
+  LEGEND 1 COLOR BROWN
+  LEGEND 1 FILL SOLID
+  LEGEND 1 CIRC() Dataplot Example Fit
+  LEGEND 2 COORDINATES 55 65
+  LEGEND 2 SIZE 1
+  LEGEND 2 COLOR BLUE
+  LEGEND 2 FILL SOLID
+  LEGEND 2 CIRC() R Example Fit with Estimated Parameters
+  TITLE Non-Linear Fitting: Exponential Fit
+  TITLE DISPLACEMENT 2
+  PLOT Y pred_1 pred_2 VS X
+
+COMMENT Resetting Legends
+  LEGEND 1 sp()
+  LEGEND 2 sp()
+
+COMMENT 6-PLOT Fit Analysis: Dataplot Fit
+  X1LABEL DISPLACEMENT 13
+  MULTIPLOT 2 3
+    TITLE DISPLACEMENT DEFAULT
+    TITLE Response & Predicted Values
+    X1LABEL x
+    Y1LABEL y
+    CHAR X BLANK
+    CHARACTER COLOR BLACK
+    LINES BLANK SOLID
+    PLOT y pred_1 VS x
+
+    CHARACTER COLOR BROWN
+    TITLE Residuals vs. Independent Variable
+    X1LABEL x
+    Y1LABEL Residuals
+    PLOT res_1 VS x
+
+    TITLE Residuals vs. Predicted Values
+    X1LABEL Predicted Values
+    Y1LABEL Residuals
+    PLOT res_1 VS pred_1
+
+    TITLE DISPLACEMENT 2
+    TITLE Lag Plot of Residuals
+    X1LABEL Residuals (i-1)
+    Y1LABEL Residuals
+    LAG PLOT res_1
+
+    TITLE Histogram of Residuals
+    X1LABEL Residuals
+    HISTOGRAM res_1
+
+    TITLE Normal Probability Plot
+    X1LABEL Theoretical Values
+    Y1LABEL Ordered Residuals
+    LINE SOLID
+    NORMAL PROBABILITY PLOT res_1
+END OF MULTIPLOT
+
+COMMENT 6-PLOT Fit Analysis: R Fit with Estimated Theta, Alpha, and Beta
+  X1LABEL DISPLACEMENT 13
+  LINE COLOR
+  MULTIPLOT 2 3
+    TITLE DISPLACEMENT DEFAULT
+    TITLE Response & Predicted Values
+    X1LABEL x
+    Y1LABEL y
+    CHAR X BLANK
+    CHARACTER COLOR BLACK
+    LINES BLANK SOLID
+    LINE COLOR BLACK BLUE
+    PLOT y pred_2 VS x
+
+    CHARACTER COLOR BLUE
+    TITLE Residuals vs. Independent Variable
+    X1LABEL x
+    Y1LABEL Residuals
+    PLOT res_2 VS x
+
+    TITLE Residuals vs. Predicted Values
+    X1LABEL Predicted Values
+    Y1LABEL Residuals
+    PLOT res_2 VS pred_2
+
+    TITLE DISPLACEMENT 2
+    TITLE Lag Plot of Residuals
+    X1LABEL Residuals (i-1)
+    Y1LABEL Residuals
+    LAG PLOT res_2
+
+    TITLE Histogram of Residuals
+    X1LABEL Residuals
+    HISTOGRAM res_2
+
+    TITLE Normal Probability Plot
+    X1LABEL Theoretical Values
+    Y1LABEL Ordered Residuals
+    LINE SOLID
+    NORMAL PROBABILITY PLOT res_2
+END OF MULTIPLOT
+
+COMMENT Non-Linear Least Squares vs. Generalized Linear Models
+. The difference is basically the difference in the assumed distribution of the random component,
+. and how the random component interacts with the underlying mean relationship.
+. Using nonlinear least squares effectively assumes the noise is additive, with constant variance
+. (and least squares is maximum likelihood for normal errors).
+. The other two assume that the noise is multiplicative, and that the variance is proportional to the square of the mean.
+. Taking logs and fitting a least squares line is maximum likelihood for the lognormal,
+. while the GLM you fitted is maximum likelihood (at least for its mean) for the Gamma (unsurprisingly).
+. Those two will be quite similar, but the Gamma will put less weight on very low values,
+. while the lognormal one will put relatively less weight on the highest values.
+. (Note that to properly compare the parameter estimates for those two, you need to deal with the difference between expectation
+. on the log scale and expectation on the original scale.
+. The mean of a transformed variable is not the transformed mean in general.)

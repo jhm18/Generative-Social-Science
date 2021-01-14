@@ -1,0 +1,294 @@
+Dataplot commands and output:
+
+.
+. Starting Thermal Expansion of Copper Case Study
+.
+. Setting Dataplot Defaults
+reset data
+reset plot control
+erase
+dimension 100 variables
+tic mark offset units data
+xlimits 0 800
+major xtic mark number 5
+minor xtic mark number 1
+xtic offset 10 70
+ylimits 0 20
+ytic offset 1 3
+tic offset units data
+major ytic mark number 5
+minor ytic mark number 4
+label case asis
+title case asis
+title displacement
+char x
+lines blank
+.  Following lines for better looking gif files
+frame thickness 0.15
+tic mark thickness 0.15
+line thickness 0.15 all
+bar border thickness 0.15 all
+. Finished Setting Defaults
+.
+. Starting Step 1.1
+skip 25
+read hahn1.dat temp thermexp
+variable label thermexp Coefficient of Thermal Expansion
+variable label temp Temperature (degrees Kelvin)
+. Finished Step 1.1
+
+.Initial Plot of Data 	
+.
+.
+. Starting Step 2.1
+x1label ^temp
+y1label ^thermexp
+title Thermal Expansion of Copper Data
+plot thermexp temp
+title
+x1label
+y1label
+. Finished Step 2.1
+
+.Fit Q/Q Rational Function Model 	
+.
+.
+. Starting Step 3.1
+let x2 = data 10 50 120 200 800
+let y2 = data 0 5 12 15 20
+.
+exact 2/2 fit y2 x2 thermexp temp
+fit thermexp = (a0+a1*temp+a2*temp**2)/(1+b1*temp+b2*temp**2)
+.
+x1label ^temp
+y1label ^thermexp
+title displacement 7
+title Thermal Expansion of Copper DataCR()Q/Q Rational Function Model
+plot thermexp pred vs temp
+title
+title displacement
+x1label
+y1label
+. Finished Step 3.1
+
+
+> EXACT RATIONAL FUNCTION FIT
+> NUMBER OF POINTS IN FIRST SET    =        5
+> DEGREE OF NUMERATOR              =        2
+> DEGREE OF DENOMINATOR            =        2
+>  
+> NUMERATOR  --A0  A1  A2          =      -0.301E+01       0.369E+00      -0.683E-02
+> DENOMINATOR--B0  B1  B2          =       0.100E+01      -0.112E-01      -0.306E-03
+> 
+> APPLICATION OF EXACT-FIT COEFFICIENTS
+> TO SECOND PAIR OF VARIABLES--
+>  
+> NUMBER OF POINTS IN SECOND SET           =      236
+> NUMBER OF ESTIMATED COEFFICIENTS         =        5
+> RESIDUAL DEGREES OF FREEDOM              =      231
+>
+> RESIDUAL STANDARD DEVIATION (DENOM=N-P)  =  0.17248161E+01
+> AVERAGE ABSOLUTE RESIDUAL   (DENOM=N)    =  0.82943726E+00
+> LARGEST (IN MAGNITUDE) POSITIVE RESIDUAL =  0.27050836E+01
+> LARGEST (IN MAGNITUDE) NEGATIVE RESIDUAL = -0.11428773E+02
+> LARGEST (IN MAGNITUDE) ABSOLUTE RESIDUAL =  0.11428773E+02
+
+
+> LEAST SQUARES NON-LINEAR FIT
+> SAMPLE SIZE N =      236
+> MODEL--THERMEXP =(A0+A1*TEMP+A2*TEMP**2)/(1+B1*TEMP+B2*TEMP**2)
+> REPLICATION CASE
+> REPLICATION STANDARD DEVIATION =     0.8131711930D-01
+> REPLICATION DEGREES OF FREEDOM =           1
+> NUMBER OF DISTINCT SUBSETS     =         235
+>  
+> FINAL PARAMETER ESTIMATES           (APPROX. ST. DEV.)    T VALUE
+> 1  A0                  -8.12326       (0.3908    )         -21.
+> 2  A1                  0.513233       (0.5418E-01)          9.5
+> 3  A2                 -0.736978E-02   (0.1705E-02)         -4.3
+> 4  B1                 -0.689864E-02   (0.3960E-02)         -1.7
+> 5  B2                 -0.332089E-03   (0.7890E-04)         -4.2
+>
+> RESIDUAL    STANDARD DEVIATION =         0.5501883030
+> RESIDUAL    DEGREES OF FREEDOM =         231
+> REPLICATION STANDARD DEVIATION =         0.0813171193
+> REPLICATION DEGREES OF FREEDOM =           1
+> LACK OF FIT F RATIO =      45.9729 = THE  88.2878% POINT OF THE
+> F DISTRIBUTION WITH    230 AND      1 DEGREES OF FREEDOM
+
+
+.Model Validation for Q/Q Fit 	
+.
+.
+. Starting Step 3.2
+limits
+major tic mark number 
+minor tic mark number
+tic offset 0 0
+line solid
+char blank
+title automatic
+6-plot thermexp temp
+title
+tic mark offset units data
+xlimits 0 800
+major xtic mark number 5
+minor xtic mark number 1
+xtic offset 10 70
+ylimits 0 20
+ytic offset 1 3
+tic offset units data
+major ytic mark number 5
+minor ytic mark number 4
+label case asis
+title case asis
+title displacement
+char x
+lines blank
+. Finished Step 3.2
+
+.Plot Residuals for Q/Q Model 	
+.
+.
+. Starting Step 3.3
+x1label ^temp
+y1label ^thermexp
+title Residuals from Q/Q Fit
+ylimits -1 3
+ytic offset 0.3 0.1
+plot res temp
+title
+title displacement 1.5
+x1label
+y1label
+ylimits 0 20
+ytic offset 1 3
+tic offset units data
+major ytic mark number 5
+minor ytic mark number 4
+. Finished Step 3.3
+
+.Fit C-C Rational Function Model 	
+.
+.
+. Starting Step 4.1
+let x2 = data 10 30 40 50 120 200 800
+let y2 = data 0 2 3 5 12 15 20
+.
+exact 3/3 fit y2 x2 thermexp temp
+fit thermexp = (a0+a1*temp+a2*temp**2+a3*temp**3)/(1+b1*temp+b2*temp**2+b3*temp**3)
+.
+x1label ^temp
+y1label ^thermexp
+title displacement 7
+title Thermal Expansion of Copper DataCR()C/C Rational Function Model
+plot thermexp pred vs temp
+title displacement
+title
+x1label
+y1label
+. Finished Step 4.1
+
+
+> EXACT RATIONAL FUNCTION FIT
+> NUMBER OF POINTS IN FIRST SET    =        7
+> DEGREE OF NUMERATOR              =        3
+> DEGREE OF DENOMINATOR            =        3
+>  
+> NUMERATOR  --A0  A1  A2  A3      =
+>    -0.2322993E+01  0.3528976E+00 -0.1382551E-01  0.1765684E-03
+> DENOMINATOR--B0  B1  B2  B3      = 
+>     0.1000000E+01 -0.3394208E-01  0.1099545E-03  0.7905308E-05
+>  
+> APPLICATION OF EXACT-FIT COEFFICIENTS
+> TO SECOND PAIR OF VARIABLES--
+>  
+> NUMBER OF POINTS IN SECOND SET           =      236
+> NUMBER OF ESTIMATED COEFFICIENTS         =        7
+> RESIDUAL DEGREES OF FREEDOM              =      229
+>  
+> RESIDUAL SUM OF SQUARES                  =  0.78246452E+02
+> RESIDUAL STANDARD DEVIATION (DENOM=N-P)  =  0.58454049E+00
+> AVERAGE ABSOLUTE RESIDUAL   (DENOM=N)    =  0.46998626E+00
+> LARGEST (IN MAGNITUDE) POSITIVE RESIDUAL =  0.95733070E+00
+> LARGEST (IN MAGNITUDE) NEGATIVE RESIDUAL = -0.13497944E+01
+> LARGEST (IN MAGNITUDE) ABSOLUTE RESIDUAL =  0.13497944E+01
+
+
+> LEAST SQUARES NON-LINEAR FIT
+> SAMPLE SIZE N =      236
+> MODEL--THERMEXP =(A0+A1*TEMP+A2*TEMP**2+A3*TEMP**3)/
+>                  (1+B1*TEMP+B2*TEMP**2+B3*TEMP**3)
+> REPLICATION CASE
+> REPLICATION STANDARD DEVIATION =     0.8131711930D-01
+> REPLICATION DEGREES OF FREEDOM =           1
+> NUMBER OF DISTINCT SUBSETS     =         235
+>  
+> FINAL PARAMETER ESTIMATES           (APPROX. ST. DEV.)    T VALUE
+> 1  A0                   1.07913       (0.1710    )          6.3
+> 2  A1                 -0.122801       (0.1203E-01)         -10.
+> 3  A2                  0.408837E-02   (0.2252E-03)          18.
+> 4  A3                 -0.142848E-05   (0.2610E-06)         -5.5
+> 5  B1                 -0.576111E-02   (0.2468E-03)         -23.
+> 6  B2                  0.240629E-03   (0.1060E-04)          23.
+> 7  B3                 -0.123254E-06   (0.1217E-07)         -10.
+>
+> RESIDUAL    STANDARD DEVIATION =         0.0818038210
+> RESIDUAL    DEGREES OF FREEDOM =         229
+> REPLICATION STANDARD DEVIATION =         0.0813171193
+> REPLICATION DEGREES OF FREEDOM =           1
+> LACK OF FIT F RATIO =       1.0121 = THE  32.1265% POINT OF THE
+> F DISTRIBUTION WITH    228 AND      1 DEGREES OF FREEDOM
+
+
+
+.Model Validation for C/C Fit 	
+.
+.
+. Starting Step 4.2
+limits
+major tic mark number 
+minor tic mark number
+tic offset 0 0
+line solid
+char blank
+title automatic
+6-plot thermexp temp
+title
+tic mark offset units data
+xlimits 0 800
+major xtic mark number 5
+minor xtic mark number 1
+xtic offset 10 70
+ylimits 0 20
+ytic offset 1 3
+tic offset units data
+major ytic mark number 5
+minor ytic mark number 4
+label case asis
+title case asis
+title displacement
+char x
+lines blank
+. Finished Step 4.2
+
+.Plot Residuals for C/C Model 	
+.
+.
+. Starting Step 4.3
+x1label ^temp
+y1label ^thermexp
+title Residuals from C/C Fit
+ylimits -1 1
+ytic offset 0 0
+plot res temp
+title
+title displacement 1.5
+x1label
+y1label
+ylimits 0 20
+ytic offset 1 3
+tic offset units data
+major ytic mark number 5
+minor ytic mark number 4
+. Finished Step 4.3

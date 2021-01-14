@@ -1,0 +1,69 @@
+COMMENT Jonathan H. Morgan
+COMMENT Iterative Color Example Code
+COMMENT 16 June 2020
+
+COMMENT: The y1 y2 vs x format with two colors would be more efficient in this case.
+COMMENT: But, where there are many lines of various colors, this approach is infeasible.
+COMMENT: In these cases, you can convert the first color value into a string and then loop through values.
+
+COMMENT CALL Iterative_Colors_16June2020.DP
+
+COMMENT Generating Plot Variables and Parameters
+  SET STRING COMBINE SEPARATOR
+  SEED 1
+  LET n = 100
+  LET ep = 4*PI
+  LET inter = ep/n
+  LET t = SEQUENCE 0 inter ep
+  DELETE t FOR I = 11
+  LET a = 3
+  LET b = 2
+  LET c_unif = UNIFORM RANDOM NUMBER FOR I = 1 1 N
+  LET c_norm = NORMAL RANDOM NUMBERS FOR I = 1 1 N
+  LET amp = 2
+  LET y1 = a*SIN(b*t)+c_unif*amp
+  LET y2 = a*SIN(b*t)+c_norm*amp
+  LET y3 = a*SIN(b*t)
+  READ COLORS
+  3
+  17
+  4
+  END DATA
+  LET c1 = colors(1)
+  LET STRING s_1 = ^c1
+  DELET ep inter c1
+
+COMMENT Starting Multiplot
+  MULTIPLOT 1 2
+
+COMMENT Plotting Line Plot Example
+  CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+  XLIMITS 0 12
+  X1LABEL Time
+  YLIMITS -10 10
+  TITLE Noisy Sine Function with Iterative Colors in Dataplot
+  NGROUP = SIZE COLORS
+  LOOP FOR K = 2 1 NGROUP
+     LET IGROUP = COLORS(K)
+     LET STRING s_2 = ^IGROUP
+     LET s_1 = STRING COMBINE s_1 s_2
+     DELETE s_2
+   END OF LOOP
+   LINE COLOR ^s_1
+   PLOT y1 y2 y3 vs t
+
+COMMENT Plotting Layered Scatterplot Example
+  LET NINC = 5
+  LET TAG = MOD(t, NINC)
+  LET TAG = -1 SUBSET TAG <> 1
+  LINE BLANK SOLID
+  CHARACTER CIRCLE BLANK
+  CHARACTER COLOR 3
+  LINE COLOR 3 4
+  TITLE Layered Plot with AND: Plotting Every 5th Point
+  PLOT y1 t SUBSET TAG = 1 AND
+  PLOT y1 vs t AND
+  PLOT y3 vs t
+
+COMMENT Ending Multiplot
+  END OF MULTIPLOT

@@ -1,0 +1,42 @@
+COMMENT IO Example File
+COMMENT Jonathan H. Morgan
+COMMENT 29 May 2020
+
+ECHO ON
+
+COMMENT Setting Work Directory
+CD /Users/jonathan.h.morgan/Desktop/Themis.Cog/Big_5/Data_Scripts/Closers_Network
+
+COMMENT CSV EXAMPLES: MORE THAN 10 COLUMNS
+
+COMMENT: Reading Data with Unique 8 Character Variable Names
+  SET READ DELIMITER ,
+  SET WRITE CSV ON
+  SET TABLE HEADER ON
+  SET DATA MISSING VALUE NaN
+  SET READ MISSING VALUE 999
+  SET READ VARIABLE LABEL ON
+  SET VARIABLE NAMES FILE
+  READ closer_profiles_27April2020.csv
+  CD /Users/jonathan.h.morgan/Desktop
+  WRITE FILE.OUT.CSV ALL VARIABLES
+
+COMMENT: Using Automatically Derived Names (Big N Column Files with Long Names)
+CD /Users/jonathan.h.morgan/Desktop/Themis.Cog/Big_5/Data_Scripts
+  DIMENSION 100 COLUMNS
+  SET READ DELIMITER ,
+  SET DATE DELIMITER /
+  SET TIME DELIMITER :
+  SET TABLE HEADER ON
+  SET DATA MISSING VALUE NaN
+  SET READ MISSING VALUE 999
+  SET AUTOMATIC VARIABLE BASE NAME U
+  SET VARIABLE NAMES AUTOMATIC
+  SKIP 1
+  READ requester_community_features_1.csv
+  SET AUTOMATIC VARIABLE BASE NAME V
+  READ requester_community_features_2.csv
+  SET AUTOMATIC VARIABLE BASE NAME X
+  READ requester_community_features_3.csv
+  SET AUTOMATIC VARIABLE BASE NAME Y
+  READ requester_community_features_4.csv
