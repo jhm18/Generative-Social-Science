@@ -1,0 +1,33 @@
+/*Jonathan H. Morgan*/
+/*Sentiment as a Graphical Model*/
+/*3 July 2019*/
+
+digraph ISRE_4 {
+dpi = 350;
+size = "11,17";
+pencolor = black;
+penwidth = 3;
+rankdir=BT;
+
+/*Defining Nodes*/
+e_Evaluation [label = " "] [shape=circle, width=0.3, height = 0.3];
+Evaluation[label = "evaluation\ngood vs. bad "] [shape = box, width=0.5, height=0.5];
+e_Potency [label = " "] [shape=circle, width=0.3, height = 0.3];
+Potency [label = "potency\nstrong vs. weak"] [shape = box, width=0.5, height=0.5];
+e_Activity [label = " "] [shape=circle, width=0.3, height = 0.3];
+Activity [label = "activity\nfast vs. slow"] [shape = box, width=0.5, height=0.5];
+Concept [label = "Concept\nSentiment"] [shape = ellipse, width=0.5, height=0.5];
+
+/*Defining Relationships*/
+ {rank = same; e_Evaluation e_Potency e_Activity}
+ e_Evaluation -> Evaluation;
+ e_Potency -> Potency;
+ e_Activity -> Activity;
+
+{rank = same; Evaluation Evaluation Evaluation}
+Evaluation -> Concept;
+Potency -> Concept;
+Activity -> Concept;
+}
+
+

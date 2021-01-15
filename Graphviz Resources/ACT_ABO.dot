@@ -1,0 +1,77 @@
+/*dot -v  -Tpng ACT_ABO.dot -o ACT_ABO.png*/
+
+digraph ISRE_5 {
+    /*Graph Properties*/
+    dpi = 350;
+    size = "13,17";
+    pencolor = black;
+    rankdir = BT;
+
+    /*Defining Objects*/
+
+    /*The Actor*/
+    Actor [label = "Actor's\nSentiment"] [shape = ellipse, width=0.5, height=0.5, fontsize=42];
+    Actor_E [label = "evaluation\ngood vs. bad"] [shape = box, width=0.5, height=0.5, fontsize=42]
+    a_evaluation_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+    Actor_P [label = "potency\nstrong vs. weak"] [shape = box, width=0.5, height=0.5, fontsize=42]
+    a_potency_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+    Actor_A [label = "activity\nfast vs. slow"] [shape = box, width=0.5, height=0.5, fontsize=42]
+    a_activity_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+
+    /*The Behavior*/
+    Behavior [label = "Behavior's\nSentiment"] [shape = ellipse, width=0.5, height=0.5, fontsize=42];
+    Behavior_E [label = "evaluation\ngood vs. bad"] [shape = box, width=0.5, height=0.5, fontsize=42]
+    b_evaluation_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+    Behavior_P [label = "potency\nstrong vs. weak"] [shape = box, width=0.5, height=0.5, fontsize=42]
+    b_potency_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+    Behavior_A [label = "activity\nfast vs. slow"] [shape = box, width=0.5, height=0.5, fontsize=42]
+    b_activity_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+
+    /*The Object Person*/
+    Object [label = "Object Person's\nSentiment"] [shape = ellipse, width=0.5, height=0.5, fontsize=42];
+    Object_E [label = "evaluation\ngood vs. bad"] [shape = box, width=0.5, height=0.5, fontsize=42]
+    o_evaluation_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+    Object_P [label = "potency\nstrong vs. weak"] [shape = box, width=0.5, height=0.5, fontsize=42]
+    o_potency_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+    Object_A [label = "activity\nfast vs. slow"] [shape = box, width=0.5, height=0.5, fontsize=42]
+    o_activity_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+
+    /*Transient Impresssion*/
+     Transient [label = "Transient\nImpression"] [shape = ellipse, width=0.5, height=0.5, fontsize=42];
+
+    /*Defining Relations*/
+
+    {rank = same; Actor, Behavior, Object}
+    Actor -> Transient;
+    Behavior -> Transient;
+    Object -> Transient;
+
+    {rank = same; Actor_E, Actor_P, Actor_A, Behavior_E, Behavior_P, Behavior_A, Object_E, Object_P, Object_A}
+    Actor_E -> Actor;
+    Actor_P -> Actor;
+    Actor_A -> Actor;
+
+    Behavior_E -> Behavior;
+    Behavior_P -> Behavior;
+    Behavior_A -> Behavior;
+
+    Object_E -> Object;
+    Object_P -> Object;
+    Object_A -> Object;
+
+    {rank = same; a_evaluation_e, a_potency_e, a_activity_e, b_evaluation_e, b_potency_e, b_activity_e, o_evaluation_e, o_potency_e, o_activity_e}
+    a_evaluation_e -> Actor_E;
+    a_potency_e -> Actor_P;
+    a_activity_e -> Actor_A;
+
+    b_evaluation_e -> Behavior_E;
+    b_potency_e -> Behavior_P;
+    b_activity_e -> Behavior_A;
+
+    o_evaluation_e -> Object_E;
+    o_potency_e -> Object_P;
+    o_activity_e -> Object_A;
+
+    Actor -> Behavior [ style = invis, arrowhead = none];
+    Behavior -> Object [ style = invis, arrowhead = none];
+}

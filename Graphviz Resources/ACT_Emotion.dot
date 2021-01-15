@@ -1,0 +1,58 @@
+/*Jonathan H. Morgan*/
+/*Emotion Equations (Mofifier Equations)*/
+/*3 July 2019*/
+
+digraph ISRE_5 {
+    /*Graph Properties*/
+    dpi = 350;
+    size = "13,17";
+    pencolor = black;
+    rankdir = BT;
+
+    /*Defining Objects*/
+
+    Composite [label = "Composite Identity Sentiment \n'Happy Professor'"] [shape = ellipse, width=0.5, height=0.5, fontsize=42]; 
+    Identity [label = "Identity's\nSentiment"] [shape = ellipse, width=0.5, height=0.5, fontsize=42]; 
+    Emotion [label = "Emotion's\nSentiment"] [shape = ellipse, width=0.5, height=0.5, fontsize=42]; 
+
+    Identity_E [label = "evaluation\ngood vs. bad"] [shape = box, width=0.5, height=0.5, fontsize=42]; 
+    Identity_P [label = "potency\nstrong vs. weak"] [shape = box, width=0.5, height=0.5, fontsize=42];
+    Identity_A [label = "activity\nfast vs. slow"] [shape = box, width=0.5, height=0.5, fontsize=42];
+
+    Emotion_E [label = "evaluation\ngood vs. bad"] [shape = box, width=0.5, height=0.5, fontsize=42]; 
+    Emotion_P [label = "potency\nstrong vs. weak"] [shape = box, width=0.5, height=0.5, fontsize=42];
+    Emotion_A [label = "activity\nfast vs. slow"] [shape = box, width=0.5, height=0.5, fontsize=42];
+
+    i_evaluation_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+    i_potency_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+    i_activity_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+
+    e_evaluation_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+    e_potency_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+    e_activity_e [label = " "] [shape = circle, width=0.5, height=0.5, fontsize=42]
+
+    /*Defining Relations*/
+    {rank = same; Emotion, Identity}
+    Identity -> Composite;
+    Emotion -> Composite;
+
+    {rank = same; Identity_E, Identity_P, Identity_A, Emotion_E, Emotion_P, Emotion_A}
+    Identity_E -> Identity;
+    Identity_P -> Identity;
+    Identity_A -> Identity;
+    Emotion_E -> Emotion;
+    Emotion_P -> Emotion;
+    Emotion_A -> Emotion;
+
+     {rank = same; i_evaluation_e, i_potency_e, i_activity_e, e_evaluation_e, e_potency_e, e_activity_e}
+    i_evaluation_e -> Identity_E;
+    i_potency_e -> Identity_P;
+    i_activity_e -> Identity_A;
+
+    e_evaluation_e -> Emotion_E;
+    e_potency_e -> Emotion_P;
+    e_activity_e -> Emotion_A;
+
+    /*Switching Left/Right Identity/Emotion Display Order to Match the Label*/
+    Emotion -> Identity [minlen=10, style = invis];
+}

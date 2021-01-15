@@ -1,0 +1,88 @@
+/*ISRE Control Model Graph*/
+/*Jonathan H. Morgan*/
+/*2 July 2019*/
+
+digraph ISRE_3 {
+dpi = 350;
+size = "13,15";
+pencolor = black;
+penwidth = 3;
+rankdir=BT;
+nodesep=3;
+
+/*Creating Graph Entities*/
+Ref_Signal [label = "Reference\nSignal (f)"] [shape = none, width=0.5, height=0.5, fontsize=42];
+Comparator [label = "Comparator \n(f - t)"] [shape = square, width=4, height=1, penwidth=4, fontsize=42];
+Output [label = "Output\nFunction\n(Action Taken)"] [shape = square, width=4, height=1, penwidth=4, fontsize=42];
+Env [label = "Group\nEnvironment"] [shape = square, width=4, height=1, penwidth=4, fontsize=42];
+Input [label = "Input\nFunction (t)"] [shape = square, width=4, height=1, penwidth=4, fontsize=42];
+
+/*Connector Nodes*/
+conn_1 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+conn_2 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+conn_3 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+conn_4 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+conn_5 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+conn_6 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+conn_7 [ shape = point height = 0.0 width = 0.0 margin = 0 ]
+
+
+/*Relations*/
+{ rank = same; Ref_Signal, Comparator, Env, conn_2, conn_4, conn_7}
+edge[ maxlen = 1];
+Ref_Signal -> Comparator [arrowsize=3];
+
+
+Comparator -> conn_2 [style=invisible, arrowhead=none];
+conn_2 -> conn_7 [style=invisible, arrowhead=none];
+conn_7 -> conn_4 [style=invisible, arrowhead=none];
+conn_4 -> Env [style=invisible, arrowhead=none];
+conn_2 -> Output [style=invisible, arrowhead=none];
+Input -> conn_2 [style=invisible, arrowhead=none];
+conn_4 -> Output [style=invisible, arrowhead=none];
+Input -> conn_7 [style=invisible, arrowhead=none];
+conn_7 -> Output [style=invisible, arrowhead=none];
+
+{rank = same; conn_3, conn_6, Output}
+Env:n -> conn_3:s [arrowhead=none];
+conn_3:s -> Env:n [arrowsize=3];
+Output -> conn_3 [arrowhead=none];
+Comparator:n -> conn_6:s [arrowhead=none];
+conn_6:s -> Comparator:n [arrowhead=none, style=invisible];
+conn_6 -> Output [arrowsize=3];
+
+{ rank = same; conn_1, conn_5, Input}
+conn_1 -> Input [arrowhead=none];
+
+
+conn_1 -> Comparator [style=invisible, arrowhead=none];
+conn_1 -> Comparator [style=invisible, arrowhead=none];
+conn_1:n -> Comparator:s [arrowsize=3];
+
+Input:e -> conn_5:w [arrowhead=none];
+conn_5:w -> Input:e [arrowsize=3];
+
+conn_5 -> Env [style=invisible, arrowhead=none];
+conn_5 -> Env [style=invisible, arrowhead=none];
+conn_5:n -> Env:s [arrowhead=none] ;
+
+/*Adding Labels
+Label_1[ label = "Error \nSignal" ] [fontsize=42, shape=none];
+Label_1 -> conn_6 [style=invisible, arrowhead=none];
+Comparator -> Label_1 [arrowhead=none, style=invisible];
+
+
+Label_2[ label = "Perceptual \nSignal" ] [fontsize=42, shape=none];
+Label_2 -> conn_1 [style=invisible, arrowhead=none];
+Label_2 -> Comparator [arrowhead=none, style=invisible];
+Label_2 -> Label_1 [style=invisible, arrowhead=none];*/
+
+/*Adding Legend*/
+node[ shape = plaintext ];
+legend[ label = "f and t refer to fundamental stable cultural meanings \nand transient situational impressions respectively" ] [fontsize=42];
+
+
+edge[ minlen = 4 ];
+legend -> Ref_Signal[ style = invis ];
+
+}
