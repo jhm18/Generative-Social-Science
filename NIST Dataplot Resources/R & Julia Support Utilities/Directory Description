@@ -1,0 +1,2 @@
+Scripts meant to support moving data in and out of Dataplot from R or Julia.
+See also the utilties in Julia_Utilities_12Oct2020.jl for more flexible read and write utilities for Julia.
