@@ -1,0 +1,148 @@
+COMMENT Jonathan H. Morgan
+COMMENT Group Simulator Cumulative Distriubtions: Visualization
+COMMENT 11 March 2020
+
+COMMENT When reading files written out using capture, skip 4 lines.
+COMMENT Initial Steps
+    COMMENT Set X and Y LIMITS
+    COMMENT Change output datafile name
+
+ECHO ON
+COMMENT CALL /Users/jonathan.h.morgan/dataplot/Analysis_Scripts/GS/GS_Cum_Viz.DP
+
+COMMENT Set Directory
+CD /Users/jonathan.h.morgan/dataplot/Analysis_Scripts/GS
+
+COMMENT Set Graphics Device and Global Commands
+    device 1 x11
+    SET X11 PIXMAP ON
+    SET X11 FONT 9X15
+    SET POSTSCRIPT DEFAULT COLOR ON
+    SET POSTSCRIPT PPI 600
+    SET POSTSCRIPT [LANDSCAPE] LEFT MARGIN 50
+    SET POSTSCRIPT [LANDSCAPE] RIGHT MARGIN 50
+    SET POSTSCRIPT [LANDSCAPE] TOP MARGIN 50
+    SET POSTSCRIPT [LANDSCAPE] BOTTOM MARGIN 50
+    SET WRITE DECIMALS 3
+    TITLE CASE ASIS
+    LABEL CASE ASIS
+    TIC LABEL CASE ASIS
+    LEGEND CASE ASIS
+    LEGEND FONT FONT COMPLEX
+    LEGEND 1 COORDINATES 30 29
+    LEGEND 1 SIZE 1.0
+    LEGEND 1 COLOR BLACK
+    LEGEND 1 CIRC() Group Simulator
+    LEGEND 2 COORDINATES 30 24
+    LEGEND 2 SIZE 1.0
+    LEGEND 2 COLOR BROWN
+    LEGEND 2 CIRC() Group Simulator (Fixed)
+    CASE ASIS
+    TITLE FONT COMPLEX
+    LABEL FONT COMPLEX
+    LEGEND FONT COMPLEX
+    LABEL THICKNESS 0.1
+    Y1LABEL SIZE 2
+    X1LABEL SIZE 2
+    TITLE SIZE 2
+    Y1LABEL DISPLACEMENT 12
+    X1LABEL DISPLACEMENT 12
+    MULTIPLOT SCALE FACTOR 2
+    MULTIPLOT CORNER COORDINATES 5 5 95 95
+
+COMMENT IMPORTING DATA
+    SET READ DELIMITER ,
+    SKIP 1
+    SET READ MISSING VALUE 999
+    READ e_ag_deflection.csv exp run gs_def gsf_def
+    DELETE exp run
+
+    SKIP 4
+    READ e_ag_means.DAT y1 y2
+
+COMMENT Plotting Elements
+    GRID ON
+    GRID THICKNESS 0.1
+    GRID PATTERN DASH
+    Y2FRAME OFF
+    X2FRAME OFF
+    FRAME THICKNESS = 0.1
+    TIC MARK SIZE = 2
+    TIC MARK LABEL SIZE = 2
+    XTIC OFFSET 0.2 0.2
+    MAJOR XTIC MARK NUMBER 3
+    YTIC OFFSET 0.2 0.2
+    LINE THICKNESS 0.1
+
+COMMENT Plotting
+    multiplot 2 2
+    x1label Sequence
+    LET N = SIZE gs_def
+    LET X = SEQUENCE 1 1 N
+    LET y1_mean = MEAN gs_def
+    LET y2_mean = MEAN gsf_def
+
+    title Mean Cumulative Statistic Plot
+    y1label Cumulative Mean
+    LINE COLOR BLACK BROWN
+    XLIMITS 0 1100000
+    YLIMITS 0 10
+    PLOT y1 y2 VS X
+    DRAWDATA 1 y1_mean N y1_mean
+    DRAWDATA 1 y2_mean N y2_mean
+    DELETE y1 y2
+
+    title Median Cumulative Statistic Plot
+    y1label Cumulative Median
+    LINE COLOR BLACK BROWN
+    XLIMITS 0 1100000
+    YLIMITS 0 10
+    SKIP 4
+    READ e_ag_medians.DAT y3 y4
+    LET y1_median = MEDIAN gs_def
+    LET y2_median = MEDIAN gsf_def
+    PLOT y3 y4 VS X
+    DRAWDATA 1 y1_median N y1_median
+    DRAWDATA 1 y2_median N y2_median
+    DELETE y3 y4
+
+    multiplot 2 2 3
+    title SD Cumulative Statistic Plot
+    y1label Cumulative SD
+    YLIMITS 0 4.5
+    XLIMITS 0 1100000
+    LINE COLOR BLACK BROWN
+    SKIP 4
+    READ e_ag_sd.DAT y5 y6
+    LET y1_sd = SD gs_def
+    LET y2_sd = SD gsf_def
+    PLOT y5 y6 VS X
+    DRAWDATA 1 y1_sd N y1_sd
+    DRAWDATA 1 y2_sd N y2_sd
+    DELETE y5 y6
+
+    title Skewness Cumulative Statistic Plot
+    y1label Cumulative Skewness
+    YLIMITS -3.5 5
+    XLIMITS 0 1100000
+    LINE COLOR BLACK BROWN
+    SKIP 4
+    READ e_ag_skew.DAT y7 y8
+    LET y1_skew = SKEW gs_def
+    LET y2_skew = SKEW gsf_def
+    PLOT y7 y8 VS X
+    DRAWDATA 1 y1_skew N y1_skew
+    DRAWDATA 1 y2_skew N y2_skew
+    DELETE y7 y8
+
+    end of multiplot
+
+    just center
+    move 50 100
+    HEIGHT 3
+
+COMMENT Outputting Image
+    DEVICE 3 CLOSE
+    SYSTEM cp dppl2f.dat E_AG_Cumulative_Statistics.eps
+
+RESET
