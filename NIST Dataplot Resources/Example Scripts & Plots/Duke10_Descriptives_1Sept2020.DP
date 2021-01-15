@@ -2,7 +2,7 @@
 . Jonathan H. Morgan
 . 1 September 2020
 
-. NOTE: Correct Drift Checks based on Linar2.DP and alighn the slides to match the Linear2 slides.
+. NOTE: Correct Drift Checks based on Linear2.DP and alighn the slides to match the Linear2 slides.
 
 CD /Users/jonathan.h.morgan/Desktop/ACT/Duke10/Scripts_&_Visualizations
 CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
