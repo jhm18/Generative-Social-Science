@@ -1,3 +1,9 @@
-Graphviz support visualizing a variety of graphs. 
+Graphviz is a suite of tools that support visualizing a variety of graphs maintained by John Ellson and Emden Gansner: https://graphviz.gitlab.io/about/
+
+Graphviz GitLab respository can be found at: https://gitlab.com/graphviz/graphviz
+See also: https://graphviz.org/
+
+The Graphviz Community Forum can be found at: https://forum.graphviz.org/
+
 Graphviz is particularly useful for visualizing conceptual relationship, code interdependencies, and making custm graphs.
 This file contains Graphviz examples.
