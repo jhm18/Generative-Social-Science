@@ -1,1 +1,12 @@
+Pajek is a free network analysis suite maintained by Andrej Mrvar and Vladimir Batagelj: http://mrvar.fdv.uni-lj.si/pajek/
+
+I tend to use Pajek for many of my social network analysis project because it provide a variety of tools and methods for handling large networks.
+
+This suite of tools has also benefited from the collaboration of a variety of scholars from applied mathematics and the social sciences, 
+meaning many of the use cases and tools come directly out of classic applications of social network analysis and network theory.
+
+Pajek's most recent guide can be found at: http://mrvar.fdv.uni-lj.si/pajek/be3.htm
+For large temporal and spacial network analysis in Pajek see also: 
+https://www.wiley.com/en-us/Understanding+Large+Temporal+Networks+and+Spatial+Networks%3A+Exploration%2C+Pattern+Searching%2C+Visualization+and+Network+Evolution-p-9780470714522
+
 This directory contains utilities to support a R-Pajek workflow. 
