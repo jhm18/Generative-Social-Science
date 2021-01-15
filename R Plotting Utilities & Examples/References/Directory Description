@@ -1,1 +1,5 @@
 This directory contains references for visualizing data using R Graphics and with Grammar of Graphics (ggplot2).
+
+The PlotsR-manual is a very nice compendium of R Graphics plotting capabilities. 
+I highly recommend it for instances where ggplot2 design assumptions are prohibitive, but you still want to plot using R.
+http://www.ipez.es/RWizard/Downloads/Applications/Setup/PlotsR-manual.pdf
