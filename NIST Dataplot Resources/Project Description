@@ -2,5 +2,7 @@ NIST Dataplot is a software system for scientific visualization, statistical ana
 Source code can be found at: https://github.com/usnistgov/dataplot
 Dataplot's home page can be found at: https://www.itl.nist.gov/div898/software/dataplot/
 
+To follow updates on new features go to: https://www.itl.nist.gov/div898/software/dataplot/news.htm
+
 The platform is particularly useful extreme event modeling, processing modeling, and specifying experimental designs.
 This directory contains resources for working with dataplot, and workflows using Dataplot in conjuction with R and Julia.
