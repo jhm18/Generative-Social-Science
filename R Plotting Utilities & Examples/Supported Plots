@@ -1,0 +1,48 @@
+######################
+#.  INCLUDED PLOTS.  #
+######################
+ 
+Base R Continuous Color Legend
+Base R Discrete Legend
+Base R Pie Chart
+Correlation Plots: Corrgram and Base R Correlation Plot Using the Psych Package
+Base R Scatter Plot with Thrills
+Base R Grouped Bar Chart
+Base R Stacked Bar Chart
+Base R Shaded Density Plot with Mathematical Annotations
+Base R Convex Hull Function Plot
+Base R Histogram with CDF
+Base R Kolmogorov-Smirnov Plot
+Base R CCDF Plot
+ggplot2 Violin Plot with Boxplot
+Base R Split Violin Plot
+Pirate Plot
+Base R Beeswarm Plot Overlay Plot with Dot Plot Subplot
+Base R Bubble Plot
+Stylized ggplot Panel Plot
+Base R Panel Plot
+Base R Jittered Group Scatter Plot with Extras
+Ternary Plot with Base R Overlay and Subplots
+Tab Plot for Exploring Missing Data
+Classic Base R Heat Maps
+Binned Continuous Variable Heat Map
+Base R Continuous Heat Map with Overlays
+Base R Contour Scatter Plot
+Contour Network Plot
+Base R 3D Polar Plot
+Chord Plot
+Arc Diagrams implemented using the arcdiagram and ggplot2
+Alluvial Plot
+Hägerstrand Time-Space Cube
+Regression Diagnostics: Base R and ggfortify
+PCA Diagrams and Steps
+Panel Plot Comparing Multiple Model Fits
+Stylized Fitted Line and Confidence Interval: Base R
+Stylized ggplot2 Smoothed Regression Line with Leverage Lines
+Dataplot Style 4Plot
+Dataplot Style 6Plot
+Johnson-Neyman Interval for 2-Way Interactions
+Johnson-Neyman Intervals: Testing Slope Homogeneity for Two Groups
+Model Assessment: Repeated Density Ratios
+AUROC Analysis
+Complex Model Assessment: Taylor Diagram
