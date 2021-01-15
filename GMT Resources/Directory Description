@@ -1,2 +1,8 @@
-This file contains ressources for performing geo spatial analyses with GMT (Generic Mapping Tools).
+Generic Mapping Tools (GMT) is an open-source geo-spatial analysis suite maintained by Paul Wessel, Joaquim F. Luis, and colleages:
+https://www.generic-mapping-tools.org/
+
+GMT's GitHub Repository can be found at: https://github.com/GenericMappingTools
+The Community Forum can be found at: https://forum.generic-mapping-tools.org/top/quarterly
+
+This file contains ressources for performing geo-spatial analyses with GMT.
 This is a growth area.
