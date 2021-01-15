@@ -1,0 +1,2 @@
+The Pajek macro file contained in the main project file generates a set of partitions at varying resolutions. The macro produces a set of partition (.clu) files
+that the routine analyzes.
