@@ -2,7 +2,7 @@
 #Jonathan H. Morgan
 #5 December 2020
 
-#Note: This script includes long for loops. 
+#Note: This script includes a long set of loops. 
 #      Rather than trying to highlight the entire loop, I suggest using RStudio's script navigation functionality by collapsing the 
 #      the script using the arrows by the beginning of the loop, right next to the script's row number.
 
