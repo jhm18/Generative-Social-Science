@@ -1,6 +1,6 @@
 Pajek is a free network analysis suite maintained by Andrej Mrvar and Vladimir Batagelj: http://mrvar.fdv.uni-lj.si/pajek/
 
-I tend to use Pajek for many of my social network analysis project because it provide a variety of tools and methods for handling large networks.
+I tend to use Pajek for many of my social network analysis projects because it provide a variety of tools and methods for handling large networks.
 
 This suite of tools has also benefited from the collaboration of a variety of scholars from applied mathematics and the social sciences, 
 meaning many of the use cases and tools come directly out of classic applications of social network analysis and network theory.
