@@ -18,14 +18,14 @@ The respository includes utilties and examples from multiple tool and language c
   <tr>
     <td>Stan</td>
     <td>https://mc-stan.org/</td>
-    <td>Generic Mapping Tools</td>
-    <td>https://www.generic-mapping-tools.org/</td>
+    <td>NIST Datplot</td>
+    <td>https://www.itl.nist.gov/div898/software/dataplot/homepage.htm</td>
   </tr>
   <tr>
    <td>Graphviz</td>
    <td>https://graphviz.org/</td>
-   <td>NIST Datplot</td>
-   <td>https://www.itl.nist.gov/div898/software/dataplot/homepage.htm</td>
+   <td>Generic Mapping Tools</td>
+   <td>https://www.generic-mapping-tools.org/</td>
   </tr> 
 </table>
 
