@@ -4,10 +4,10 @@ The respository includes utilties and examples from multiple tool and language c
 
 <table style="width:100%">
   <tr>
+    <td>R</td>
+    <td>https://www.r-project.org//td>
     <td>Julia</td>
     <td>https://julialang.org/</td>
-    <td>NIST Datplot</td>
-    <td>https://www.itl.nist.gov/div898/software/dataplot/homepage.htm</td>
   </tr>
   <tr>
     <td>Pajek</td>
@@ -24,6 +24,8 @@ The respository includes utilties and examples from multiple tool and language c
   <tr>
    <td>Graphviz</td>
    <td>https://graphviz.org/</td>
+   <td>NIST Datplot</td>
+   <td>https://www.itl.nist.gov/div898/software/dataplot/homepage.htm</td>
   </tr> 
 </table>
 
