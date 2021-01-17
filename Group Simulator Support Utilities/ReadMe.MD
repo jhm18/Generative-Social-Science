@@ -7,7 +7,7 @@ This directory contains R and Julia files for calling this simulation, running b
   <tr>
     <td>Group Simulator</td>
     <td>https://cs.uwaterloo.ca/~jhoey/research/ACTBackup/ACT/SmallGroups/GroupSimulator.html</td>
-    <td>ACT in Networked Groups ACTING</td>
+    <td>ACT in Networked Groups (ACTING)</td>
     <td>Will be released upon publication.</td>
   </tr>
 </table>
