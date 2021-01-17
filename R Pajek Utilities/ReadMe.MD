@@ -1,4 +1,4 @@
-Helpful Pajek community resources
+Helpful Pajek community resources:
 
 <table style="width:100%">
   <tr>
