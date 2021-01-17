@@ -10,7 +10,7 @@ Helpful Affect Control Theory community resources:
   <tr>
     <td>ACT Public Datasets</td>
     <td>https://research.franklin.uga.edu/act/data-sets-0</td>
-    <td>Brent Curdy's ACT Qualtric Guide</td>
+    <td>Brent Curdy's ACT Qualtrics Guide</td>
     <td>https://www.brentcurdy.net/post/how-to-create-semantic-differential-epa-scales-using-qualtrics</td>  
   </tr>
   <tr>
