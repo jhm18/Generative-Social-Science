@@ -13,15 +13,15 @@ Helpful Affect Control Theory community resources:
     <td>https://cs.uwaterloo.ca/~jhoey/research/bayesact/</td>
   </tr>
   <tr>
-    <td>ACT Public Datasets</td>
-    <td>https://research.franklin.uga.edu/act/data-sets-0</td>
+    <td>Surveyor 3.0</td>
+    <td>https://www.dropbox.com/s/wwdresjzrgz261l/Surveyor_13June2017.zip?dl=0</td>
     <td>Brent Curdy's ACT Qualtrics Guide</td>
     <td>https://www.brentcurdy.net/post/how-to-create-semantic-differential-epa-scales-using-qualtrics</td>  
   </tr>
   <tr>
+    <td>ACT Public Datasets</td>
+    <td>https://research.franklin.uga.edu/act/data-sets-0</td>
     <td>BayesACT Lectures</td>
     <td>https://cs.uwaterloo.ca/~jhoey/research/bayesact/lectures/index.html</td>
-    <td>BayesACT Theory of Self</td>
-    <td>https://cs.uwaterloo.ca/~jhoey/research/bayesact/bayesactself/index.php</td>
   </tr>
 </table>
