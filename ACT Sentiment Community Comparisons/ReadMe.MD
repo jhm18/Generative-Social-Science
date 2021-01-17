@@ -1,4 +1,4 @@
-Helpful Affect Control Theory community resources
+Helpful Affect Control Theory community resources:
 
 <table style="width:100%">
   <tr>
