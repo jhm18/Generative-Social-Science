@@ -10,8 +10,8 @@ Helpful stan resources that I have referenced or borrowed from here and in other
   <tr>
     <td>Stan Channel</td>
     <td>https://www.youtube.com/channel/UCwgN5srGpBH4M-Zc2cAluOA</td>
-    <td>statnet</td>
-    <td>http://statnet.org/</td>  
+    <td>StatisticalRethinkingJulia</td>
+    <td>https://github.com/StatisticalRethinkingJulia</td>  
   </tr>
   <tr>
     <td>Aki Vehtari's Model Selection Materials</td>
