@@ -1,1 +1,3 @@
 This directory contains resources for working with Stan in Julia and R.
+
+For a review of Bayesian Data Analysis, see: http://www.stat.columbia.edu/~gelman/book/
