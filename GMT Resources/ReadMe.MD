@@ -1,4 +1,4 @@
-Helpful GMT resources and courses. 
+Helpful GMT resources and courses:
 
 <table style="width:100%">
   <tr>
