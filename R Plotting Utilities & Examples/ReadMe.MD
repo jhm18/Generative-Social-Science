@@ -3,7 +3,7 @@ Helpful resources that I have borrowed from or been inspired by:
 
 <table style="width:100%">
   <tr>
-    <td>A Compendium of Clean Graphs in R</td>
+    <td>Compendium of Clean Graphs in R</td>
     <td>http://shinyapps.org/apps/RGraphCompendium/index.php</td>
     <td> STHDA Articles on R Graphics</td>
     <td>http://www.sthda.com/english/articles/32-r-graphics-essentials/</td>
