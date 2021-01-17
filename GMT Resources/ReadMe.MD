@@ -13,4 +13,10 @@ Helpful GMT resources and courses.
     <td>AGU Tutorial</td>
     <td>https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019GC008515</td>
   </tr>
+  <tr>
+    <td>GMT.jl</td>
+    <td>https://github.com/GenericMappingTools/GMT.jl</td>  
+    <td>GMT in R</td>
+    <td>https://cran.r-project.org/web/packages/gmt/gmt.pdf</td>  
+  <td>
 </table>
