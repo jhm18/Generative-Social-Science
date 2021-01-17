@@ -1,28 +1,22 @@
-Helpful stan resources that I have referenced here on in other projects.
+Helpful stan resources that I have referenced or borrowed from here and in other projects.
 
 <table style="width:100%">
   <tr>
-    <td>R</td>
-    <td>https://www.r-project.org//td>
-    <td>Julia</td>
-    <td>https://julialang.org/</td>
+    <td>Metrum's Intruduction to Bayesian Modeling</td>
+    <td>https://metrumrg.com/course/brief-introduction-bayesian-modeling-using-stan/</td>
+    <td>Stan Case Studies</td>
+    <td>https://mc-stan.org/users/documentation/case-studies.html</td>
   </tr>
   <tr>
-    <td>Pajek</td>
-    <td>http://mrvar.fdv.uni-lj.si/pajek/</td>
+    <td>Stan Channel</td>
+    <td>https://www.youtube.com/channel/UCwgN5srGpBH4M-Zc2cAluOA</td>
     <td>statnet</td>
     <td>http://statnet.org/</td>  
   </tr>
   <tr>
-    <td>Stan</td>
-    <td>https://mc-stan.org/</td>
-    <td>NIST Datplot</td>
-    <td>https://www.itl.nist.gov/div898/software/dataplot/homepage.htm</td>
+    <td>Aki Vehtari's Model Selection Materials</td>
+    <td>https://github.com/avehtari/modelselection</td>
+    <td>Bayesian Methods for Hackers</td>
+    <td>https://nbviewer.jupyter.org/github/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/tree/master//td>
   </tr>
-  <tr>
-   <td>Graphviz</td>
-   <td>https://graphviz.org/</td>
-   <td>Generic Mapping Tools</td>
-   <td>https://www.generic-mapping-tools.org/</td>
-  </tr> 
 </table>
