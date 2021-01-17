@@ -12,7 +12,7 @@ NIST mathematical & Dataplot resources:
     <td>Dataplot: Statistical Functions</td>
     <td>https://www.itl.nist.gov/div898/software/dataplot/refman2/ch2/homepage.htm</td>
     <td>Probability Functions</td>
-    <td>https://www.itl.nist.gov/div898/software/dataplot/refman2/ch8/intro.pdf</td>
+    <td>https://www.itl.nist.gov/div898/software/dataplot/refman2/ch8/homepage.htm</td>
   </tr>
   <tr>
     <td>Dataplot: String Functions</td>
