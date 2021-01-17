@@ -6,7 +6,7 @@ NIST mathematical & Dataplot resources:
     <td>DATAPLOT Documentation</td>
     <td>https://www.itl.nist.gov/div898/software/dataplot/document.htm</td>
     <td> NIST/SEMATECH e-Handbook of Statistical Methods</td>
-    <td>http://www.sthda.com/english/articles/32-r-graphics-essentials/</td>
+    <td>https://www.itl.nist.gov/div898/handbook/</td>
   </tr>
   <tr>
     <td>Dataplot: Statistical Functions</td>
