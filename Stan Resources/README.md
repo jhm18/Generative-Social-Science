@@ -1,4 +1,4 @@
-Helpful stan resources that I have referenced or borrowed from here and in other projects.
+Helpful Stan resources that I have referenced or borrowed from here and in other projects.
 
 <table style="width:100%">
   <tr>
