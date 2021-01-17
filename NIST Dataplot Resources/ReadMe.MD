@@ -18,7 +18,7 @@ NIST mathematical & Dataplot resources:
     <td>Dataplot: String Functions</td>
     <td>https://www.itl.nist.gov/div898/software/dataplot/refman2/ch9/homepage.htm</td>
     <td>Dataplot: IO</td>
-    <td>https://www.itl.nist.gov/div898/software/dataplot/refman2/ch8/intro.pdf</td>
+    <td>https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/asciifil.htm</td>
   </tr>
   <tr>
     <td>NIST Library of Mathematical Functions</td>
