@@ -1,4 +1,4 @@
-Helpful Graphviz resources and examples. 
+Helpful Graphviz resources and examples:
 
 <table style="width:100%">
   <tr>
