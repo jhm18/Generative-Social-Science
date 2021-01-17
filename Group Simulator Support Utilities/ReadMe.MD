@@ -1,7 +1,7 @@
 
 Groups Simulator & Nikolas Zöller's ACT Based Simulation of Interaction in Networked Groups (ACTING) are implemented in Netlogo and Python respectively.
 
-This directory contains R and Julia files for calling this simulation, running batch experiments, and working with simulation outputs.
+This directory contains R and Julia scripts for calling this simulation, running batch experiments, and working with simulation outputs.
 
 Helpful resources pertaining to Group Simulator and ACTING.
 
