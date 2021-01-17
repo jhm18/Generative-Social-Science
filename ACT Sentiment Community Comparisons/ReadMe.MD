@@ -1,3 +1,7 @@
+One defining aspect of a community is that its members hold common meanings that differentiate it from other communities. <br>
+The scripts in this file provide tools for comparing the affective meanings of different communities, <br>
+and provide a measure of how similar communities are to each other. <br>
+
 Helpful Affect Control Theory community resources:
 
 <table style="width:100%">
