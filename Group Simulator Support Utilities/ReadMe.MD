@@ -3,7 +3,7 @@ Groups Simulator & Nikolas Zöller's ACT Based Simulation of Interaction in Netw
 
 This directory contains R and Julia scripts for calling this simulation, running batch experiments, and working with simulation outputs.
 
-Helpful resources pertaining to Group Simulator and ACTING.
+Helpful resources pertaining to Group Simulator and ACTING:
 
 <table style="width:100%">
   <tr>
