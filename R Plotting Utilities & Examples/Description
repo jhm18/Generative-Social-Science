@@ -1,2 +1,7 @@
 This directory contains plotting utilities meant to be sourced when generating plots in R. 
 The directory also contains example plots for future reference.
+
+Some references I have helpful when thinking through a visualization task include:
+  Data Visualization: A Practical Introduction: https://socviz.co/
+  The Visual Display of Quantitative Information 2nd Edition: https://www.amazon.com/gp/product/0961392142/ref=ppx_yo_dt_b_asin_title_o04_s00?ie=UTF8&psc=1
+  The Grammar of Graphics: https://www.springer.com/gp/book/9780387245447
