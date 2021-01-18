@@ -22,6 +22,6 @@ Helpful resources pertaining to Group Simulator and ACTING (second row pertains 
     <td>Mesa: Agent-Based Modeling in Python</td>
     <td>https://mesa.readthedocs.io/en/master/tutorials/intro_tutorial.html</td>
     <td>NetworkX</td>
-    <td>https://networkx.org/</td>
+    <td>https://networkx.org/documentation/stable/tutorial.html</td>
   </tr>
 </table>
