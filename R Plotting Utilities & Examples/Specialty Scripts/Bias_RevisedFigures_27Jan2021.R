@@ -266,21 +266,21 @@ load("Logged_Measures_NetworksList_03June2019.rda")
     # Creating Row Headings
       for (i in seq_along(corr_labels)) {
         if (i == 1){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,1))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.3, col = "black", font=2, family='serif')
         }else if(i == 3){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,1))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=-1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.3, col = "black", font=2, family='serif')
         }else{
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,1))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
@@ -405,21 +405,21 @@ load("Logged_Measures_NetworksList_03June2019.rda")
     # Creating Row Headings
       for (i in seq_along(corr_labels)) {
         if (i == 1){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,1))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.3, col = "black", font=2, family='serif')
         }else if(i == 3){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,1))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=-1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.3, col = "black", font=2, family='serif')
         }else{
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,1))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
@@ -540,21 +540,21 @@ load("Logged_Measures_NetworksList_03June2019.rda")
     # Creating Row Headings
       for (i in seq_along(corr_labels)) {
         if (i == 1){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.6))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.5, col = "black", font=2, family='serif')
         }else if(i == 3){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.6))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=-1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.5, col = "black", font=2, family='serif')
         }else{
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.6))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
@@ -681,21 +681,21 @@ load("Logged_Measures_NetworksList_03June2019.rda")
     # Creating Row Headings
       for (i in seq_along(corr_labels)) {
         if (i == 1){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.7))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.3, col = "black", font=2, family='serif')
         }else if(i == 3){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.7))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=-1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.3, col = "black", font=2, family='serif')
         }else{
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.7))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
@@ -814,21 +814,21 @@ load("Logged_Measures_NetworksList_03June2019.rda")
     # Creating Row Headings
       for (i in seq_along(corr_labels)) {
         if (i == 1){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.7))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.3, col = "black", font=2, family='serif')
         }else if(i == 3){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.7))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=-1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.3, col = "black", font=2, family='serif')
         }else{
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.7))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
@@ -946,21 +946,21 @@ load("Logged_Measures_NetworksList_03June2019.rda")
     # Creating Row Headings
       for (i in seq_along(corr_labels)) {
         if (i == 1){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.6))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.3, col = "black", font=2, family='serif')
         }else if(i == 3){
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.6))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
           abline(h=-1.06)
           text(x = 1, y = 0, corr_labels[[i]], cex = 1.3, col = "black", font=2, family='serif')
         }else{
-          par(mar = c(0,0,0,0))
+          par(mar = c(0,0,0,0.6))
           plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
           abline(v=0.57)
           abline(v=1.43)
@@ -1091,21 +1091,21 @@ load("Logged_Measures_NetworksList_03June2019.rda")
       # Creating Row Headings
         for (i in seq_along(corr_labels)) {
           if (i == 1){
-            par(mar = c(0,0,0,0))
+            par(mar = c(0,0,0,0.7))
             plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
             abline(v=0.57)
             abline(v=1.43)
             abline(h=1.06)
             text(x = 1, y = 0, n_measures[[i]], cex = 1.3, col = "black", font=2, family='serif', srt=270)
           }else if(i == 3){
-            par(mar = c(0,0,0,0))
+            par(mar = c(0,0,0,0.7))
             plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
             abline(v=0.57)
             abline(v=1.43)
             abline(h=-1.06)
             text(x = 1, y = 0, n_measures[[i]], cex = 1.3, col = "black", font=2, family='serif', srt=270)
           }else{
-            par(mar = c(0,0,0,0))
+            par(mar = c(0,0,0,0.7))
             plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
             abline(v=0.57)
             abline(v=1.43)
@@ -1233,14 +1233,14 @@ load("Logged_Measures_NetworksList_03June2019.rda")
       # Creating Row Headings
         for (i in seq_along(n_measures)) {
           if (i == 1){
-            par(mar = c(0,0,0,0))
+            par(mar = c(0,0,0,0.7))
             plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
             abline(v=0.57)
             abline(v=1.43)
             abline(h=1.06)
             text(x = 1, y = 0, n_measures[[i]], cex = 1.3, col = "black", font=2, family='serif', srt=270)
           }else if(i == 3){
-            par(mar = c(0,0,0,0))
+            par(mar = c(0,0,0,0.7))
             plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
             abline(v=0.57)
             abline(v=1.43)
@@ -1374,21 +1374,21 @@ load("Logged_Measures_NetworksList_03June2019.rda")
       # Creating Row Headings
         for (i in seq_along(n_measures)) {
           if (i == 1){
-            par(mar = c(0,0,0,0))
+            par(mar = c(0,0,0,0.7))
             plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
             abline(v=0.57)
             abline(v=1.43)
             abline(h=1.06)
             text(x = 1, y = 0, n_measures[[i]], cex = 1.3, col = "black", font=2, family='serif', srt=270)
           }else if(i == 3){
-            par(mar = c(0,0,0,0))
+            par(mar = c(0,0,0,0.7))
             plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
             abline(v=0.57)
             abline(v=1.43)
             abline(h=-1.06)
             text(x = 1, y = 0, n_measures[[i]], cex = 1.3, col = "black", font=2, family='serif', srt=270)
           }else{
-            par(mar = c(0,0,0,0))
+            par(mar = c(0,0,0,0.7))
             plot(0, type='n', xlab=' ', ylab=' ', cex.axis=1.3, xaxt='n', yaxt = 'n', family='HersheySerif', las=1, main=' ', bty='n')
             abline(v=0.57)
             abline(v=1.43)
