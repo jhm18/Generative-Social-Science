@@ -39,5 +39,5 @@ COMMENT Default Visualization Settings
   GRID ON
 
 COMMENT Device Settings
-  SET LIST NEW WINDOW OFF
-  SET HELP NEW WINDOW OFF
+  SET BROWSER "open"
+  
