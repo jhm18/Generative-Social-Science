@@ -922,20 +922,22 @@ end
 #R_objects[R_keys[2]]
 
 #R Export
-function R_export(data_object, R_directory, file_name)
+function R_export(data_object, R_directory, file_name, save_name)
     #   Exporting Object to R_object
         @rput data_object
             
     #   Creating File Name
-        file_name = string(file_name, ".Rda")
+        save_name = string(save_name, ".Rda")
 
     #   Saving as R Object
         R"""
             setwd($R_directory)
             getwd()
-            save(data_object, file = $file_name)
+            
+            assign(x = $file_name, value = data_object,.GlobalEnv) 
+            save(list=c($file_name), file = $save_name)
         """
 end
 
 #R_directory = "/Users/jonathan.h.morgan/Dropbox/My Mac (Jonathan’s MacBook Pro)/Desktop/Themis.Cog/Themis.Cog_Mapping/Data_Scripts/"
-#R_export(cities, R_directory, "cities_25Feb2021" )
+#R_export(cities, R_directory, "cities_list", "cities_25Feb2021")
