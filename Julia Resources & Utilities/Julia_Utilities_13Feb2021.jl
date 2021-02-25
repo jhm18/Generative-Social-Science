@@ -26,6 +26,7 @@ using Glob              #Useful Package for String Manipulation
 using Distributions     #Julia Package for Estimating Univariate Statistics
 using StatsBase         #Using Countmap Functionality
 using Formatting        #Convert exponential numbers to decimal format
+using RCall             #Used to work with R Objects
 
 #################
 #   FUNCTIONS   #
@@ -825,3 +826,116 @@ function dataplot_export(data_frame, data_name)
 end
 
 #dataplot_export(data_frame, "test")
+
+#R Import
+function R_import(R_directory)
+    #   Pulling R Data Types
+        dir = R_directory
+        rda_files = glob("*.rda", dir)
+        Rda_files = glob("*.Rda", dir)
+        rdata_files = glob("*.rdata", dir)
+        Rdata_files = glob("*.Rdata", dir)
+        
+        R_files = [rda_files; Rda_files; rdata_files; Rdata_files]
+
+    #   Pulling-Out File Names
+        file_names = vec(fill("a", 1, length(R_files)))
+        for i in 1:length(file_names)
+            file_elements = split(R_files[i], "/")
+            file_name = file_elements[length(file_elements)]
+            file_name =  replace(file_name, ".Rda" => "")
+            file_name =  replace(file_name, ".rda" => "")
+            file_name =  replace(file_name, ".rdata" => "")
+            file_name =  replace(file_name, ".Rdata" => "")
+            file_names[i] = file_name
+        end
+
+    #   Making Sure All Names Are with Underscores
+        for i in 1:length(file_names)
+            file_names[i] = replace(file_names[i], "." => "_")
+        end
+
+        for i in 1:length(R_files)
+                iter = i
+            #   Loading Objects into R
+                R"""
+                    setwd($dir)
+                    getwd()
+
+                    load($R_files[$iter])
+
+                    data_frames <- names(which(unlist(eapply(.GlobalEnv,is.data.frame)))) 
+                    lists <-  names(which(unlist(eapply(.GlobalEnv,is.list)))) 
+
+                    if (length(data_frames) > 0){
+                        R_df <- get(names(which(unlist(eapply(.GlobalEnv,is.data.frame)))))
+  
+                        for (i in seq_along(colnames(R_df))) {
+                            if (class(R_df[[i]])[[1]] == 'numeric'){
+                                if(nchar(as.integer(R_df[[i]][[1]])) == nchar(R_df[[i]][[1]])){
+                                    R_df[[i]] <- as.integer(R_df[[i]])
+                                }else{
+                                    R_df[[i]] <- R_df[[i]]
+                                }
+                            }else{
+                                R_df[[i]] <- R_df[[i]]
+                            }
+                        }
+                    }else{
+                        R_list <- get(names(which(unlist(eapply(.GlobalEnv,is.list)))))
+                    }
+
+                    rm(data_frames, lists)
+                    R_objects <- ls(all.names = TRUE)
+                """
+
+            #   Pulling Formatted Object into Julia
+                R_elements = reval("R_objects")
+                R_elements = rcopy(R_elements)
+                R_elements = R_elements[length(R_elements)]
+                    
+                if R_elements == "R_df"
+                    global R_df = reval("R_df")
+                    global R_dataframe = rcopy(R_df)
+                    @eval $(Symbol(file_names[iter])) = R_dataframe[:,:]
+                else
+                    global R_list = reval("R_list")
+                    global R_dictionary = rcopy(R_list)
+                    @eval $(Symbol(file_names[iter])) = R_dictionary
+                end
+
+            #   Clearing Global Environment
+                R"""
+                    rm(list = ls(all = TRUE))
+                """
+        end
+
+    #   Loading R Objects
+        R_objects = Dict(file_names[i] => @eval $(Symbol(file_names[i])) for i = 1:1:length(file_names))
+        R_keys = String.(keys(R_objects))
+        return R_objects
+end
+
+#cd("/Users/jonathan.h.morgan/Dropbox/My Mac (Jonathan’s MacBook Pro)/Desktop/Themis.Cog/Themis.Cog_Mapping/Data_Scripts/")
+#R_objects = R_import(pwd())
+#R_keys = String.(keys(R_objects))
+#R_objects[R_keys[2]]
+
+#R Export
+function R_export(data_object, R_directory, file_name)
+    #   Exporting Object to R_object
+        @rput data_object
+            
+    #   Creating File Name
+        file_name = string(file_name, ".Rda")
+
+    #   Saving as R Object
+        R"""
+            setwd($R_directory)
+            getwd()
+            save(data_object, file = $file_name)
+        """
+end
+
+#R_directory = "/Users/jonathan.h.morgan/Dropbox/My Mac (Jonathan’s MacBook Pro)/Desktop/Themis.Cog/Themis.Cog_Mapping/Data_Scripts/"
+#R_export(cities, R_directory, "cities_25Feb2021" )
