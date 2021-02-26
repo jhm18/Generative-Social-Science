@@ -867,7 +867,14 @@ function R_import(R_directory)
                     myGlobals <- objects()
                     type <- vector('character', length(myGlobals))
                     for (i in seq_along(myGlobals)) {
-                        type[[i]] <- class(get(myGlobals[[i]]))
+                        obj_type <- class(get(myGlobals[[i]]))
+                        if (length(obj_type) > 1 ) {
+                            obj_type <- obj_type[obj_type == "data.frame" | obj_type == "list"]
+                        } else {
+                            obj_type <- obj_type
+                        }
+                        type[[i]] <- obj_type
+                        rm(obj_type)
                     }
 
                     myGlobals <- as.data.frame(cbind(myGlobals, type))
