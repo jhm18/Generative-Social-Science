@@ -864,15 +864,21 @@ function R_import(R_directory)
 
                     load($R_files[$iter])
 
-                    data_frames <- names(which(unlist(eapply(.GlobalEnv,is.data.frame)))) 
-                    lists <-  names(which(unlist(eapply(.GlobalEnv,is.list)))) 
+                    myGlobals <- objects()
+                    type <- vector('character', length(myGlobals))
+                    for (i in seq_along(myGlobals)) {
+                        type[[i]] <- class(get(myGlobals[[i]]))
+                    }
 
-                    if (length(data_frames) > 0){
-                        R_df <- get(names(which(unlist(eapply(.GlobalEnv,is.data.frame)))))
+                    myGlobals <- as.data.frame(cbind(myGlobals, type))
+                    myGlobals <- myGlobals[myGlobals$type == "data.frame" | myGlobals$type == "list", ]
+
+                    if (myGlobals[1,2] == "data.frame"){
+                        R_df <- get(myGlobals$myGlobals)
   
                         for (i in seq_along(colnames(R_df))) {
                             if (class(R_df[[i]])[[1]] == 'numeric'){
-                                if(nchar(as.integer(R_df[[i]][[1]])) == nchar(R_df[[i]][[1]])){
+                                if(sum(as.integer(na.omit(R_df)[[i]])) == sum(na.omit(R_df)[[i]])){
                                     R_df[[i]] <- as.integer(R_df[[i]])
                                 }else{
                                     R_df[[i]] <- R_df[[i]]
@@ -882,10 +888,10 @@ function R_import(R_directory)
                             }
                         }
                     }else{
-                        R_list <- get(names(which(unlist(eapply(.GlobalEnv,is.list)))))
+                        R_list <- get(myGlobals$myGlobals)
                     }
 
-                    rm(data_frames, lists)
+                    rm(myGlobals, type)
                     R_objects <- ls(all.names = TRUE)
                 """
 
