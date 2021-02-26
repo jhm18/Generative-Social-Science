@@ -892,9 +892,9 @@ function R_import(R_directory)
             #   Pulling Formatted Object into Julia
                 R_elements = reval("R_objects")
                 R_elements = rcopy(R_elements)
-                R_elements = R_elements[length(R_elements)]
-                    
-                if R_elements == "R_df"
+                R_elements = R_elements[in(["R_df";"R_list"]).(R_elements)]
+               
+                if R_elements[1] == "R_df"
                     global R_df = reval("R_df")
                     global R_dataframe = rcopy(R_df)
                     @eval $(Symbol(file_names[iter])) = R_dataframe[:,:]
