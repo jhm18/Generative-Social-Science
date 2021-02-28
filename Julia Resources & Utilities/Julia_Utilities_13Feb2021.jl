@@ -1,6 +1,7 @@
 #Useful Data Management Functions
 #Jonathan H. Morgan
-#28 May 2020
+#Earliest Version: 28 May 2020
+#Current Vesion: 28 February 2021
 
 #   Checking for Dat File
     path = pwd()
@@ -14,11 +15,13 @@
     Pkg.add("Distributions")
     Pkg.add("StatsBase")
     Pkg.add("Formatting")
+    Pkg.add("Chain")
 
 ###############
 #  PACKAGES   #
 ###############
 
+using Chain             #Provides Piping Functionality similar to %>% in R
 using CSV               #Export Files as CSV
 using DataFrames        #Generates Julia Style DataFrames and DataFrame Manipulation
 using DataFramesMeta    #Facilitates DataFrame Manipulation
@@ -40,6 +43,25 @@ if length(dat_files) >= 1
 else
     dat_files = dat_files
 end
+
+#Checking Package Dependencies
+#Created by Bogumił Kamiński
+#27 February 2021
+get_pkg_status(;direct::Bool=true) = @chain Pkg.dependencies() begin
+    values
+    DataFrame
+    direct ? _[_.is_direct_dep, :] : _
+    select(:name, :version,
+    [:is_tracking_path, :is_tracking_repo, :is_tracking_registry] =>
+    ByRow((a, b, c) -> ["path", "repo", "registry"][a+2b+3c]) =>
+    :tracking)
+end
+
+#   Shows All Loaded Modules
+#   get_pkg_status()       
+
+#   Shows All Direct and Indirect Dependencies Associated with Loaded Modules
+#   get_pkg_status(direct=false)
 
 #OLS Regression: https://juliaeconomics.com/2014/06/15/introductory-example-ordinary-least-squares/
 function OLSestimator(y,x)
