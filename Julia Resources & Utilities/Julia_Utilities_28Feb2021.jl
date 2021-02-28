@@ -306,6 +306,15 @@ module Julia_Utilities
                         file_df = DataFrame!(CSV.File("file_df.csv"))
                         rm("file_df.csv", force=true)
 
+                    #   Performing Integer test
+                        for j in eachindex(names(file_df))
+                            if (sum(round.(file_df[:,j], digits=0)) == sum(file_df[:,j]))
+                                file_df[:,j] = convert.(Int64, round.(file_df[:,j], digits=0))
+                            else
+                                file_df[:,j] = file_df[:,j]
+                            end
+                        end
+
                     #   Reading into Dictionary
                         dataplot_files[file_names[i]] = file_df
 
