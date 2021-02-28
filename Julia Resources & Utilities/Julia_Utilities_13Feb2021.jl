@@ -9,27 +9,28 @@
 #   Adding Packages to path
     using Pkg
     Pkg.add("CSV")
+    Pkg.add("Chain")
     Pkg.add("DataFrames")
     Pkg.add("DataFramesMeta")
-    Pkg.add("Glob")
     Pkg.add("Distributions")
-    Pkg.add("StatsBase")
     Pkg.add("Formatting")
-    Pkg.add("Chain")
+    Pkg.add("Glob")
+    Pkg.add("RCall")
+    Pkg.add("StatsBase")
 
 ###############
 #  PACKAGES   #
 ###############
 
-using Chain             #Provides Piping Functionality similar to %>% in R
 using CSV               #Export Files as CSV
+using Chain             #Provides Piping Functionality similar to %>% in R
 using DataFrames        #Generates Julia Style DataFrames and DataFrame Manipulation
 using DataFramesMeta    #Facilitates DataFrame Manipulation
-using Glob              #Useful Package for String Manipulation
 using Distributions     #Julia Package for Estimating Univariate Statistics
-using StatsBase         #Using Countmap Functionality
 using Formatting        #Convert exponential numbers to decimal format
+using Glob              #Useful Package for String Manipulation
 using RCall             #Used to work with R Objects
+using StatsBase         #Using Countmap Functionality
 
 #################
 #   FUNCTIONS   #
