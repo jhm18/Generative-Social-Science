@@ -24,9 +24,9 @@
     gmt begin CHN_Distributions_11Feb2021 pdf
         gmt set FONT_ANNOT_PRIMARY 10p FONT_TITLE 18p FORMAT_GEO_MAP ddd:mm:ssF
         gmt coast -RCN+r1 -Wthin -Ggrey -ECN+gbeige -I1/blue -I2/blue  -Df -Sazure -B  -BWSne -N1/thin,red -JM15c  
-        gmt plot -RCN+r1 chinese_owner_densities.gmt -Wthick,brown
+        gmt plot -RCN+r1 chinese_owner_densities.gmt -Wthin,brown
         gmt plot -RCN+r1 china_city_points.txt -Sc$china_p_sizec -Gplum2 -W$china_b_sizec,black
-        gmt text  -RCN+r1 china_city_text.txt -F+f8p,Helvetica,black -B -BWSne
+        gmt text  -RCN+r1 china_city_text.txt -F+f7p,Helvetica,black -B -BWSne
         gmt inset begin -DjTL+w1i+o0.1i/0.1i -F+gwhite+p1p+c0.1c
 			gmt coast -Rg -JG105/35N/? -Da -Ggrey -A5000 -Bg -Wfaint -ECN+gbrown
 		gmt inset end
