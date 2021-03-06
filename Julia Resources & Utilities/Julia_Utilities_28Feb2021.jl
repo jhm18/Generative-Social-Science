@@ -397,7 +397,7 @@ module Julia_Utilities
                 key = string_var[:,:]
                 if size(b_types)[1] > 0
                     boolean_variables = Symbol.(names(key)[string_index])
-                    select!(key, Not(boolean_variables))
+                    select!(key, DataFrames.Not(boolean_variables))
                     for i in 1:length(string_index)
                         DataFrames.insertcols!(key, string_index[i], boolean_variables[i] => data_frame[:,b_types[:,1]][:,i])
                     end
@@ -427,7 +427,7 @@ module Julia_Utilities
                 data_names = Symbol.(data_names)
 
             #   Eliminating Duplicate Variables
-                select!(string_var, Not(data_names))
+                select!(string_var, DataFrames.Not(data_names))
 
                 data = hcat(string_var, numeric_var)
                 data_names = names(data)
@@ -487,7 +487,11 @@ module Julia_Utilities
                 io_commands[1] = replace(io_commands[1], "Dropbox//" => "")
 
                 if size(data)[2] > 10
-                    io_commands[2] = string("DIMENSION", " ", size(data)[2], " ", "COLUMNS")
+                    if size(data)[1] > 1000
+                        io_commands[2] = string("DIMENSION", " ", size(data)[1], " ", "ROWS")
+                    else
+                        io_commands[2] = string("DIMENSION", " ", 1000, " ", "ROWS")
+                    end
                 else
                     io_commands[2] = string("DIMENSION", " ", "10", " ", "COLUMNS")
                 end
