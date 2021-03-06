@@ -309,7 +309,7 @@ module Julia_Utilities
                     #   Performing Integer test
                         for j in eachindex(names(file_df))
                             if (sum(round.(file_df[:,j], digits=0)) == sum(file_df[:,j]))
-                                file_df[:,j] = convert.(Int64, round.(file_df[:,j], digits=0))
+                                 file_df[!,j] = round.(Int, file_df[:,j])
                             else
                                 file_df[:,j] = file_df[:,j]
                             end
