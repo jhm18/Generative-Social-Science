@@ -4204,7 +4204,7 @@ util$Taylor<-function(ref, batch, add=F, model_n, couleur="red", m_bias=F, title
   listepoints<-NULL
 
   if (add==F) {   # pourtour du diagramme
-    par(mar=c(1, 1, 1, 1), mgp = c(2, 0.4, 0), bty = "n")
+    par(mar=c(1, 1, 1, 1), mgp = c(2, 0.4, 0), bty = "n", family='serif')
     plot(c(-maxray,maxray),c(0,maxray),type="n",asp=1,bty="n",xaxt="n",yaxt="n",xlab="",ylab="", family='serif')
     for (i in discrete){
       listepoints<-cbind(listepoints,maxray*cos(i*pi/180),maxray*sin(i*pi/180))
@@ -4222,8 +4222,8 @@ util$Taylor<-function(ref, batch, add=F, model_n, couleur="red", m_bias=F, title
     }
     # text radial
     for (i in grad.corr.full){
-      text(1.05*maxray*i,1.05*maxray*sqrt(1-i^2),i,cex=0.8)
-      text(-1.05*maxray*i,1.05*maxray*sqrt(1-i^2),-i,cex=0.8)
+      text(1.05*maxray*i,1.05*maxray*sqrt(1-i^2),i,cex=1)
+      text(-1.05*maxray*i,1.05*maxray*sqrt(1-i^2),-i,cex=1)
     }
   # sd concentriques autour de la reference
   seq.sd<-seq.int(0,2*maxray,by=(maxray/10))
@@ -4235,7 +4235,7 @@ util$Taylor<-function(ref, batch, add=F, model_n, couleur="red", m_bias=F, title
       ((xcircle[j]^2+ycircle[j]^2)<(maxray^2)){points(xcircle[j],ycircle[j], 
                                                       col="darkgreen",pch=".")
         if 
-        (j==10){text(xcircle[j],ycircle[j],signif(i,2),cex=0.5,col="darkgreen")}}
+        (j==10){text(xcircle[j],ycircle[j],signif(i,2),cex=1,col="darkgreen")}}
     }
   }    
   # sd concentriques autour de l'origine
@@ -4244,14 +4244,14 @@ util$Taylor<-function(ref, batch, add=F, model_n, couleur="red", m_bias=F, title
     xcircle<-(cos(discrete*pi/180)*i)
     ycircle<-sin(discrete*pi/180)*i
     lines(xcircle,ycircle,lty=3,col="blue")
-    text(min(xcircle),-0.03*maxray,signif(i,2),cex=0.5,col="blue")
-    text(max(xcircle),-0.03*maxray,signif(i,2),cex=0.5,col="blue")
+    text(min(xcircle),-0.03*maxray,signif(i,2),cex=1,col="blue")
+    text(max(xcircle),-0.03*maxray,signif(i,2),cex=1,col="blue")
   }
   
   par(family='serif')
   text(0,-0.08*maxray,"Standard Deviation",cex=0.9,col="blue")
-  text(0,-0.14*maxray,"Centered RMS Difference",cex=0.7,col="darkgreen")
-  text(0,((1.1*maxray)+0.1),"Correlation Coefficient",cex=0.9)
+  text(0,-0.14*maxray,"Centered RMS Difference",cex=0.9,col="darkgreen")
+  text(0,((1.1*maxray)+0.1),"Correlation Coefficient",cex=0.9, family='serif')
   points(sd.r,0,pch=22,bg="darkgreen",cex=1.1)
   title(title, line=-2, family='serif')
   }
