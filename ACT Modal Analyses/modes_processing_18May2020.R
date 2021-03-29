@@ -57,6 +57,11 @@ process_modes <- function(concept, concept_data, name) {
         min_y <- min(p_density$y)
         cut_point <- p_density[p_density[[2]] == min_y, ]
         cut_points[[j]] <- cut_point$x
+        if(length(cut_points[[j]]) > 1){
+          cut_points[[j]] <- mean(cut_points[[j]])
+        }else{
+          cut_points[[j]] <- cut_points[[j]] 
+        }
         rm(p_density, min_y, cut_point)
       }
       
