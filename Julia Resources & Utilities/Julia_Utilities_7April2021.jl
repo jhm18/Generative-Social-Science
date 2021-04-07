@@ -103,10 +103,10 @@ module Julia_Utilities
     #   Displays the full contents of a DataFrame
         function show_df(df)
             w =Blink.Window()
-            body!(w, TableView.showtable(simulation_conditions[sim_keys[1]]))
+            body!(w, TableView.showtable(df))
         end
 
-        #show_df(df)
+        # show_df(df)
 
     #   Remove an element from a string
         function remove!(a, item)
