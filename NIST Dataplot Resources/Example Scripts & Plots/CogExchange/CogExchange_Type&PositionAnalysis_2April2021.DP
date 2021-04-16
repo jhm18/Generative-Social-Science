@@ -827,6 +827,228 @@ COMMENT Comparing Empirical & Simulation Data: Ratio Densities
         DEVICE 3 CLOSE
         SYSTEM cp dppl2f.dat CogExchange_ExSimComparisonDensities.ps
 
+COMMENT Comparing Emprical & Simulation: Mean & SD Bar Plot
+    .   Reding-In Data & Settings
+        CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+        CALL /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/Summary_PointsAnalysis_30March2021/read_SimExp_Ratios.DP
+        CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+
+    .   Creating Tabulated Means & SDs
+        ECHO OFF
+        CAPTURE CogEx_GroupMeansComparison.DAT
+            CROSS TABULATE MEANS p_ratio data_id con_id p_id
+        END OF CAPTURE
+        ECHO ON
+
+        ECHO OFF
+        CAPTURE CogEx_GroupSDComparison.DAT
+            CROSS TABULATE SD p_ratio data_id con_id p_id
+        END OF CAPTURE
+        ECHO ON
+
+    .   Creating a Final Tabulated Data
+        SKIP 4
+        READ CogEx_GroupMeansComparison.DAT DATA_ID CON_ID P_ID AvgRatio
+        DELETE DATA_ID CON_ID P_ID
+        READ CogEx_GroupSDComparison.DAT DATA_ID CON_ID P_ID RatioSD
+
+        ECHO OFF
+        CAPTURE CogEx_GroupComparisonDescriptives.DAT
+            WRITE DATA_ID CON_ID P_ID AvgRatio RatioSD
+        END OF CAPTURE
+        ECHO ON
+
+    .   Reading-In Tabulated Data
+        DIMENSION 1000 ROWS
+        CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+        CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+        SKIP 4
+        READ CogEx_GroupComparisonDescriptives.DAT DATA_ID CON_ID P_ID AvgRatio RatioSD
+
+    .   Creating Position Subsets
+        LET e_con = CON_ID SUBSET DATA_ID = 1
+        RETAIN e_con SUBSET e_con  > 0
+        LET e_pos = P_ID SUBSET DATA_ID = 1
+        RETAIN e_pos SUBSET e_pos  > 0
+        LET e_avg_r = AVGRATIO SUBSET DATA_ID = 1
+        RETAIN e_avg_r SUBSET e_avg_r > 0
+        LET e_r_sd = RATIOSD SUBSET DATA_ID = 1
+        RETAIN e_r_sd SUBSET e_r_sd  > 0
+
+        LET s_con = CON_ID SUBSET DATA_ID = 2
+        RETAIN s_con SUBSET s_con  > 0
+        LET s_pos = P_ID SUBSET DATA_ID = 2
+        RETAIN s_pos SUBSET s_pos  > 0
+        LET s_avg_r = AVGRATIO SUBSET DATA_ID = 2
+        RETAIN s_avg_r SUBSET s_avg_r > 0
+        LET s_r_sd = RATIOSD SUBSET DATA_ID = 2
+        RETAIN s_r_sd SUBSET s_r_sd  > 0
+
+    .   Creating x_coordinates for the positions by condition
+        LET e_a1 = e_con - 0.3
+        RETAIN e_a1 SUBSET e_pos = 1
+        LET e_a2 = e_con - 0.1
+        RETAIN e_a2 SUBSET e_pos = 2
+        LET e_b1 = e_con + 0.1
+        RETAIN e_b1 SUBSET e_pos = 3
+        LET e_b2 = e_con + 0.3
+        RETAIN e_b2 SUBSET e_pos = 4
+
+        LET s_a1 = s_con - 0.3
+        RETAIN s_a1 SUBSET s_pos = 1
+        LET s_a2 = s_con - 0.1
+        RETAIN s_a2 SUBSET s_pos = 2
+        LET s_b1 = s_con + 0.1
+        RETAIN s_b1 SUBSET s_pos = 3
+        LET s_b2 = s_con + 0.3
+        RETAIN s_b2 SUBSET s_pos = 4
+
+    .   Creating y_coordinates for the positions by condition     
+        LET e_y1_avg = e_avg_r SUBSET e_pos = 1
+        RETAIN e_y1_avg SUBSET e_y1_avg > 0
+        LET e_y1_sd = e_r_sd SUBSET e_pos = 1
+        RETAIN e_y1_sd SUBSET e_y1_sd > 0
+        LET e_y1_uc = e_y1_avg + e_y1_sd
+        LET e_y1_lc = e_y1_avg - e_y1_sd
+        LET e_y2_avg = e_avg_r SUBSET e_pos = 2
+        RETAIN e_y2_avg SUBSET e_y2_avg > 0
+        LET e_y2_sd = e_r_sd SUBSET e_pos = 2
+        RETAIN e_y2_sd SUBSET e_y2_sd > 0
+        LET e_y2_uc = e_y2_avg + e_y2_sd
+        LET e_y2_lc = e_y2_avg - e_y2_sd
+        LET e_y3_avg = e_avg_r SUBSET e_pos = 3
+        RETAIN e_y3_avg SUBSET e_y3_avg > 0
+        LET e_y3_sd = e_r_sd SUBSET e_pos = 3
+        RETAIN e_y3_sd SUBSET e_y3_sd > 0
+        LET e_y3_uc = e_y3_avg + e_y3_sd
+        LET e_y3_lc = e_y3_avg - e_y3_sd
+        LET e_y4_avg = e_avg_r SUBSET e_pos = 4
+        RETAIN e_y4_avg SUBSET e_y4_avg > 0
+        LET e_y4_sd = e_r_sd SUBSET e_pos = 4
+        RETAIN e_y4_sd SUBSET e_y4_sd > 0
+        LET e_y4_uc = e_y4_avg + e_y4_sd
+        LET e_y4_lc = e_y4_avg - e_y4_sd
+
+        LET s_y1_avg = s_avg_r SUBSET s_pos = 1
+        RETAIN s_y1_avg SUBSET s_y1_avg > 0
+        LET s_y1_sd = s_r_sd SUBSET s_pos = 1
+        RETAIN s_y1_sd SUBSET s_y1_sd > 0
+        LET s_y1_uc = s_y1_avg + s_y1_sd
+        LET s_y1_lc = s_y1_avg - s_y1_sd
+        LET s_y2_avg = s_avg_r SUBSET s_pos = 2
+        RETAIN s_y2_avg SUBSET s_y2_avg > 0
+        LET s_y2_sd = s_r_sd SUBSET s_pos = 2
+        RETAIN s_y2_sd SUBSET s_y2_sd > 0
+        LET s_y2_uc = s_y2_avg + s_y2_sd
+        LET s_y2_lc = s_y2_avg - s_y2_sd
+        LET s_y3_avg = s_avg_r SUBSET s_pos = 3
+        RETAIN s_y3_avg SUBSET s_y3_avg > 0
+        LET s_y3_sd = s_r_sd SUBSET s_pos = 3
+        RETAIN s_y3_sd SUBSET s_y3_sd > 0
+        LET s_y3_uc = s_y3_avg + s_y3_sd
+        LET s_y3_lc = s_y3_avg - s_y3_sd
+        LET s_y4_avg = s_avg_r SUBSET s_pos = 4
+        RETAIN s_y4_avg SUBSET s_y4_avg > 0
+        LET s_y4_sd = s_r_sd SUBSET s_pos = 4
+        RETAIN s_y4_sd SUBSET s_y4_sd > 0
+        LET s_y4_uc = s_y4_avg + s_y4_sd
+        LET s_y4_lc = s_y4_avg - s_y4_sd
+
+    .   Plotting Bar Chart
+        SET WRITE DECIMALS 2
+        Y1LIMITS 0 0.75
+        MAJOR YTIC MARK NUMBER 5
+        X1TIC MARK LABEL 
+        X1TIC MARK OFF
+        Y1LABEL Proportion of Points Earned
+        Y1LABEL DISPLACEMENT 13
+        Y1LABEL SIZE 3
+        
+        LEGEND 1 COORDINATES 16 1
+        LEGEND 1 COLOR BLACK
+        LEGEND 1 SIZE 2
+        LEGEND 1 Neg-3
+        LEGEND 2 COORDINATES 35.5 1
+        LEGEND 2 COLOR BLACK
+        LEGEND 2 SIZE 2
+        LEGEND 2 Neg-4
+        LEGEND 3 COORDINATES 55.5 1
+        LEGEND 3 COLOR BLACK
+        LEGEND 3 SIZE 2
+        LEGEND 3 Rec-3
+        LEGEND 4 COORDINATES 75.5 1
+        LEGEND 4 COLOR BLACK
+        LEGEND 4 SIZE 2
+        LEGEND 4 Rec-4
+        LINE BLANK ALL
+        BAR ON ALL
+        BAR DIMENSION 2 ALL
+        BAR WIDTH 0.2 ALL
+        BAR FILL ON ALL
+        BAR FILL COLOR Brown IRED BLUE CABL
+        BAR PATTERN D1 D2 D1 D2
+        BAR PATTERN COLOR Brown IRED BLUE CABL
+        FRAME CORNER COORDINATES 0 4 100 100
+
+        MULTIPLOT 1 2
+            TITLE SIZE 2.5
+            TITLE Empirical Data
+            PLOT e_y1_avg e_a1 AND
+            PLOT e_y2_avg e_a2 AND
+            PLOT e_y3_avg e_b1 AND
+            PLOT e_y4_avg e_b2
+            LINE SOLID
+            DRAWDATA e_a1 e_y1_lc e_a1 e_y1_uc
+            DRAWDATA e_a2 e_y2_lc e_a2 e_y2_uc
+            DRAWDATA e_b1 e_y3_lc e_b1 e_y3_uc
+            DRAWDATA e_b2 e_y4_lc e_b2 e_y4_uc
+            LINE BLANK ALL
+            Y1TIC MARK OFF 
+            Y1TIC MARK LABEL OFF
+            Y1LABEL
+
+            TITLE SIZE 2.5
+            TITLE Simulations
+            PLOT s_y1_avg s_a1 AND
+            PLOT s_y2_avg s_a2 AND
+            PLOT s_y3_avg s_b1 AND
+            PLOT s_y4_avg s_b2
+            LINE SOLID
+            DRAWDATA s_a1 s_y1_lc s_a1 s_y1_uc
+            DRAWDATA s_a2 s_y2_lc s_a2 s_y2_uc
+            DRAWDATA s_b1 s_y3_lc s_b1 s_y3_uc
+            DRAWDATA s_b2 s_y4_lc s_b2 s_y4_uc
+        END OF MULTIPLOT
+        Y1TIC MARK ON
+        Y1TIC MARK LABEL ON
+        Y1LABEL Proportion of Points Earned
+
+        THICKNESS 0.1; JUSTIFICATION LECE; HW 2 1
+        BOX FILL PATTERN D1; BOX FILL GAP 2
+        BOX FILL PATTERN D1
+        BOX FILL COLOR BROWN
+        BOX 18 9 22 13
+        MOVE 24 11; TEXT A1
+
+        BOX FILL PATTERN D2
+        BOX FILL COLOR IRED
+        BOX 29 9 33 13
+        MOVE 35 11; TEXT A2
+
+        BOX FILL PATTERN D1
+        BOX FILL COLOR BLUE
+        BOX 40 9 44 13
+        MOVE 46 11; TEXT B1
+
+        BOX FILL PATTERN D2
+        BOX FILL COLOR CABL
+        BOX 51 9 55 13
+        MOVE 57 11; TEXT B2
+
+    .   Saving Plot
+        DEVICE 3 CLOSE
+        SYSTEM cp dppl2f.dat CogExchange_ExSimComparisonBarChart_16Apr2021.ps
+
 . #############
 . #   NOTES   #
 . #############
