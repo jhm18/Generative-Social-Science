@@ -956,5 +956,8 @@
 #   Preallocating a DataFrame
     DataFrame([Real,Real,Real],[:a,:b,:c], 10000)
 
+#   Rowbinding to create a DataFrame: Avoids having to convet columns from type Any to restore the variables type information.
+    partner_index = DataFrame([partner_labels, partner_ids])
+
 #   Example of Getting Group Mean & SD
     agg_data = combine(groupby(simulation_conditions[sim_keys[i]], [:Partner]), nrow, :Payoff => mean => :mean, :Payoff => Statistics.std  => :std)
