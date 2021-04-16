@@ -1,0 +1,878 @@
+. Cog Exchange: Type and Relation Analysis
+. Jonathan H. Morgan
+. 2 April 2021
+
+. NOTE: CROSS TABULATE can tabulate across eight ID variables. Consequently, this script could be tightned by eliminating the data subset steps by network.
+
+COMMENT Settings & Importing Exchange Type/Ratio Data
+    cd /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    CALL /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/Summary_PointsAnalysis_30March2021/read_cog_exchange_ratios.DP
+    CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+
+COMMENT Creating Plot Elements
+    LET n3_mean = 10.2421
+    LET r3_mean = 15.1239
+    LET ren3 = 13.4099
+    LET ner3 = 14.7519
+    LET n4_mean = 19.766
+    LET r4_mean = 22.0539
+    LET ren4 =  21.8351
+    LET ner4 = 21.8727
+    LET s_means = COMBINE n3_mean r3_mean ren3 ner3 
+    LET l_means = COMBINE n4_mean r4_mean ren4 ner4
+    LET s_pos = DATA 1 2 3 4
+    LET l_pos = DATA 1 2 3 4
+    
+COMMENT Plotting Block CHART
+    GRID OFF
+    YGRID ON
+    FONT TRIPLEX
+    Y1LABEL DISPLACEMENT 6
+    X1LABEL SIZE 3
+    Y1LABEL Points per Opportunity
+    XLIMITS 0 5
+    YLIMITS 0 30
+    X1TIC MARK LABEL
+    X1TIC MARK OFF
+    LEGEND 1 COORDINATES 24 15
+    LEGEND 1 COLOR BLACK
+    LEGEND 1 SIZE 1.5
+    LEGEND 1 Negotiated
+    LEGEND 2 COORDINATES 38.25 15
+    LEGEND 2 COLOR BLACK
+    LEGEND 2 SIZE 1.5
+    LEGEND 2 Reciprocal
+    LEGEND 3 COORDINATES 55.25 15
+    LEGEND 3 COLOR BLACK
+    LEGEND 3 SIZE 1.5
+    LEGEND 3 REN
+    LEGEND 4 COORDINATES 69.25 15
+    LEGEND 4 COLOR BLACK
+    LEGEND 4  SIZE 1.5
+    LEGEND 4 NER
+    LEGEND 5 COORDINATES 5 3
+    LEGEND 5 COLOR BLACK
+    LEGEND 5 SIZE 1
+    LEGEND 5 REN: Reciprocal Embedded in Negotiated
+    LEGEND 6 COORDINATES 65 3
+    LEGEND 6 COLOR BLACK
+    LEGEND 6 SIZE 1
+    LEGEND 6 NER: Negotiated Embedded in Reciprocal
+    CHARACTERS CIRC() CIRC() 
+    CHARACTER COLOR BLACK BROWN
+    CHARACTER FILL OFF
+    LINE BLANK BLANK 
+    BLOCK PLOT FLO_1 INT_2 INT_3
+    LET CDF = ROUND(TAILPROB,3)
+    JUST CENTER
+    MOVE 50 8
+    TEXT Heads: ^heads, Trials: ^trials, CDF: ^cdf
+    PRE-ERASE OFF
+    CHARACTER SIZE 3.5
+    CHARACTER CIRC()
+    CHARACTER FILL ON ALL
+    LINE BLANK BLANK
+    CHARACTER COLOR BLACK
+    PLOT s_means VERSUS s_pos
+    CHARACTER COLOR BROWN
+    LEGEND 7 COORDINATES 65 85
+    LEGEND 7 SIZE 1
+    LEGEND 7 COLOR BROWN
+    LEGEND 7 FILL ON
+    LEGEND 7 CIRC() 4-Person Networks
+    LEGEND 8 COORDINATES 65 82
+    LEGEND 8 SIZE 1
+    LEGEND 8 COLOR BLACK
+    LEGEND 8 FILL ON
+    LEGEND 8 CIRC() 3-Person Networks
+    PLOT l_means VERSUS l_pos
+    PRE-ERASE ON
+    CHARACTER SIZE 
+
+    DEVICE 3 CLOSE
+    SYSTEM cp dppl2f.dat CogExchange_ExchangeTypes.ps
+
+COMMENT Position Analysis: Pulling-In Data
+    CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    CALL /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/Summary_PointsAnalysis_30March2021/read_exchange_positions.DP
+    CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+
+COMMENT Creating Data Subsets and Calculating Position Means by Group
+    LET n4_type = INT_2 SUBSET INT_5 = 4
+    RETAIN n4_type SUBSET n4_type > 0
+    LET n4_pos = INT_3 SUBSET INT_5 = 4
+    RETAIN n4_pos SUBSET n4_pos > 0
+    LET n4_count = VALUE SUBSET INT_5 = 4
+    RETAIN n4_count SUBSET n4_count > 0
+     
+    LET n3_type = INT_2 SUBSET INT_5 = 3
+    RETAIN n3_type SUBSET n3_type > 0
+    LET n3_pos = INT_3 SUBSET INT_5 = 3
+    RETAIN n3_pos SUBSET n3_pos > 0
+    LET n3_count = VALUE SUBSET INT_5 = 3
+    RETAIN n3_count FOR I = 1 1 432
+
+    CROSS TABULATE MEANS n4_count n4_type n4_pos
+    CROSS TABULATE SD n4_count n4_type n4_pos
+
+    CROSS TABULATE MEANS n3_count n3_type n3_pos
+    CROSS TABULATE SD n3_count n3_type n3_pos
+
+COMMENT Bring-In Cross Tabulated Variales for Ploting
+    DIMENSION 1000 ROWS
+    CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    READ n4_sd
+    52.665
+    45.035
+    41.003
+    52.603
+    134.153
+    180.614
+    162.209
+    157.247
+    60.034
+    66.928
+    93.312
+    64.222
+    103.102
+    91.894
+    87.207
+    125.732
+    END OF DATA
+
+    READ n3_sd
+    57.507
+    36.962
+    36.796
+    158.349
+    179.245
+    186.228
+    63.153
+    38.559
+    41.819
+    108.489
+    65.228
+    64.475
+    END OF DATA
+
+    SKIP 1
+    READ Net4_PositionMeans.dat N4_TYPE N4_POS N4_MEAN
+    READ Net3_PositionMeans.dat N3_TYPE N3_POS N3_MEAN
+
+COMMENT Calculating Upper and Lower CI
+    LET n4_uci = N4_MEAN + N4_SD
+    LET n4_lci = N4_MEAN - N4_SD
+    LET n3_uci = N3_MEAN + N3_SD
+    LET n3_lci = N3_MEAN - N3_SD
+
+COMMENT Bar Chart Data Elements
+    LET y_max = MAXIMUM n4_uci
+    LET y_min = MINIMUM n4_lci
+
+    LET n3_x1 = N3_TYPE - 0.1
+    LET n3x1_uci = n3_uci SUBSET N3_POS = 1
+    RETAIN n3x1_uci SUBSET n3x1_uci > 0
+    LET n3x1_lci = n3_lci SUBSET N3_POS = 1
+    RETAIN n3x1_lci SUBSET n3x1_lci > 0
+    LET n3x1_x = n3_x1 SUBSET N3_POS = 1
+    RETAIN n3x1_x SUBSET n3x1_x > 0
+
+    LET n3_x2 = N3_TYPE + 0.1
+    LET n3x2_uci = n3_uci SUBSET N3_POS = 2
+    RETAIN n3x2_uci SUBSET n3x2_uci > 0
+    LET n3x2_lci = n3_lci SUBSET N3_POS = 2
+    RETAIN n3x2_lci SUBSET n3x2_lci > 0
+    LET n3x2_x = n3_x2 SUBSET N3_POS = 2
+    RETAIN n3x2_x SUBSET n3x2_x > 0
+
+    LET n3_x3 = N3_TYPE + 0.3
+    LET n3x3_uci = n3_uci SUBSET N3_POS = 3
+    RETAIN n3x3_uci SUBSET n3x3_uci > 0
+    LET n3x3_lci = n3_lci SUBSET N3_POS = 3
+    RETAIN n3x3_lci SUBSET n3x3_lci > 0
+    LET n3x3_x = n3_x3 SUBSET N3_POS = 3
+    RETAIN n3x3_x SUBSET n3x3_x > 0
+
+    LET n4_x1 = N4_TYPE - 0.3
+    LET n4x1_uci = n4_uci SUBSET N4_POS = 1
+    RETAIN n4x1_uci SUBSET n4x1_uci > 0
+    LET n4x1_lci = n4_lci SUBSET N4_POS = 1
+    RETAIN n4x1_lci SUBSET n4x1_lci > 0
+    LET n4x1_x = n4_x1 SUBSET N4_POS = 1
+    RETAIN n4x1_x SUBSET n4x1_x > 0
+
+    LET n4_x2 = N4_TYPE - 0.1
+    LET n4x2_uci = n4_uci SUBSET N4_POS = 2
+    RETAIN n4x2_uci SUBSET n4x2_uci > 0
+    LET n4x2_lci = n4_lci SUBSET N4_POS = 2
+    RETAIN n4x2_lci SUBSET n4x2_lci > 0
+    LET n4x2_x = n4_x2 SUBSET N4_POS = 2
+    RETAIN n4x2_x SUBSET n4x2_x > 0
+
+    LET n4_x3 = N4_TYPE + 0.1
+    LET n4x3_uci = n4_uci SUBSET N4_POS = 3
+    RETAIN n4x3_uci SUBSET n4x3_uci > 0
+    LET n4x3_lci = n4_lci SUBSET N4_POS = 3
+    RETAIN n4x3_lci SUBSET n4x3_lci > 0
+    LET n4x3_x = n4_x3 SUBSET N4_POS = 3
+    RETAIN n4x3_x SUBSET n4x3_x > 0
+
+    LET n4_x4 = N4_TYPE + 0.3
+    LET n4x4_uci = n4_uci SUBSET N4_POS = 4
+    RETAIN n4x4_uci SUBSET n4x4_uci > 0
+    LET n4x4_lci = n4_lci SUBSET N4_POS = 4
+    RETAIN n4x4_lci SUBSET n4x4_lci > 0
+    LET n4x4_x = n4_x4 SUBSET N4_POS = 4
+    RETAIN n4x4_x SUBSET n4x4_x > 0
+
+COMMENT Plotting Bar Chart
+    MULTIPLOT 1 2
+        TITLE SIZE 2.5
+        TITLE 3-Person Networks
+        Y1LABEL Mean Count with SD
+        Y1LABEL DISPLACEMENT 10
+        LINE BLANK ALL
+        BAR ON ALL
+        BAR DIMENSION 2 ALL
+        BAR WIDTH 0.2 ALL
+        BAR FILL ON ALL
+        BAR FILL COLOR Brown BLUE CABL
+        BAR PATTERN D1 D2 D2
+        BAR PATTERN COLOR Brown BLUE CABL
+    
+        X1TIC MARK OFF
+        X1TIC MARK LABEL
+        LEGEND 1 COORDINATES 22.5 15
+        LEGEND 1 COLOR BLACK
+        LEGEND 1 SIZE 2
+        LEGEND 1 Negotiated
+        LEGEND 2 COORDINATES 39 15
+        LEGEND 2 COLOR BLACK
+        LEGEND 2 SIZE 2
+        LEGEND 2 Reciprocal
+        LEGEND 3 COORDINATES 56.5 15
+        LEGEND 3 COLOR BLACK
+        LEGEND 3 SIZE 2
+        LEGEND 3 REN
+        LEGEND 4 COORDINATES 70.5 15
+        LEGEND 4 COLOR BLACK
+        LEGEND 4 SIZE 2
+        LEGEND 4 NER
+        LEGEND 5 COORDINATES 5 7
+        LEGEND 5 COLOR BLACK
+        LEGEND 5 SIZE 2
+        LEGEND 5 REN: Reciprocal Embedded in Negotiated
+        LEGEND 6 COORDINATES 5 1
+        LEGEND 6 COLOR BLACK
+        LEGEND 6 SIZE 2
+        LEGEND 6 NER: Negotiated Embedded in Reciprocal
+
+        YLIMITS 0 1500
+        MAJOR YTIC MARK NUMBER 5
+        PLOT N3_MEAN n3_x1 SUBSET N3_POS = 1 AND
+        PLOT N3_MEAN n3_x2 SUBSET N3_POS = 2 AND
+        PLOT N3_MEAN n3_x3 SUBSET N3_POS = 3 
+        LINE SOLID
+        DRAWDATA n3x1_x n3x1_lci n3x1_x n3x1_uci
+        DRAWDATA n3x2_x n3x2_lci n3x2_x n3x2_uci
+        DRAWDATA n3x3_x n3x3_lci n3x3_x n3x3_uci
+
+        THICKNESS 0.1; JUSTIFICATION LECE; HW 2 1
+        BOX FILL PATTERN D1; BOX FILL GAP 2
+
+        BOX FILL COLOR BROWN
+        BOX 18 85 22 89
+        MOVE 24 87; TEXT A1
+
+        BOX FILL PATTERN D1
+        BOX FILL COLOR BLUE
+        BOX 18 79 22 83
+        MOVE 24 81; TEXT B1
+
+        BOX FILL COLOR CABL
+        BOX 18 73 22 77
+        MOVE 24 75; TEXT B2
+
+
+        TITLE 4-Person Networks
+        LINE BLANK ALL
+        BAR ON ALL
+        BAR DIMENSION 2 ALL
+        BAR WIDTH 0.2 ALL
+        BAR FILL ON ALL
+        BAR FILL COLOR Brown IRED BLUE CABL
+        BAR PATTERN D1 D2 D1 D2
+        BAR PATTERN COLOR Brown IRED BLUE CABL
+
+        X1TIC MARK OFF
+        X1TIC MARK LABEL
+        LEGEND 1 COORDINATES 21 15
+        LEGEND 1 COLOR BLACK
+        LEGEND 1 SIZE 2
+        LEGEND 1 Negotiated
+        LEGEND 2 COORDINATES 37 15
+        LEGEND 2 COLOR BLACK
+        LEGEND 2 SIZE 2
+        LEGEND 2 Reciprocal
+        LEGEND 3 COORDINATES 54.5 15
+        LEGEND 3 COLOR BLACK
+        LEGEND 3 SIZE 2
+        LEGEND 3 REN
+        LEGEND 4 COORDINATES 69 15
+        LEGEND 4 COLOR BLACK
+        LEGEND 4 SIZE 2
+        LEGEND 4 NER
+        LEGEND 5 COORDINATES 5 7
+        LEGEND 5 COLOR BLACK
+        LEGEND 5 SIZE 2
+        LEGEND 5 REN: Reciprocal Embedded in Negotiated
+        LEGEND 6 COORDINATES 5 1
+        LEGEND 6 COLOR BLACK
+        LEGEND 6 SIZE 2
+        LEGEND 6 NER: Negotiated Embedded in Reciprocal
+
+        YLIMITS 0 1500
+        MAJOR YTIC MARK NUMBER 5
+        PLOT N4_MEAN n4_x1 SUBSET N4_POS = 1 AND
+        PLOT N4_MEAN n4_x2 SUBSET N4_POS = 2 AND
+        PLOT N4_MEAN n4_x3 SUBSET N4_POS = 3 AND
+        PLOT N4_MEAN n4_x4 SUBSET N4_POS = 4
+        LINE SOLID
+        DRAWDATA n4x1_x n4x1_lci n4x1_x n4x1_uci
+        DRAWDATA n4x2_x n4x2_lci n4x2_x n4x2_uci
+        DRAWDATA n4x3_x n4x3_lci n4x3_x n4x3_uci
+        DRAWDATA n4x4_x n4x4_lci n4x4_x n4x4_uci
+
+        THICKNESS 0.1; JUSTIFICATION LECE; HW 2 1
+        BOX FILL GAP 2
+
+        BOX FILL PATTERN D1
+        BOX FILL COLOR BROWN
+        BOX 18 85 22 89
+        MOVE 24 87; TEXT A1
+
+        BOX FILL PATTERN D2
+        BOX FILL COLOR IRED
+        BOX 18 79 22 83
+        MOVE 24 81; TEXT A2
+
+        BOX FILL PATTERN D1
+        BOX FILL COLOR BLUE
+        BOX 18 73 22 77
+        MOVE 24 75; TEXT B1
+
+        BOX FILL PATTERN D2
+        BOX FILL COLOR CABL
+        BOX 18 67 22 71
+        MOVE 24 69; TEXT B2
+    END OF MULTIPLOT
+
+    DEVICE 3 CLOSE
+    SYSTEM cp dppl2f.dat CogExchange_Positions.ps
+
+COMMENT Comparing Experimental & Simulation Data: Block Plot
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    CALL /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/Summary_PointsAnalysis_30March2021/read_ratios_stacked.DP
+    CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+
+    .   Creating Plot Elements
+        ECHO OFF
+        CAPTURE CogEx_RatioGroupMeans.DAT
+            CROSS TABULATE MEANS FLO_1 DATA_ID INT_3
+        END OF CAPTURE
+        ECHO ON
+
+    .   Plotting BLock Plot
+        SET BLOCK PLOT JITTER 0
+        GRID OFF
+        YGRID ON
+        FONT TRIPLEX
+        Y1LABEL DISPLACEMENT 6
+        X1LABEL SIZE 3
+        Y1LABEL Points per Opportunity
+        XLIMITS 1 2
+        MAJOR X1TIC MARK NUMBER 2
+        MINOR X1TIC MARK NUMBER 0
+        TIC MARK OFFSET UNITS DATA
+        X1TIC MARK OFFSET 0.6 0.6
+        X1TIC MARK LABEL   
+        Y1LIMITS 0 30
+        CHARACTERS CIRC() CIRC() 
+        CHARACTER COLOR BLACK BROWN
+        CHARACTER FILL OFF
+        LINE BLANK BLANK 
+        BLOCK PLOT FLO_1 DATA_ID INT_3 DATA_ID
+
+COMMENT Comparing Empirical & Simulation Data: Bar Plot
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    CALL /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/Summary_PointsAnalysis_30March2021/read_SimExp_Comparison.DP
+    CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+
+    .   Creating Position Subsets
+            LET e_con = CON_ID SUBSET DATA_ID = 1
+            RETAIN e_con SUBSET e_con  > 0
+            LET e_pos = P_ID SUBSET DATA_ID = 1
+            RETAIN e_pos SUBSET e_pos  > 0
+            LET e_ratio = A_RATIO SUBSET DATA_ID = 1
+            RETAIN e_ratio SUBSET e_ratio  > 0
+
+            LET s_con = CON_ID SUBSET DATA_ID = 2
+            RETAIN s_con SUBSET s_con  > 0
+            LET s_pos = P_ID SUBSET DATA_ID = 2
+            RETAIN s_pos SUBSET s_pos  > 0
+            LET s_ratio = A_RATIO SUBSET DATA_ID = 2
+            RETAIN s_ratio SUBSET s_ratio  > 0
+
+    .   Creating x_coordinates for the positions by condition
+            LET e_a1 = e_con - 0.3
+            RETAIN e_a1 SUBSET e_pos = 1
+            LET e_a2 = e_con - 0.1
+            RETAIN e_a2 SUBSET e_pos = 2
+            LET e_b1 = e_con + 0.1
+            RETAIN e_b1 SUBSET e_pos = 3
+            LET e_b2 = e_con + 0.3
+            RETAIN e_b2 SUBSET e_pos = 4
+
+            LET s_a1 = s_con - 0.3
+            RETAIN s_a1 SUBSET s_pos = 1
+            LET s_a2 = s_con - 0.1
+            RETAIN s_a2 SUBSET s_pos = 2
+            LET s_b1 = s_con + 0.1
+            RETAIN s_b1 SUBSET s_pos = 3
+            LET s_b2 = s_con + 0.3
+            RETAIN s_b2 SUBSET s_pos = 4
+
+     .   Creating y_coordinates for the positions by condition       
+            LET e_y1 = e_ratio SUBSET e_pos = 1
+            RETAIN e_y1 SUBSET e_y1 > 0
+            LET e_y2 = e_ratio SUBSET e_pos = 2
+            RETAIN e_y2 SUBSET e_y2 > 0
+            LET e_y3 = e_ratio SUBSET e_pos = 3
+            RETAIN e_y3 SUBSET e_y3 > 0
+            LET e_y4 = e_ratio SUBSET e_pos = 4
+            RETAIN e_y4 SUBSET e_y4 > 0
+
+            LET s_y1 = s_ratio SUBSET s_pos = 1
+            RETAIN s_y1 SUBSET s_y1 > 0
+            LET s_y2 = s_ratio SUBSET s_pos = 2
+            RETAIN s_y2 SUBSET s_y2 > 0
+            LET s_y3 = s_ratio SUBSET s_pos = 3
+            RETAIN s_y3 SUBSET s_y3 > 0
+            LET s_y4 = s_ratio SUBSET s_pos = 4
+            RETAIN s_y4 SUBSET s_y4 > 0
+
+    .   Plotting Bar Chart
+        MULTIPLOT 1 2
+            X1LIMITS -1 5
+            X1TIC MARK OFF
+            X1TIC MARK LABEL
+
+            LEGEND 1 COORDINATES 34 15
+            LEGEND 1 COLOR BLACK
+            LEGEND 1 SIZE 2
+            LEGEND 1 Neg-3
+            LEGEND 2 COORDINATES 46 15
+            LEGEND 2 COLOR BLACK
+            LEGEND 2 SIZE 2
+            LEGEND 2 Neg-4
+            LEGEND 3 COORDINATES 57.5 15
+            LEGEND 3 COLOR BLACK
+            LEGEND 3 SIZE 2
+            LEGEND 3 Rec-3
+            LEGEND 4 COORDINATES 69.5 15
+            LEGEND 4 COLOR BLACK
+            LEGEND 4 SIZE 2
+            LEGEND 4 Rec-4
+
+            Y1LIMITS 0 1
+            MAJOR YTIC MARK NUMBER 5
+            Y1LABEL A-Position Ratio
+            Y1LABEL DISPLACEMENT 10
+
+            LINE BLANK ALL
+            BAR ON ALL
+            BAR DIMENSION 2 ALL
+            BAR WIDTH 0.2 ALL
+            BAR FILL ON ALL
+            BAR FILL COLOR Brown IRED BLUE CABL
+            BAR PATTERN D1 D2 D1 D2
+            BAR PATTERN COLOR Brown IRED BLUE CABL
+
+            TITLE SIZE 2.5
+            TITLE Empirical Data
+            PLOT e_y1 e_a1 AND
+            PLOT e_y2 e_a2 AND
+            PLOT e_y3 e_b1 AND
+            PLOT e_y4 e_b2
+
+            THICKNESS 0.1; JUSTIFICATION LECE; HW 2 1
+            BOX FILL PATTERN D1; BOX FILL GAP 2
+            BOX FILL PATTERN D1
+            BOX FILL COLOR BROWN
+            BOX 18 85 22 89
+            MOVE 24 87; TEXT A1
+
+            BOX FILL PATTERN D2
+            BOX FILL COLOR IRED
+            BOX 18 79 22 83
+            MOVE 24 81; TEXT A2
+
+            BOX FILL PATTERN D1
+            BOX FILL COLOR BLUE
+            BOX 18 73 22 77
+            MOVE 24 75; TEXT B1
+
+            BOX FILL PATTERN D2
+            BOX FILL COLOR CABL
+            BOX 18 67 22 71
+            MOVE 24 69; TEXT B2
+
+            TITLE Simulations
+            PLOT s_y1 s_a1 AND
+            PLOT s_y2 s_a2 AND
+            PLOT s_y3 s_b1 AND
+            PLOT s_y4 s_b2
+
+
+            THICKNESS 0.1; JUSTIFICATION LECE; HW 2 1
+            BOX FILL PATTERN D1; BOX FILL GAP 2
+            BOX FILL PATTERN D1
+            BOX FILL COLOR BROWN
+            BOX 18 85 22 89
+            MOVE 24 87; TEXT A1
+
+            BOX FILL PATTERN D2
+            BOX FILL COLOR IRED
+            BOX 18 79 22 83
+            MOVE 24 81; TEXT A2
+
+            BOX FILL PATTERN D1
+            BOX FILL COLOR BLUE
+            BOX 18 73 22 77
+            MOVE 24 75; TEXT B1
+
+            BOX FILL PATTERN D2
+            BOX FILL COLOR CABL
+            BOX 18 67 22 71
+            MOVE 24 69; TEXT B2
+        END OF MULTIPLOT
+
+        DEVICE 3 CLOSE
+        SYSTEM cp dppl2f.dat CogExchange_ExSimComparisons.ps
+
+COMMENT Comparing Empirical & Simulation Data: Ratio Densities
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    CALL /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/Summary_PointsAnalysis_30March2021/read_SimExp_Ratios.DP
+    CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+
+    .   Subsetting by Simulation and Empirical Datasets
+        LET e_con = CON_ID SUBSET DATA_ID = 1
+        RETAIN e_con SUBSET e_con  > 0
+        LET e_pos = P_ID SUBSET DATA_ID = 1
+        RETAIN e_pos SUBSET e_pos  > 0
+        LET e_ratio = P_RATIO SUBSET DATA_ID = 1
+        RETAIN e_ratio SUBSET e_ratio  > 0
+
+        LET s_con = CON_ID SUBSET DATA_ID = 2
+        RETAIN s_con SUBSET s_con  > 0
+        LET s_pos = P_ID SUBSET DATA_ID = 2
+        RETAIN s_pos SUBSET s_pos  > 0
+        LET s_ratio = P_RATIO SUBSET DATA_ID = 2
+        RETAIN s_ratio SUBSET s_ratio  > 0
+
+    .   Subsetting by Condition for Simulated and Empirical Datasets
+        LET e_neg3_p = E_POS SUBSET E_CON = 1
+        RETAIN e_neg3_p SUBSET e_neg3_p  > 0
+        LET e_neg3_r = E_RATIO SUBSET E_CON = 1
+        RETAIN e_neg3_r SUBSET e_neg3_r > 0
+        LET e_neg4_p = E_POS SUBSET E_CON = 2
+        RETAIN e_neg4_p SUBSET e_neg4_p  > 0
+        LET e_neg4_r = E_RATIO SUBSET E_CON = 2
+        RETAIN e_neg4_r SUBSET e_neg4_r > 0
+        LET e_rec3_p = E_POS SUBSET E_CON = 3
+        RETAIN e_rec3_p SUBSET e_rec3_p  > 0
+        LET e_rec3_r = E_RATIO SUBSET E_CON = 3
+        RETAIN e_rec3_r SUBSET e_rec3_r > 0
+        LET e_rec4_p = E_POS SUBSET E_CON = 4
+        RETAIN e_rec4_p SUBSET e_rec4_p  > 0
+        LET e_rec4_r = E_RATIO SUBSET E_CON = 4
+        RETAIN e_rec4_r SUBSET e_rec4_r > 0
+
+        LET s_neg3_p = S_POS SUBSET S_CON = 1
+        RETAIN s_neg3_p SUBSET s_neg3_p  > 0
+        LET s_neg3_r = S_RATIO SUBSET S_CON = 1
+        RETAIN s_neg3_r SUBSET s_neg3_r > 0
+        LET s_neg4_p = S_POS SUBSET S_CON = 2
+        RETAIN s_neg4_p SUBSET s_neg4_p  > 0
+        LET s_neg4_r = S_RATIO SUBSET S_CON = 2
+        RETAIN s_neg4_r SUBSET s_neg4_r > 0
+        LET s_rec3_p = S_POS SUBSET S_CON = 3
+        RETAIN s_rec3_p SUBSET s_rec3_p  > 0
+        LET s_rec3_r = S_RATIO SUBSET S_CON = 3
+        RETAIN s_rec3_r SUBSET s_rec3_r > 0
+        LET s_rec4_p = S_POS SUBSET S_CON = 4
+        RETAIN s_rec4_p SUBSET s_rec4_p  > 0
+        LET s_rec4_r = S_RATIO SUBSET S_CON = 4
+        RETAIN s_rec4_r SUBSET s_rec4_r > 0
+
+    .   Plotting Base Plot
+            LIMITS 1 10
+            GRID OFF
+            LINE BLANK 
+            FRAME OFF
+            TIC MARKS OFF
+            TIC MARK OFF
+            LEGEND 1 COORDINATES 5 10
+            LEGEND COLOR BLACK
+            LEGEND SIZE 1.5
+            LEGEND 1 A1 Experimental
+            LEGEND 2 COORDINATES 26 10
+            LEGEND 2 B1 Experimental
+            LEGEND 3 COORDINATES 5 5
+            LEGEND 3 A2 Experimental
+            LEGEND 4 COORDINATES 26 5
+            LEGEND 4 B2 Experimental
+            LEGEND 5 COORDINATES 60 10
+            LEGEND 5 A1 Simulated
+            LEGEND 6 COORDINATES 60 5
+            LEGEND 6 A2 Simulated
+            LEGEND 7 COORDINATES 78 10
+            LEGEND 7 B1 Simulated
+            LEGEND 8 COORDINATES 78 5
+            LEGEND 8 B2 Simulated
+
+            EMBED ON
+
+            PLOT x for x = 1 1 10
+            LINE SOLID
+            LINE COLOR IRED
+            DRAW 21.5 5.5 25 5.5
+            LINE COLOR BROWN
+            DRAW 21.5 10.5 25 10.5
+            LINE COLOR BLUE
+            DRAW 42.5 10.5 46 10.5
+            LINE COLOR CABL
+            DRAW 42.5 5.5 46 5.5
+            LINE DASHED
+            LINE COLOR BROWN
+            DRAW 73.5 10.5 77 10.5
+            LINE COLOR IRED
+            DRAW 73.5 5.5 77 5.5
+            LINE COLOR BLUE
+            DRAW 91.5 10.5 95 10.5
+            LINE COLOR CABL
+            DRAW 91.5 5.5 95 5.5
+            LEGEND 1
+            LEGEND 2
+            LEGEND 3
+            LEGEND 4
+            LEGEND 5
+            LEGEND 6
+            LEGEND 7
+            LEGEND 8
+
+    .   Plotting Subplots
+            FRAME CORNER COORDINATES 0 0 100 100
+            X1FRAME ON
+            Y1FRAME ON
+            X1TIC MARK ON
+            Y1TIC MARK ON
+            TIC MARK SIZE = 2
+            TIC MARK LABEL SIZE = 4
+            XTIC OFFSET 0.2 0.2
+            YTIC OFFSET 0.2 0.2
+            X1LIMITS 0 1
+            Y1LIMITS 
+            Y1LABEL SIZE 5
+            X1LABEL SIZE 5
+            Y1LABEL DISPLACEMENT 12
+            X1LABEL DISPLACEMENT 15
+            SET WRITE DECIMALS 2
+            X1LABEL Points Ratio
+            Y1LABEL Density
+        
+            TITLE DISPLACEMENT 2.5
+            TITLE SIZE 5
+            TITLE 3-Person Negotiated Exchanges
+            LINE SOLID
+            LINE THICKNESS 
+            LINES COLOR Brown
+            EMBED CORNER COORDINATES 1 6 4 9.5
+            KERNEL DENSITY PLOT e_neg3_r SUBSET e_neg3_p = 1
+            PRE-ERASE OFF
+            Y1TIC MARK OFF 
+            Y1TIC MARK LABEL OFF
+            X1LABEL 
+            Y1LABEL 
+            LINES COLOR BLUE
+            KERNEL DENSITY PLOT e_neg3_r SUBSET e_neg3_p = 3
+            LINES COLOR CABL
+            KERNEL DENSITY PLOT e_neg3_r SUBSET e_neg3_p = 4
+            LINE DASHED
+            LINE THICKNESS 0.3
+            LINES COLOR Brown
+            KERNEL DENSITY PLOT S_neg3_r SUBSET S_neg3_p = 1
+            LINES COLOR BLUE
+            KERNEL DENSITY PLOT s_neg3_r SUBSET s_neg3_p = 3
+            LINES COLOR CABL
+            KERNEL DENSITY PLOT s_neg3_r SUBSET s_neg3_p = 4
+            PRE-ERASE ON
+
+            TITLE 4-Person Negotiated Exchanges
+            X1LIMITS 0 0.55
+            MAJOR X1TIC MARK NUMBER 5
+            Y1TIC MARK ON
+            Y1TIC MARK LABEL ON
+            X1LABEL Points Ratio
+            Y1LABEL Density
+            LINE SOLID
+            LINE THICKNESS 
+            LINES COLOR Brown
+            EMBED CORNER COORDINATES 1 1 4 4.5
+            KERNEL DENSITY PLOT e_neg4_r SUBSET e_neg4_p = 1
+            PRE-ERASE OFF
+            Y1TIC MARK OFF 
+            Y1TIC MARK LABEL OFF
+            X1LABEL 
+            Y1LABEL 
+            LINES COLOR IRED
+            KERNEL DENSITY PLOT e_neg4_r SUBSET e_neg4_p = 2
+            LINES COLOR BLUE
+            KERNEL DENSITY PLOT e_neg4_r SUBSET e_neg4_p = 3
+            LINES COLOR CABL
+            KERNEL DENSITY PLOT e_neg4_r SUBSET e_neg4_p = 4
+            LINE DASHED
+            LINE THICKNESS 0.3
+            LINES COLOR Brown
+            KERNEL DENSITY PLOT S_neg4_r SUBSET S_neg4_p = 1
+            LINES COLOR IRED
+            KERNEL DENSITY PLOT S_neg4_r SUBSET S_neg4_p = 2
+            LINES COLOR BLUE
+            KERNEL DENSITY PLOT s_neg4_r SUBSET s_neg4_p = 3
+            LINES COLOR CABL
+            KERNEL DENSITY PLOT s_neg4_r SUBSET s_neg4_p = 4
+            PRE-ERASE ON
+
+            TITLE 3-Person Reciprocal Exchanges
+            X1LIMITS 0 1
+            MAJOR X1TIC MARK NUMBER 5
+            Y1TIC MARK ON
+            Y1TIC MARK LABEL ON
+            X1LABEL Points Ratio
+            Y1LABEL Density
+            LINE SOLID
+            LINE THICKNESS 
+            LINES COLOR Brown
+            EMBED CORNER COORDINATES 6 6 9.5 9.5
+            KERNEL DENSITY PLOT e_rec3_r SUBSET e_rec3_p = 1
+            PRE-ERASE OFF
+            Y1TIC MARK OFF 
+            Y1TIC MARK LABEL OFF
+            X1LABEL 
+            Y1LABEL 
+            LINES COLOR BLUE
+            KERNEL DENSITY PLOT e_rec3_r SUBSET e_rec3_p = 3
+            LINES COLOR CABL
+            KERNEL DENSITY PLOT e_rec3_r SUBSET e_rec3_p = 4
+            LINE DASHED
+            LINE THICKNESS 0.3
+            LINES COLOR Brown
+            KERNEL DENSITY PLOT s_rec3_r SUBSET s_rec3_p = 1
+            LINES COLOR BLUE
+            KERNEL DENSITY PLOT s_rec3_r SUBSET s_rec3_p = 3
+            LINES COLOR CABL
+            KERNEL DENSITY PLOT s_rec3_r SUBSET s_rec3_p = 4
+            PRE-ERASE ON
+
+            TITLE 4-Person Reciprocal Exchanges
+            MAJOR X1TIC MARK NUMBER 5
+            X1LIMITS 0 0.55
+            Y1TIC MARK ON
+            Y1TIC MARK LABEL ON
+            X1LABEL Points Ratio
+            Y1LABEL Density
+            LINE SOLID
+            LINE THICKNESS 
+            LINES COLOR Brown
+            EMBED CORNER COORDINATES 6 1 9.5 4.5
+            KERNEL DENSITY PLOT e_rec4_r SUBSET e_rec4_p = 1
+            PRE-ERASE OFF
+            Y1TIC MARK OFF 
+            Y1TIC MARK LABEL OFF
+            X1LABEL 
+            Y1LABEL 
+            LINES COLOR IRED
+            KERNEL DENSITY PLOT e_rec4_r SUBSET e_rec4_p = 2
+            LINES COLOR BLUE
+            KERNEL DENSITY PLOT e_rec4_r SUBSET e_rec4_p = 3
+            LINES COLOR CABL
+            KERNEL DENSITY PLOT e_rec4_r SUBSET e_rec4_p = 4
+            LINE DASHED
+            LINE THICKNESS 0.3
+            LINES COLOR Brown
+            KERNEL DENSITY PLOT S_rec4_r SUBSET S_rec4_p = 1
+            LINES COLOR IRED
+            KERNEL DENSITY PLOT S_rec4_r SUBSET S_rec4_p = 2
+            LINES COLOR BLUE
+            KERNEL DENSITY PLOT s_rec4_r SUBSET s_rec4_p = 3
+            LINES COLOR CABL
+            KERNEL DENSITY PLOT s_rec4_r SUBSET s_rec4_p = 4
+            PRE-ERASE ON
+            EMBED OFF
+
+    .   Saving Plot
+        DEVICE 3 CLOSE
+        SYSTEM cp dppl2f.dat CogExchange_ExSimComparisonDensities.ps
+
+. #############
+. #   NOTES   #
+. #############
+
+.   Alternative specifications for the Density Plots
+
+.   REPLICATED KERNEL DENSITY PLOT <y> <x1> <x2>
+.   MULTIPLE KERNEL DENSITY PLOT Y1 Y2 Y3
+.   Uisng a REPLICATED KERNEL DENSITY command is a more efficient way to generate multiple densities for values of X. 
+.   MULTIPLE KERNEL DENSITY PLOT for displaying multiple y variabls.
+
+    LINE COLORS BROWN BLUE CABL
+    REPLICATED KERNEL DENSITY PLOT e_neg3_r e_neg3_p 
+
+.   NOTE: Layering through ERASE OFF would have still been necessary in this case because MUTIPLE & REPLICATED statements can't be used simultaneously,
+    but using REPLICATED plots would have been more efficient.
+.   One way around this problem is to create a tag variable that would include both experimental and simulated curves.
+
+.   A RELATIVE FREQUENCY PLOT would produce a density with y as the proportion rather than counts.
+.   But, relative frequency plots are more jagged because they are derived from an underlying historgram.
+.   Again, ERASE OFF would be necessary for layering multiple Y becaue of the REPLICATED/MULTIPLE limitation.
+
+    LINE COLORS BROWN BLUE CABL
+    REPLICATED RELATIVE FREQUENCY PLOT e_neg3_r e_neg3_p 
+
+.   One nice feature of a FREQUENCY PLOT is the ability to generate a frequency table from the plot
+    FREQUENCY PLOT e_neg3_r SUBSET e_neg3_p = 1
+    LET YFREQ = YPLOT
+    LET XVAL = XPLOT
+
+.   DRAW and DRAWDATA both allow for the specification of a line segment (x1, y1, x2, y2). 
+.   The difference is that DRAW uses 0-100 coordinates, allowing for lines draw outside of the plot.
+.   DRAWDATA uses the plot coordiantes, but is limited to within the plot window.
+
+.   Isolating Kernel Density vectors in order to create a normalized y
+.   For mutiple densities, you would move this into a loop and use ^ notation.
+
+    TIC OFFSET UNITS ABSOLUTE
+    X1LABEL Value
+    Y1Label Frequency
+    LINE COLOR BROWN
+    KERNEL DENSITY PLOT e_neg3_r SUBSET e_neg3_p = 1
+
+    LET y2 = YPLOT
+    LET x2 = XPLOT
+    LET y_max = MAXIMUM y2
+    LET r_y = y2/y_max
+    PLOT r_y x2
+    
