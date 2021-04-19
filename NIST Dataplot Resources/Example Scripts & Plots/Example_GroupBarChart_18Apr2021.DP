@@ -1,0 +1,209 @@
+.   Grouped Bar Chart: Example Script
+.   Jonathan H. Morgan
+.   18 April 2021
+
+COMMENT Settings & Importing
+    cd /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    DIMENSION 1000 ROWS
+    SKIP 4
+    READ CogEx_GroupComparisonDescriptives.DAT  DATA_ID CON_ID P_ID AVGRATIO RATIOSD
+
+COMMENT Creating Plot Objects
+    .   Subsetting by Data Type  
+        LOOP FOR K = 1 1 2
+            IF K = 1
+                LET STRING g_id = e
+            ELSE   
+                LET STRING g_id = s
+            END OF IF
+
+            ECHO OFF
+            CAPTURE CogEx_Subset.DAT
+                PRINT  DATA_ID CON_ID P_ID AVGRATIO RATIOSD SUBSET DATA_ID = ^K
+            END OF CAPTURE
+            ECHO ON
+
+            SKIP 12
+            READ CogEx_Subset.DAT ID_^g_id CON_ID_^g_id pos_^g_id avg_r_^g_id r_sd_^g_id
+            RM CogEx_Subset.DAT
+        END OF LOOP
+        DELETE ID_E ID_S
+
+    .   Creating x_coordinates for the Positions by Condition
+        READ p_adj 
+            -0.3
+            -0.1
+            0.1
+            0.3
+        END OF READ
+
+        LOOP FOR K = 1 1 2
+            IF K = 1
+                LET STRING g_id = e
+            ELSE   
+                LET STRING g_id = s
+            END OF IF
+
+            LOOP FOR L = 1 1 4
+                LET point = p_adj(^L)
+                ECHO OFF
+                CAPTURE CogEx_Pos.DAT
+                    PRINT con_ID_^g_id SUBSET pos_^g_id = L
+                END OF CAPTURE
+                ECHO ON
+
+                SKIP 12
+                IF K = 1
+                    READ CogEx_Pos.DAT a_^L
+                    LET e_p_^L = a_^L + point
+                    DELETE a_^L
+                ELSE   
+                    READ CogEx_Pos.DAT a_^L
+                    LET s_p_^L = a_^L + point
+                    DELETE a_^L
+                END OF IF
+
+                DELETE point
+                RM CogEx_Pos.DAT
+            END OF LOOP
+        END OF LOOP
+
+    .   Creating y_coordinates for the Positions by Condition for Empirical and Simulated Conditions
+        LOOP FOR K = 1 1 2
+            IF K = 1
+                LET STRING g_id = e
+            ELSE   
+                LET STRING g_id = s
+            END OF IF
+
+            LOOP FOR L = 1 1 4
+                ECHO OFF
+                CAPTURE CogEx_Pos_y.DAT
+                    PRINT avg_r_^g_id  r_sd_^g_id SUBSET pos_^g_id = ^L
+                END OF CAPTURE
+                ECHO ON
+
+                SKIP 12
+                IF K = 1
+                    READ CogEx_Pos_y.DAT e_y_ag_^L e_y_sd_^L
+                    LET e_y_uc_^L = e_y_ag_^L + e_y_sd_^L
+                    LET e_y_lc_^L = e_y_ag_^L - e_y_sd_^L
+                ELSE   
+                    READ CogEx_Pos_y.DAT s_y_ag_^L s_y_sd_^L
+                    LET s_y_uc_^L = s_y_ag_^L + s_y_sd_^L
+                    LET s_y_lc_^L = s_y_ag_^L - s_y_sd_^L
+                END OF IF
+                RM CogEx_Pos_y.DAT
+            END OF LOOP
+        END OF LOOP
+
+COMMENT Plotting Grouped Bar-Chart
+.       You could also use a loop for the multi-plot statement, but that would require different variable labels.
+.       I chose variable labels that are easier to interpret, at the cost of slightly more verbose code in this case.
+        SET WRITE DECIMALS 2
+        Y1LIMITS 0 0.75
+        MAJOR YTIC MARK NUMBER 5
+        X1TIC MARK LABEL 
+        X1TIC MARK OFF
+        Y1LABEL Proportion of Points Earned
+        Y1LABEL DISPLACEMENT 13
+        Y1LABEL SIZE 3
+        
+        LEGEND 1 COORDINATES 16 1
+        LEGEND 1 COLOR BLACK
+        LEGEND 1 SIZE 2
+        LEGEND 1 Neg-3
+        LEGEND 2 COORDINATES 35.5 1
+        LEGEND 2 COLOR BLACK
+        LEGEND 2 SIZE 2
+        LEGEND 2 Neg-4
+        LEGEND 3 COORDINATES 55.5 1
+        LEGEND 3 COLOR BLACK
+        LEGEND 3 SIZE 2
+        LEGEND 3 Rec-3
+        LEGEND 4 COORDINATES 75.5 1
+        LEGEND 4 COLOR BLACK
+        LEGEND 4 SIZE 2
+        LEGEND 4 Rec-4
+        LINE BLANK ALL
+        BAR ON ALL
+        BAR DIMENSION 2 ALL
+        BAR WIDTH 0.2 ALL
+        BAR FILL ON ALL
+        BAR FILL COLOR Brown IRED BLUE CABL
+        BAR PATTERN D1 D2 D1 D2
+        BAR PATTERN COLOR Brown IRED BLUE CABL
+        FRAME CORNER COORDINATES 0 4 100 100
+
+        MULTIPLOT 1 2
+            TITLE SIZE 2.5
+            TITLE Empirical Data
+            PLOT e_y_ag_1 e_p_1 AND
+            PLOT e_y_ag_2 e_p_2 AND
+            PLOT e_y_ag_3 e_p_3 AND
+            PLOT e_y_ag_4 e_p_4
+            LINE SOLID
+            DRAWDATA e_p_1 e_y_lc_1 e_p_1 e_y_uc_1
+            DRAWDATA e_p_2 e_y_lc_2 e_p_2 e_y_uc_2
+            DRAWDATA e_p_3 e_y_lc_3 e_p_3 e_y_uc_3
+            DRAWDATA e_p_4 e_y_lc_4 e_p_4 e_y_uc_4
+            LINE BLANK ALL
+            Y1TIC MARK OFF 
+            Y1TIC MARK LABEL OFF
+            Y1LABEL
+
+            TITLE SIZE 2.5
+            TITLE Simulations
+            PLOT s_y_ag_1 s_p_1 AND
+            PLOT s_y_ag_2 s_p_2 AND
+            PLOT s_y_ag_3 s_p_3 AND
+            PLOT s_y_ag_4 s_p_4
+            LINE SOLID
+            DRAWDATA s_p_1 s_y_lc_1 s_p_1 s_y_uc_1
+            DRAWDATA s_p_2 s_y_lc_2 s_p_2 s_y_uc_2
+            DRAWDATA s_p_3 s_y_lc_3 s_p_3 s_y_uc_3
+            DRAWDATA s_p_4 s_y_lc_4 s_p_4 s_y_uc_4
+        END OF MULTIPLOT
+        Y1TIC MARK ON
+        Y1TIC MARK LABEL ON
+        Y1LABEL Proportion of Points Earned
+
+        THICKNESS 0.1; JUSTIFICATION LECE; HW 2 1
+        FONT TRIPLEX
+        BOX FILL PATTERN D1; BOX FILL GAP 2
+        BOX FILL PATTERN D1
+        BOX FILL COLOR BROWN
+        BOX 18 9 22 13
+        MOVE 24 11; TEXT A1
+
+        BOX FILL PATTERN D2
+        BOX FILL COLOR IRED
+        BOX 29 9 33 13
+        MOVE 35 11; TEXT A2
+
+        BOX FILL PATTERN D1
+        BOX FILL COLOR BLUE
+        BOX 40 9 44 13
+        MOVE 46 11; TEXT B1
+
+        BOX FILL PATTERN D2
+        BOX FILL COLOR CABL
+        BOX 51 9 55 13
+        MOVE 57 11; TEXT B2
+           
+        MOVE 44 17.5; TEXT Conditions
+
+COMMENT Writing to File
+    DEVICE 3 CLOSE
+    SYSTEM cp dppl2f.dat CogExchange_ExSimComparisonBarChart_16Apr2021.ps
+
+. ############
+. #  NOTES   #
+. ############
+
+.   Saving the workspace
+    SAVE MEMORY TEMP.DAT
+        
+
+       
