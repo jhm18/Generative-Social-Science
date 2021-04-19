@@ -1,0 +1,124 @@
+. Name:     test2.dp
+. Purpose:  Grouped bar chart
+. Author:   Alan N. Heckert
+. Data: 19 April 2021
+.
+. Step 0:   Define output device
+.
+let string fplot = test2.ps
+set ipl1na ^fplot
+device 2 postscript
+.
+. Step 1:   Read the data and create derived variables
+.
+skip 4
+read CogEx_GroupComparisonDescriptives.DAT data_id con_id p_id avgratio ratiosd
+skip 0
+let ratioll = avgratio - ratiosd
+let ratioul = avgratio + ratiosd
+.
+let x = con_id
+let x = x + 5   subset data_id = 2
+let x = x - 0.3 subset p_id  = 1
+let x = x - 0.1 subset p_id  = 2
+let x = x + 0.1 subset p_id  = 3
+let x = x + 0.3 subset p_id  = 4
+let yerr = combine ratioll ratioul
+let x2   = combine x x
+.
+. Step 2:   Plot control settings
+.
+SET WRITE DECIMALS 2
+.
+CASE ASIS
+TITLE CASE ASIS
+LABEL CASE ASIS
+TIC MARK LABEL CASE ASIS
+LEGEND CASE ASIS
+.
+FRAME CORNER COORDINATES 15 20 95 90
+X2FRAME PATTERN DASHED
+Y2FRAME PATTERN DASHED
+GRID ON
+GRID PATTERN DASH
+.
+Y1LIMITS 0 0.75
+Y1LABEL DISPLACEMENT 11
+Y1LABEL SIZE 3
+MAJOR YTIC MARK NUMBER 5
+Y1LABEL Proportion of Points Earned
+.
+TIC MARK OFFSET UNITS ABSOLUTE
+X1TIC MARK OFF
+XLIMITS 1 9.5
+MAJOR XTIC MARK NUMBER 9
+MINOR XTIC MARK NUMBER 0
+X1TIC MARK OFFSET 1 1
+X1TIC MARK LABEL OFFSET 1
+X1TIC MARK LABEL FORMAT ALPHA
+X1TIC MARK LABEL CONTENT Neg-3 Neg-4 Rec-3 Rec-4 sp() Neg-3 Neg-4 Rec-3 Rec-4
+X1LABEL DISPLACEMENT 4
+X1LABEL SIZE 3
+X1LABEL Conditions
+.
+LINE BLANK BLANK BLANK BLANK SOLID SOLID SOLID SOLID
+BAR SHADOW HW 0 0 ALL
+BAR DIMENSION 2 ALL
+BAR WIDTH 0.2 ALL
+BAR ON ON ON ON
+BAR FILL ON ON ON ON
+BAR PATTERN D1 D2 D1 D2
+BAR PATTERN COLOR BROWN IRED BLUE CABL
+.
+LEGEND SIZE 2.5
+LEGEND JUSTIFICATION CENTER
+LEGEND 1 Emprical Data
+LEGEND 1 COORDINATES 35 92
+LEGEND 2 Simulations
+LEGEND 2 COORDINATES 75 92
+.
+. Step 3:   Generate the plot
+.
+plot avgratio x p_id and
+plot yerr x2 x2
+.
+. Step 4:   Add some post-plot annotation
+.
+line solid
+line thickness 0.3
+draw  55 20 55 90
+.
+THICKNESS 0.1; JUSTIFICATION LECE; HW 2 1
+FONT TRIPLEX
+BOX FILL PATTERN D1; BOX FILL GAP 2
+LET YCOOR1 = 5
+LET YCOOR2 = YCOOR1 + 4
+LET YCOOR3 = YCOOR1 + 2
+.
+BOX FILL PATTERN D1
+BOX FILL COLOR BROWN
+BOX 18 YCOOR1 22 YCOOR2
+MOVE 24 YCOOR3; TEXT A1
+.
+BOX FILL PATTERN D2
+BOX FILL COLOR IRED
+BOX 29 YCOOR1 33 YCOOR2
+MOVE 35 YCOOR3; TEXT A2
+.
+BOX FILL PATTERN D1
+BOX FILL COLOR BLUE
+BOX 40 YCOOR1 44 YCOOR2
+MOVE 46 YCOOR3; TEXT B1
+.
+BOX FILL PATTERN D2
+BOX FILL COLOR CABL
+BOX 51 YCOOR1 55 YCOOR2
+MOVE 57 YCOOR3; TEXT B2
+.
+. Step x:   Close device, save workspace
+.
+device 2 close
+system ps2pdf ^fplot
+.
+. save memory TEMP.DAT
+.
