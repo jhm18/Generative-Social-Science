@@ -965,7 +965,7 @@
     position_index = DataFrame([[1: 1: length(position_id);], position_id], :auto)
     position_index = DataFrames.DataFrame([[1: 1: length(position_id);], position_id], [:position_id, :position_label])
 
-#   If you want to convert a Matrix to a DataFrame, you do the following, you also apply the :auto argument
+#   If you want to convert a Matrix to a DataFrame, you also apply the :auto argument
     mat_df = DataFrame([1 2; 3 4], :auto)
 
 #   Example of Getting Group Mean & SD
