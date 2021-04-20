@@ -961,7 +961,7 @@
 #   aligned with the Tables.jl API (see: https://www.juliabloggers.com/working-with-matrices-in-dataframes-jl-1-0/)
     partner_index = DataFrame([partner_labels, partner_ids])
 
-#   In DataFrame 1.0, you do the following to get the old functionality and a DataFrame with named columns:
+#   In DataFrame 1.0, you do the following to get the old functionality, and the second statement to get a DataFrame with named columns:
     position_index = DataFrame([[1: 1: length(position_id);], position_id], :auto)
     position_index = DataFrames.DataFrame([[1: 1: length(position_id);], position_id], [:position_id, :position_label])
 
