@@ -957,7 +957,16 @@
     DataFrame([Real,Real,Real],[:a,:b,:c], 10000)
 
 #   Rowbinding to create a DataFrame: Avoids having to convet columns from type Any to restore the variables type information.
+#   Unfortunately, a simple vector of vectors approach is no longer supported by DataFrames 1.0. as a consequence of making the entire package more 
+#   aligned with the Tables.jl API (see: https://www.juliabloggers.com/working-with-matrices-in-dataframes-jl-1-0/)
     partner_index = DataFrame([partner_labels, partner_ids])
+
+#   In DataFrame 1.0, you do the following to get the old functionality and a DataFrame with named columns:
+    position_index = DataFrame([[1: 1: length(position_id);], position_id], :auto)
+    position_index = DataFrames.DataFrame([[1: 1: length(position_id);], position_id], [:position_id, :position_label])
+
+#   If you want to convert a Matrix to a DataFrame, you do the following, you also apply the :auto argument
+    mat_df = DataFrame([1 2; 3 4], :auto)
 
 #   Example of Getting Group Mean & SD
     agg_data = combine(groupby(simulation_conditions[sim_keys[i]], [:Partner]), nrow, :Payoff => mean => :mean, :Payoff => Statistics.std  => :std)
