@@ -12,7 +12,7 @@ Pajek Default Partition Color Codes
 9)		RGB:  96 109 194		Hex: 606DC2
 10)		RGB: 31 249 161			Hex: 1FF9A1
 11)		RGB: 1 154 1			Hex: 019A01
-12)		RGB: 128 128 128			Hex: 808080
+12)		RGB: 128 128 128		Hex: 808080
 13)		RGB: 0 0 0 			Hex: 000000
 14)		RGB: 128 0 0 			Hex: 800000
 15)		RGB: 204 255 178		Hex: CCFFB2
