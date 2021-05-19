@@ -393,7 +393,7 @@ module Julia_Utilities
                 for i in 1:ncol(string_var)
                     labels = unique(string_var[:,i])
                     id = [1: 1: length(labels);]
-                    id_set = DataFrames.DataFrame([id labels])
+                    id_set = DataFrames.DataFrame([id, labels], :auto)
                     id_names = [string(names(string_var)[i],"_","id"); names(string_var)[i]]
                     id_names = Symbol.(id_names)
                     rename!(id_set, id_names)
@@ -534,7 +534,7 @@ module Julia_Utilities
                     length_check = [collect(1:1:length(names(data_types[data_keys[i]]))) names(data_types[data_keys[i]])]
                     length_check = Any[name_lengths[data_keys[i]] length_check]
                     length_check = length_check[(length_check[:,1] .== 1), :]
-                    label_checks[data_keys[i]] = DataFrames.DataFrame(length_check)
+                    label_checks[data_keys[i]] = DataFrames.DataFrame(length_check, :auto)
                 end
 
                 labels_list = Dict("Integers" =>  vec(fill("a", 1, nrow(label_checks[data_keys[2]]))), "Floats" =>  vec(fill("a", 1, nrow(label_checks[data_keys[1]]))))
@@ -887,7 +887,7 @@ module Julia_Utilities
                 end
         end
 
-    #   dataplot_export(data_frame, "test")
+    #  dataplot_export(data_frame, "test")
 
     #   R Import
         function R_import(R_directory)
