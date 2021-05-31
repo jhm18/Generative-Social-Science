@@ -4,9 +4,12 @@
 
 . NOTE: CROSS TABULATE can tabulate across eight ID variables. Consequently, this script could be tightned by eliminating the data subset steps by network.
 
-COMMENT Settings & Importing Exchange Type/Ratio Data
+COMMENT Settings 
     cd /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+    dataplot
     CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+
+COMMENT Importing Exchange Type/Ratio Data
     CALL /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/Summary_PointsAnalysis_30March2021/read_cog_exchange_ratios.DP
     CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
 
@@ -1048,6 +1051,235 @@ COMMENT Comparing Emprical & Simulation: Mean & SD Bar Plot
     .   Saving Plot
         DEVICE 3 CLOSE
         SYSTEM cp dppl2f.dat CogExchange_ExSimComparisonBarChart_16Apr2021.ps
+
+COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
+    .   Importing Ratio Data
+        cd /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+        dataplot
+        CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+        CALL /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/Summary_PointsAnalysis_30March2021/read_SimExp_PPCC.DP
+        CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+
+    .   Subsetting Data by Condition & Ratio
+        LET P_ID_C1 = P_ID SUBSET COND_ID = 1
+        LET P_ID_C2 = P_ID SUBSET COND_ID = 2
+        LET P_ID_C3 = P_ID SUBSET COND_ID = 3
+        LET P_ID_C4 = P_ID SUBSET COND_ID = 4
+      
+        LET e_rat_1 = e_ratio SUBSET COND_ID = 1
+        LET e_rat_2 = e_ratio SUBSET COND_ID = 2
+        LET e_rat_3 = e_ratio SUBSET COND_ID = 3
+        LET e_rat_4 = e_ratio SUBSET COND_ID = 4
+
+        LET s_rat_1 = s_ratio SUBSET COND_ID = 1
+        LET s_rat_2 = s_ratio SUBSET COND_ID = 2
+        LET s_rat_3 = s_ratio SUBSET COND_ID = 3
+        LET s_rat_4 = s_ratio SUBSET COND_ID = 4
+
+        RETAIN e_rat_1 SUBSET p_id_c1 > 0
+        RETAIN e_rat_2 SUBSET p_id_c2 > 0
+        RETAIN e_rat_3 SUBSET p_id_c3 > 0
+        RETAIN e_rat_4 SUBSET p_id_c4 > 0
+
+        RETAIN s_rat_1 SUBSET p_id_c1 > 0
+        RETAIN s_rat_2 SUBSET p_id_c2 > 0
+        RETAIN s_rat_3 SUBSET p_id_c3 > 0
+        RETAIN s_rat_4 SUBSET p_id_c4 > 0
+
+        RETAIN P_ID_C1 SUBSET P_ID_C1 > 0
+        RETAIN P_ID_C2 SUBSET P_ID_C2 > 0
+        RETAIN P_ID_C3 SUBSET P_ID_C3 > 0
+        RETAIN P_ID_C4 SUBSET P_ID_C4 > 0
+        
+    .   Performing & Plotting Regression Results
+        .   Specifying Base specifications
+            CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+
+        .   Plotting Base Plot
+            LIMITS 1 10
+            GRID OFF
+            LINE BLANK 
+            FRAME OFF
+            TIC MARKS OFF
+            TIC MARK OFF
+
+            EMBED ON
+            PLOT x for x = 1 1 10
+            LINE SOLID
+
+        .   Plotting Subplots
+            FRAME CORNER COORDINATES 0 0 100 100
+            GRID ON
+            X1FRAME ON
+            Y1FRAME ON
+            X1TIC MARK ON
+            Y1TIC MARK ON
+            TIC MARK SIZE = 2
+            TIC MARK LABEL SIZE = 4
+            XTIC OFFSET 0.2 0.2
+            YTIC OFFSET 0.2 0.2
+            X1LIMITS 0 1
+            Y1LIMITS 
+            Y1LABEL SIZE 5
+            X1LABEL SIZE 5
+            Y1LABEL DISPLACEMENT 19
+            X1LABEL DISPLACEMENT 15
+            SET WRITE DECIMALS 2
+            X1LABEL Simulated Ratios
+            Y1LABEL Experimental Ratios
+            TITLE DISPLACEMENT 5
+            TITLE SIZE 6
+
+            EMBED CORNER COORDINATES 1 6 3 9.5
+            TITLE 3-Person Neg. A Position
+            X1LIMITS 0.01 0.03
+            Y1LIMITS 0.01 0.03
+            LEGEND 1 SIZE 4.5
+            LEGEND 1 COORDINATES 2.5 5
+            LEGEND 1 KL-Divergence 0.013
+            CHARACTER CIRC()
+            CHARACTER COLOR BROWN
+            LINE COLORS BROWN BLACK BROWN
+            LINE BLANK SOLID
+            LINE THICKNESS 0.1 0.3
+            QUANTILE-QUANTILE PLOT e_rat_1 s_rat_1 SUBSET p_id_c1 = 1
+            
+            EMBED CORNER COORDINATES 3.15 6 5 9.5
+            TITLE 3-Person Neg. B1 & B2
+            Y1FRAME OFF
+            X1LIMITS 0 0.04
+            Y1LIMITS 0 0.04
+            Y1LABEL 
+            LEGEND 1 COORDINATES 2.5 5
+            LEGEND 1 KL-Divergences 0.07, 0.05
+            CHARACTER CIRC()
+            CHARACTER COLOR BLUE
+            LINE COLORS BLUE BLACK BLUE
+            LINE BLANK SOLID
+            LINE THICKNESS 0.1 0.3
+            QUANTILE-QUANTILE PLOT e_rat_1 s_rat_1 SUBSET p_id_c1 = 3
+            CHARACTER COLOR CABL
+            LINE COLORS CABL CABL
+            QUANTILE-QUANTILE PLOT e_rat_1 s_rat_1 SUBSET p_id_c1 = 4 
+
+            EMBED CORNER COORDINATES 6 6 8 9.5
+            TITLE 4-Person Neg. A1 & A2
+            X1LIMITS 0 0.04
+            Y1LIMITS 0 0.04
+            Y1LABEL Experimental Ratios
+            Y1FRAME ON
+            LEGEND 1 COORDINATES 2.5 5
+            LEGEND 1 KL-Divergences 0.4, 0.04
+            CHARACTER CIRC()
+            CHARACTER COLOR BROWN
+            LINE COLORS BROWN BLACK BROWN
+            LINE BLANK SOLID
+            LINE THICKNESS 0.1 0.3
+            QUANTILE-QUANTILE PLOT e_rat_2 s_rat_2 SUBSET p_id_c2 = 1
+            LINE BLANK BLANK
+            CHARACTER COLOR IRED
+            LINE COLORS IRED IRED
+            QUANTILE-QUANTILE PLOT e_rat_2 s_rat_2 SUBSET p_id_c2 = 2
+           
+            EMBED CORNER COORDINATES 8.15 6 10 9.5
+            TITLE 4-Person Neg. B1 & B2
+            Y1FRAME OFF
+            Y1LABEL 
+            X1LIMITS 0 0.04
+            Y1LIMITS 0 0.04
+            LEGEND 1 SIZE 4.5
+            LEGEND 1 COORDINATES 2.5 5
+            LEGEND 1 KL-Divergences 0.06, 0.05
+            CHARACTER CIRC()
+            CHARACTER COLOR BLUE
+            LINE COLORS BLUE BLACK BLUE
+            LINE BLANK SOLID
+            LINE THICKNESS 0.1 0.3
+            QUANTILE-QUANTILE PLOT e_rat_2 s_rat_2 SUBSET p_id_c2 = 3
+            LINE BLANK BLANK
+            CHARACTER COLOR CABL
+            LINE COLORS CABL CABL
+            QUANTILE-QUANTILE PLOT e_rat_2 s_rat_2 SUBSET p_id_c2 = 4
+            LINE 
+   
+            EMBED CORNER COORDINATES 1 1 3 4.5
+            TITLE 3-Person Rec. A Position
+            Y1LABEL Experimental Ratios
+            Y1FRAME ON
+            X1LIMITS 
+            Y1LIMITS 
+            LEGEND 1 SIZE 4.5
+            LEGEND 1 COORDINATES 15 5
+            LEGEND 1 KL-Divergence 0.35
+            CHARACTER CIRC()
+            CHARACTER COLOR BROWN
+            LINE COLORS BROWN BLACK BROWN
+            LINE BLANK SOLID SOLID
+            LINE THICKNESS 0.1 0.3
+            QUANTILE-QUANTILE PLOT e_rat_3 s_rat_3 SUBSET p_id_c3 = 1
+
+            EMBED CORNER COORDINATES 3.15 1 5 4.5
+            TITLE 3-Person Rec. B1 & B2
+            Y1FRAME OFF
+            X1LIMITS 0 0.05
+            Y1LIMITS 0 0.05
+            Y1LABEL 
+            LEGEND 1 COORDINATES 15 5
+            LEGEND 1 KL-Divergences 0.7, 1.0
+            CHARACTER CIRC()
+            CHARACTER COLOR BLUE
+            LINE COLORS BLUE BLACK BLUE
+            LINE BLANK SOLID
+            LINE THICKNESS 0.1 0.3
+            QUANTILE-QUANTILE PLOT e_rat_3 s_rat_3 SUBSET p_id_c3 = 3
+            CHARACTER COLOR CABL
+            LINE COLORS CABL CABL
+            LINE BLANK SOLID
+            QUANTILE-QUANTILE PLOT e_rat_3 s_rat_3 SUBSET p_id_c3 = 4 
+
+            EMBED CORNER COORDINATES 6 1 8 4.5
+            TITLE 4-Person Rec. A1 & A2
+            X1LIMITS 0.01 0.04
+            Y1LIMITS 0.01 0.04
+            Y1LABEL Experimental Ratios
+            Y1FRAME ON
+            LEGEND 1 COORDINATES 15 5
+            LEGEND 1 KL-Divergences 0.04, 0.04
+            CHARACTER CIRC()
+            CHARACTER COLOR BROWN
+            LINE COLORS BROWN BLACK BROWN
+            LINE BLANK SOLID
+            LINE THICKNESS 0.1 0.3
+            QUANTILE-QUANTILE PLOT e_rat_4 s_rat_4 SUBSET p_id_c4 = 1
+            LINE BLANK BLANK
+            CHARACTER COLOR IRED
+            LINE COLORS IRED IRED
+            QUANTILE-QUANTILE PLOT e_rat_4 s_rat_4 SUBSET p_id_c4 = 2
+            
+            EMBED CORNER COORDINATES 8.15 1 10 4.5
+            TITLE 4-Person Rec. B1 & B2
+            Y1FRAME OFF
+            Y1LABEL 
+            X1LIMITS 0 0.04
+            Y1LIMITS 0 0.04
+            LEGEND 1 SIZE 4.5
+            LEGEND 1 COORDINATES 15 5
+            LEGEND 1 KL-Divergences 0.07, 0.06
+            CHARACTER CIRC()
+            CHARACTER COLOR BLUE
+            LINE COLORS BLUE BLACK BLUE
+            LINE BLANK SOLID
+            LINE THICKNESS 0.1 0.3
+            QUANTILE-QUANTILE PLOT e_rat_4 s_rat_4 SUBSET p_id_c2 = 3
+            LINE BLANK BLANK
+            CHARACTER COLOR CABL
+            LINE COLORS CABL CABL
+            QUANTILE-QUANTILE PLOT e_rat_4 s_rat_4 SUBSET p_id_c2 = 4
+            EMBED OFF
+
+    .   Saving Plot
+        DEVICE 3 CLOSE
+        SYSTEM cp dppl2f.dat CogExchange_ExSimComparison_Quantiles.ps
 
 . #############
 . #   NOTES   #
