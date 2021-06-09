@@ -1060,6 +1060,15 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
         CALL /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/Summary_PointsAnalysis_30March2021/read_SimExp_PPCC.DP
         CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
 
+    .   Writing File-Out to Confirm KL-Divergence Scores
+        SET WRITE DECIMALS 6
+        ECHO OFF
+        CAPTURE CogEx_RatioData.DAT
+            WRITE cond_id p_id e_ratio s_ratio
+        END OF CAPTURE
+        ECHO ON
+        SET WRITE DECIMALS 3
+
     .   Subsetting Data by Condition & Ratio
         LET P_ID_C1 = P_ID SUBSET COND_ID = 1
         LET P_ID_C2 = P_ID SUBSET COND_ID = 2
@@ -1151,7 +1160,7 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
             Y1LIMITS 0 0.04
             Y1LABEL 
             LEGEND 1 COORDINATES 2.5 5
-            LEGEND 1 KL-Divergences 0.07, 0.05
+            LEGEND 1 KL-Divergences 0.08, 0.05
             CHARACTER CIRC()
             CHARACTER COLOR BLUE
             LINE COLORS BLUE BLACK BLUE
@@ -1169,7 +1178,7 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
             Y1LABEL Experimental Ratios
             Y1FRAME ON
             LEGEND 1 COORDINATES 2.5 5
-            LEGEND 1 KL-Divergences 0.4, 0.04
+            LEGEND 1 KL-Divergences 0.04, 0.05
             CHARACTER CIRC()
             CHARACTER COLOR BROWN
             LINE COLORS BROWN BLACK BROWN
