@@ -3,7 +3,7 @@
 #25 February 2021
 
 #   Pulling-In Utilities
-    include("/Users/jonathan.h.morgan/Julia Resources/Julia_Utilities_7April2021.jl")
+    include("/Users/jonathan.h.morgan/Julia Resources/Julia_Utilities_8June2021.jl")
 
 #   Activating the EnvironmentJS
     using Pkg
@@ -780,10 +780,39 @@
         kl_data.p_id = convert.(Int64, kl_data.p_id)
 
     #   Exporting to Dataplot to Do PPCC Analysis & Visualization
-        Julia_Utilities.dataplot_export(ratio_data, "SimExp_PPCC")
-        
-        Julia_Utilities.show_df(ratio_data)
+    #   Julia_Utilities.dataplot_export(ratio_data, "SimExp_PPCC")
 
+    #   Pulling-In SimExp_PPCC to Confirm KL Divergence Scores
+        cd("/Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts")
+        Julia_Utilities.dataplot_import()
+        dataplot_files = ans
+
+    #   Extracting Ratio Data from Dictionary
+        dp_keys = String.(keys(dataplot_files))
+        ratio_data = deepcopy(dataplot_files[dp_keys[2]])
+
+    #   Calculating KL-Divergence Scores
+        con_id = sort(unique(ratio_data[:,2]))
+        kl_divergence = 0.0
+
+        for i in eachindex(con_id)
+            #   Isolating the condition
+                con_data = ratio_data[(ratio_data.COND_ID .== con_id[i]), :]
+
+            #   Identifying position for the given condition
+                p_id = sort(unique(con_data.P_ID))
+                for j in eachindex(p_id)
+                    position_data = con_data[(con_data.P_ID .== p_id[j]), :]
+                    kl_divergence = [kl_divergence; StatsBase.kldivergence(position_data.E_RATIO, position_data.S_RATIO)]
+                end
+        end
+            
+    #   Removing First Element
+        kl_divergence = kl_divergence[2:length(kl_divergence)]   
+
+    #   Inspecting Scores
+        Julia_Utilities.myshowall(Base.stdout, kl_divergence, false)
+            
 #################################################################
 #   POINTS per OPPORTUNITY RATIO: SIMULATION VS. EXPERIMENTAL   #
 #################################################################
