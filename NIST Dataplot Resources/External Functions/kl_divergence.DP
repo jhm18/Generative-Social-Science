@@ -1,0 +1,34 @@
+.   Calculating Kullback–Leibler Divergence
+.   Jonathan H. Morgan
+.   11 June 2021
+
+COMMENT Settings
+    .   Setting Decimal Format to Write All values
+        SET WRITE DECIMALS 10
+        ECHO OFF
+
+COMMENT Exporting Data Elements for Julia to Read
+    .   Data
+        CAPTURE datafile.dat
+            WRITE x x_1
+        END OF CAPTURE
+        SET WRITE DECIMALS 3
+
+    .   Directory
+        CAPTURE /Users/jonathan.h.morgan/Desktop/directory.dat
+            PWD
+        END OF CAPTURE
+
+COMMENT Calling kl_divergence.jl
+    SYSTEM julia /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.jl
+
+COMMENT Importing Data
+    READ kl_divergence.dat kl_div
+
+COMMENT Removing Files
+    RM /Users/jonathan.h.morgan/Desktop/directory.dat
+    RM datafile.dat
+    RM kl_divergence.dat
+
+COMMENT Restoring Settings
+    ECHO ON
