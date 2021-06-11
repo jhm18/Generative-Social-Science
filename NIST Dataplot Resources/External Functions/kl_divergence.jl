@@ -2,7 +2,7 @@
 #   Jonathan H. Morgan
 #   11 June 2021
 
-#   Activating the EnvironmentJS
+#   Activating the Environment
     using Pkg
     Pkg.activate("/Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities")
     Pkg.status()
