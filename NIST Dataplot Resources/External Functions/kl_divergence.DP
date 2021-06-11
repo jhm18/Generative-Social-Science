@@ -2,6 +2,8 @@
 .   Jonathan H. Morgan
 .   11 June 2021
 
+.   To Run this Macro:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP X=e_pos_11 X_1=s_pos_11
+
 COMMENT Settings
     .   Setting Decimal Format to Write All values
         SET WRITE DECIMALS 10
@@ -10,7 +12,7 @@ COMMENT Settings
 COMMENT Exporting Data Elements for Julia to Read
     .   Data
         CAPTURE datafile.dat
-            WRITE x x_1
+            WRITE $x $x_1
         END OF CAPTURE
         SET WRITE DECIMALS 3
 
