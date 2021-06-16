@@ -13,7 +13,7 @@
 .          See https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/ for more details.
 .          If the goal is to minimize the divergence, then reverse KL Divergence is beter; this acheived by changing the if condition to weight by Q(x).
 
-.           To Run this Macro:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP sample_a=x sample_b=x_1
+.          To Run this Macro:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP sample_a=x sample_b=x_1
 
 COMMENT Creating Test Samples
 .    LET sample_a = DATA 0.02 0.03 0.05 0.14 0.16 0.15 0.12 0.08 0.1 0.08 0.07
