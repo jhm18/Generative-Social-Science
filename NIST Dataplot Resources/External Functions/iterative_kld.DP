@@ -23,7 +23,7 @@ COMMENT Exporting Data Elements for Julia to Read
 COMMENT Calling kl_divergence.jl
     SYSTEM julia /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/iterative_kld.jl
 
-COMMENT Importing Data
+COMMENT Importing Scores into Dataplot
     READ kl_divergence.dat kl_div
 
 COMMENT Removing Files
