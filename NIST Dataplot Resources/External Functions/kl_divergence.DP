@@ -33,7 +33,7 @@ COMMENT Normalizing to Meet Probability Assumption (Values Sum to One)
 .   LET sum_a = SUM $samp_a
     LET sum_a = SUM samp_a
 .   LET sum_b = SUM $samp_b
-    LET sum_b = SUM $samp_b
+    LET sum_b = SUM samp_b
 
 .   LET $sample_a = $samp_a/sum_a
     LET sample_a = samp_a/sum_a
@@ -44,12 +44,12 @@ COMMENT Normalizing to Meet Probability Assumption (Values Sum to One)
 COMMENT Looping through values of a and b
     ECHO OFF
     FEEDBACK OFF
-    LOOP FOR K = 1 1 N
+    LOOP FOR I = 1 1 N
         .   Getting Iteration Values
-        .   LET ai = $samp_a(K)
-            LET ai = samp_a(K)
-        .   LET bi = $samp_b(K)
-            LET bi = samp_b(K)
+        .   LET ai = $samp_a(I)
+            LET ai = samp_a(I)
+        .   LET bi = $samp_b(I)
+            LET bi = samp_b(I)
         
         .   Evaluating sample_a with reference to bi
             IF ai > 0
