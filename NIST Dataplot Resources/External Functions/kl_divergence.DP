@@ -13,7 +13,8 @@
 .          See https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/ for more details.
 .          If the goal is to minimize the divergence, then reverse KL Divergence is beter; this acheived by changing the if condition to weight by Q(x).
 
-.          To Run this Macro:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP sample_a=x sample_b=x_1
+.           To Run this Macro with Arguments:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP samp_a=x samp_b=x_1
+.           I have commented out the arguments, and use NAME in the call script because I often call this function within a loop.
 
 COMMENT Creating Test Samples
 .    LET sample_a = DATA 0.02 0.03 0.05 0.14 0.16 0.15 0.12 0.08 0.1 0.08 0.07
@@ -23,14 +24,21 @@ COMMENT Creating Test Samples
 .    DELETE IND
   
 COMMENT Setting Initial Values of n and R
-    LET n = SIZE $sample_a
+.   LET n = SIZE $samp_a
+    LET n = SIZE samp_a
     LET r = 0.0
+ 
 
 COMMENT Normalizing to Meet Probability Assumption (Values Sum to One)
-    LET sum_a = SUM $sample_a
-    LET sum_b = SUM $sample_b
-    LET $sample_a = $sample_a/sum_a
-    LET $sample_b = $sample_b/sum_b
+.   LET sum_a = SUM $samp_a
+    LET sum_a = SUM samp_a
+.   LET sum_b = SUM $samp_b
+    LET sum_b = SUM $samp_b
+
+.   LET $sample_a = $samp_a/sum_a
+    LET sample_a = samp_a/sum_a
+.   LET $sample_b = $samp_b/sum_b
+    LET sample_b = samp_b/sum_b
     DELETE sum_a sum_b
 
 COMMENT Looping through values of a and b
@@ -38,8 +46,10 @@ COMMENT Looping through values of a and b
     FEEDBACK OFF
     LOOP FOR K = 1 1 N
         .   Getting Iteration Values
-            LET ai = $sample_a(K)
-            LET bi = $sample_b(K)
+        .   LET ai = $samp_a(K)
+            LET ai = samp_a(K)
+        .   LET bi = $samp_b(K)
+            LET bi = samp_b(K)
         
         .   Evaluating sample_a with reference to bi
             IF ai > 0
