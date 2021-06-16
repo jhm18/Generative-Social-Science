@@ -1,0 +1,35 @@
+.   Calculating Kullback–Leibler Divergences from a Random Sample
+.   Jonathan H. Morgan
+.   15 June 2021
+
+COMMENT Setting Decimal Format to Write All Value Before Moving to Exponential Notation
+    SET WRITE DECIMALS 10
+    ECHO OFF
+
+COMMENT Exporting Data Elements for Julia to Read
+    .   Note: I'm not passing arguments.
+    .         Instead, I am using the NAME command as I expect most applications of this command will be in a loop, and the NAME command is more stable.
+    .   Data
+        CAPTURE datafile.dat
+            WRITE x 
+        END OF CAPTURE
+        SET WRITE DECIMALS 3
+
+    .   Directory
+        CAPTURE /Users/jonathan.h.morgan/Desktop/directory.dat
+            PWD
+        END OF CAPTURE
+
+COMMENT Calling kl_divergence.jl
+    SYSTEM julia /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/iterative_kld.jl
+
+COMMENT Importing Data
+    READ kl_divergence.dat kl_div
+
+COMMENT Removing Files
+    RM /Users/jonathan.h.morgan/Desktop/directory.dat
+    RM datafile.dat
+    RM kl_divergence.dat
+
+COMMENT Restoring Settings
+    ECHO ON
