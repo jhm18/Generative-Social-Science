@@ -1,36 +1,49 @@
 .   Calculating Kullback–Leibler Divergence
 .   Jonathan H. Morgan
-.   11 June 2021
+.   16 June 2021
 
-.   To Run this Macro:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP X=e_pos_11 X_1=s_pos_11
+.   Note:  Some applications support using Base 2 Log of X LOG2(X) or Base 10 LOG10(2) rather than the natural log.
+.          I am doing the most basic implementation here using LOG.
+.          Also, this is a  forward KL, the difference between P(x) and Q(x) is weighted by P(x).
+.          This weighing is implemented through the if condition. 
+.          If  P(x) > 0, then the log(P(x)/Q(x)) term will contribute to the overall KL Divergence.
+.          This implementation is "zero avoiding", namely there is no cases of P(x) > 0 that are not covered by Q(x).
+.          This is desirable when you want to assess the differences between the distributions, but poor when trying to minimize the divergence between them because
+.          in covering all the cases the score will make some wrong choices (see https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/ for more details).
+.          If the goal is to minimize the divergence, then reverse KL Divergence is beter; this acheived by chaning the if condition to weight by Q(x).
 
-COMMENT Settings
-    .   Setting Decimal Format to Write All values
-        SET WRITE DECIMALS 10
-        ECHO OFF
+.           To Run this Macro:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP sample_a=x sample_b=x_1
 
-COMMENT Exporting Data Elements for Julia to Read
-    .   Data
-        CAPTURE datafile.dat
-            WRITE $x $x_1
-        END OF CAPTURE
-        SET WRITE DECIMALS 3
+COMMENT Creating Test Samples
+.    LET sample_a = DATA 0.02 0.03 0.05 0.14 0.16 0.15 0.12 0.08 0.1 0.08 0.07
+.    LET sample_n = SIZE sample_a
+.    LET IND = RANDOM PERMUTATION FOR I = 1 1 sample_n
+.    LET sample_b = BOOTSTRAP SAMPLE sample_a IND
+.    DELETE IND
+  
+COMMENT Setting Initial Values of n and R
+    LET n = SIZE $sample_a
+    LET r = 0.0
 
-    .   Directory
-        CAPTURE /Users/jonathan.h.morgan/Desktop/directory.dat
-            PWD
-        END OF CAPTURE
+COMMENT Normalizing to Meet Probability Assumption (Values Sum to One)
+    LET sum_a = SUM $sample_a
+    LET sum_b = SUM $sample_b
+    LET $sample_a = $sample_a/sum_a
+    LET $sample_b = $sample_b/sum_b
+    DELETE sum_a sum_b
 
-COMMENT Calling kl_divergence.jl
-    SYSTEM julia /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.jl
-
-COMMENT Importing Data
-    READ kl_divergence.dat kl_div
-
-COMMENT Removing Files
-    RM /Users/jonathan.h.morgan/Desktop/directory.dat
-    RM datafile.dat
-    RM kl_divergence.dat
-
-COMMENT Restoring Settings
-    ECHO ON
+COMMENT Looping through values of a and b
+    LOOP FOR K = 1 1 N
+        .   Getting Iteration Values
+            LET ai = $sample_a(K)
+            LET bi = $sample_b(K)
+        
+        .   Evaluating sample_a with reference to bi
+            IF ai > 0
+                LET i_value = ai * LOG(ai/bi) - ai + bi
+                LET r = r + i_value
+                DELETE i_value
+            ELSE 
+                LET r = r + bi
+            END OF IF
+    END OF LOOP
