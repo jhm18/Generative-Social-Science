@@ -1143,7 +1143,7 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
             TITLE 3-Person Neg. A Position
             X1LIMITS 0.01 0.03
             Y1LIMITS 0.01 0.03
-            LEGEND 1 SIZE 4.5
+            LEGEND 1 SIZE 5
             LEGEND 1 COORDINATES 2.5 5
             LEGEND 1 KL-Divergence 0.013
             CHARACTER CIRC()
@@ -1196,7 +1196,7 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
             Y1LABEL 
             X1LIMITS 0 0.04
             Y1LIMITS 0 0.04
-            LEGEND 1 SIZE 4.5
+            LEGEND 1 SIZE 5
             LEGEND 1 COORDINATES 2.5 5
             LEGEND 1 KL-Divergences 0.06, 0.05
             CHARACTER CIRC()
@@ -1217,7 +1217,7 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
             Y1FRAME ON
             X1LIMITS 
             Y1LIMITS 
-            LEGEND 1 SIZE 4.5
+            LEGEND 1 SIZE 5
             LEGEND 1 COORDINATES 15 5
             LEGEND 1 KL-Divergence 0.35
             CHARACTER CIRC()
@@ -1233,6 +1233,7 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
             X1LIMITS 0 0.05
             Y1LIMITS 0 0.05
             Y1LABEL 
+            LEGEND 1 SIZE 5
             LEGEND 1 COORDINATES 15 5
             LEGEND 1 KL-Divergences 0.7, 1.0
             CHARACTER CIRC()
@@ -1252,6 +1253,7 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
             Y1LIMITS 0.01 0.04
             Y1LABEL Experimental Ratios
             Y1FRAME ON
+            LEGEND 1 SIZE 5
             LEGEND 1 COORDINATES 15 5
             LEGEND 1 KL-Divergences 0.04, 0.04
             CHARACTER CIRC()
@@ -1271,7 +1273,7 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
             Y1LABEL 
             X1LIMITS 0 0.04
             Y1LIMITS 0 0.04
-            LEGEND 1 SIZE 4.5
+            LEGEND 1 SIZE 5
             LEGEND 1 COORDINATES 15 5
             LEGEND 1 KL-Divergences 0.07, 0.06
             CHARACTER CIRC()
@@ -1290,9 +1292,376 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
         DEVICE 3 CLOSE
         SYSTEM cp dppl2f.dat CogExchange_ExSimComparison_Quantiles.ps
 
+COMMENT Calculating KL-Divergence from Dataplot
+    .   Importing Ratio Data
+        cd /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+        dataplot
+        CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+        CALL /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/Summary_PointsAnalysis_30March2021/read_SimExp_PPCC.DP
+        CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+
+    .   Subsetting Data by Condition & Ratio
+        LET P_ID_C1 = P_ID SUBSET COND_ID = 1
+        LET P_ID_C2 = P_ID SUBSET COND_ID = 2
+        LET P_ID_C3 = P_ID SUBSET COND_ID = 3
+        LET P_ID_C4 = P_ID SUBSET COND_ID = 4
+      
+        LET e_rat_1 = e_ratio SUBSET COND_ID = 1
+        LET e_rat_2 = e_ratio SUBSET COND_ID = 2
+        LET e_rat_3 = e_ratio SUBSET COND_ID = 3
+        LET e_rat_4 = e_ratio SUBSET COND_ID = 4
+
+        LET s_rat_1 = s_ratio SUBSET COND_ID = 1
+        LET s_rat_2 = s_ratio SUBSET COND_ID = 2
+        LET s_rat_3 = s_ratio SUBSET COND_ID = 3
+        LET s_rat_4 = s_ratio SUBSET COND_ID = 4
+
+        RETAIN e_rat_1 SUBSET p_id_c1 > 0
+        RETAIN e_rat_2 SUBSET p_id_c2 > 0
+        RETAIN e_rat_3 SUBSET p_id_c3 > 0
+        RETAIN e_rat_4 SUBSET p_id_c4 > 0
+
+        RETAIN s_rat_1 SUBSET p_id_c1 > 0
+        RETAIN s_rat_2 SUBSET p_id_c2 > 0
+        RETAIN s_rat_3 SUBSET p_id_c3 > 0
+        RETAIN s_rat_4 SUBSET p_id_c4 > 0
+
+        RETAIN P_ID_C1 SUBSET P_ID_C1 > 0
+        RETAIN P_ID_C2 SUBSET P_ID_C2 > 0
+        RETAIN P_ID_C3 SUBSET P_ID_C3 > 0
+        RETAIN P_ID_C4 SUBSET P_ID_C4 > 0
+
+    .   Subsetting Data by Position for Condition 1
+        LET e_pos_11 = e_rat_1 SUBSET p_id_c1 = 1
+        LET s_pos_11 = s_rat_1 SUBSET p_id_c1 = 1
+        RETAIN e_pos_11 SUBSET p_id_c1 = 1
+        RETAIN s_pos_11 SUBSET p_id_c1 = 1
+
+    .   Calculating KL-Divergence
+        NAME e_pos_11 samp_a
+        NAME s_pos_11 samp_b
+        CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP
+
+    .   Looping through Condition 1, Positions 2 and 3
+        LET c1_kl_1 = r
+        DELETE r e_pos_11 s_pos_11 samp_a samp_b
+
+        LOOP FOR K = 3 1 4
+            .   Subsetting Data by Position
+                LET e_pos_1^K = e_rat_1 SUBSET p_id_c1 = ^K
+                LET s_pos_1^K = s_rat_1 SUBSET p_id_c1 = ^K
+                RETAIN e_pos_1^K s_pos_1^K SUBSET p_id_c1 = ^K
+                RETAIN e_pos_1^K s_pos_1^K SUBSET e_pos_1^K >= 0
+
+            .   Changing to Macro Names
+                NAME e_pos_1^K samp_a
+                NAME s_pos_1^K samp_b
+
+            .   Calculating KL-Divergence 
+                CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP
+
+            .   Combining with c1_kl_1
+                LET c1_kl_1 = COMBINE c1_kl_1 r
+
+            .   Deleting Iteration Elements
+                DELETE r e_pos_1^K s_pos_1^K samp_a samp_b
+        END OF LOOP
+    
+    .   Subsetting Data by Position for Condition 2
+        LET e_pos_21 = e_rat_2 SUBSET p_id_c2 = 1
+        LET s_pos_21 = s_rat_2 SUBSET p_id_c2 = 1
+        RETAIN e_pos_21 SUBSET p_id_c2 = 1
+        RETAIN s_pos_21 SUBSET p_id_c2 = 1
+
+    .   Calculating KL-Divergence (Renamining to Generic Macro Names)
+        NAME e_pos_21 samp_a
+        NAME s_pos_21 samp_b
+        CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP 
+
+    .   Looping through Condition 2, Positions 2 and 3
+        LET c2_kl_1 = r
+        DELETE r e_pos_21 s_pos_21 samp_a samp_b
+
+        LOOP FOR K = 2 1 4
+            .   Subsetting Data by Position
+                LET e_pos_2^K = e_rat_2 SUBSET p_id_c2 = ^K
+                LET s_pos_2^K = s_rat_2 SUBSET p_id_c2 = ^K
+                RETAIN e_pos_2^K s_pos_2^K SUBSET p_id_c2 = ^K
+                RETAIN e_pos_2^K s_pos_2^K SUBSET e_pos_2^K >= 0
+
+            .   Calculating KL-Divergence (Renamining to Generic Macro Names)
+                NAME e_pos_2^K samp_a
+                NAME s_pos_2^K samp_b
+                CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP 
+
+            .   Combining with c1_kl_1
+                LET c2_kl_1 = COMBINE c2_kl_1 r
+
+            .   Deleting Iteration Elements
+                DELETE r e_pos_2^K s_pos_2^K samp_a samp_b
+        END OF LOOP
+
+    .   Subsetting Data by Position for Condition 3
+        LET e_pos_31 = e_rat_3 SUBSET p_id_c3 = 1
+        LET s_pos_31 = s_rat_3 SUBSET p_id_c3 = 1
+        RETAIN e_pos_31 s_pos_31 SUBSET p_id_c3 = 1
+        RETAIN e_pos_31 s_pos_31 SUBSET e_pos_31 >= 0
+
+    .   Calculating KL-Divergence (Renamining to Generic Macro Names)
+        NAME e_pos_31 samp_a
+        NAME s_pos_31 samp_b
+        CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP
+
+    .   Looping through Condition 3, Positions 2 and 3
+        LET c3_kl_1 = r
+        DELETE r e_pos_31 s_pos_31 samp_a samp_b
+
+        LOOP FOR K = 3 1 4
+            .   Subsetting Data by Position
+                LET e_pos_3^K = e_rat_3 SUBSET p_id_c3 = ^K
+                LET s_pos_3^K = s_rat_3 SUBSET p_id_c3 = ^K
+                RETAIN e_pos_3^K s_pos_3^K SUBSET p_id_c3 = ^K
+                RETAIN e_pos_3^K s_pos_3^K SUBSET e_pos_3^K >= 0
+
+            .   Calculating KL-Divergence (Renamining to Generic Macro Names)
+                NAME e_pos_3^K samp_a
+                NAME s_pos_3^K samp_b
+                CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP
+
+            .   Combining with c3_kl_1
+                LET c3_kl_1 = COMBINE c3_kl_1 r
+
+            .   Deleting Iteration Elements
+                DELETE r e_pos_3^K s_pos_3^K samp_a samp_b
+        END OF LOOP
+
+    .   Subsetting Data by Position for Condition 4
+        LET e_pos_41 = e_rat_4 SUBSET p_id_c4 = 1
+        LET s_pos_41 = s_rat_4 SUBSET p_id_c4 = 1
+        RETAIN e_pos_41 s_pos_41 SUBSET p_id_c4 = 1
+        RETAIN e_pos_41 s_pos_41 SUBSET e_pos_41 >= 0
+
+    .   Calculating KL-Divergence (Renamining to Generic Macro Names)
+        NAME e_pos_41 samp_a
+        NAME s_pos_41 samp_b
+        CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP
+
+    .   Looping through Condition 4, Positions 2 and 3
+        LET c4_kl_1 = r
+        DELETE r e_pos_41 s_pos_41
+
+        LOOP FOR K = 2 1 4
+            .   Subsetting Data by Position
+                LET e_pos_4^K = e_rat_4 SUBSET p_id_c4 = ^K
+                LET s_pos_4^K = s_rat_4 SUBSET p_id_c4 = ^K
+                RETAIN e_pos_4^K s_pos_4^K SUBSET p_id_c4 = ^K
+                RETAIN e_pos_4^K s_pos_4^K SUBSET e_pos_4^K >= 0
+
+            .   Calculating KL-Divergence (Renamining to Generic Macro Names)
+                NAME e_pos_4^K samp_a
+                NAME s_pos_4^K samp_b
+                CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP
+
+            .   Combining with c4_kl_1
+                LET c4_kl_1 = COMBINE c4_kl_1 r
+
+            .   Deleting Iteration Elements
+                DELETE kl_div e_pos_4^K s_pos_4^K samp_a samp_b
+        END OF LOOP
+
+    .   Combining KL Divergence Scores for each Context
+        LET kl_div = COMBINE c1_kl_1 c2_kl_1 c3_kl_1 c4_kl_1
+
+    .   Perfomring Null-Analaysis
+        LOOP FOR K = 1 1 4
+            .   Identifying the Condition's Positions
+                LET c_pos_i = DISTINCT p_id_c^K
+
+            .   Looping through the Condition's Positions
+                LET n = SIZE c_pos_i
+                LOOP FOR L = 1 1 N
+                    .   Pulling-Out Experimental Values
+                        LET pos_i = c_pos_i(L)
+                        LET e_val = e_rat_^K SUBSET p_id_c^K = ^pos_i
+                        RETAIN e_val SUBSET p_id_c^K = ^pos_i
+
+                    .   Creating Base Value to which to Append
+                        LET STRING i_name = kld_^K&^pos_i
+                        LET ^i_name = 0
+
+                    .   Permutting the Values and Calculating 
+                        NAME e_val x
+                        CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/iterative_kld.DP
+
+                    .   Renaming KL_DIV with Iteration Names
+                        LET ^i_name = COMBINE ^i_name KL_DIV
+
+                    .   Delete L Iteration Elements
+                        DELETE e_val x kl_div
+                END OF LOOP
+                DELETE c_pos_i
+        END OF LOOP
+
+    .   Eliminating First and Last Value
+        RETAIN KLD_11 FOR I = 2 1 1000
+        RETAIN KLD_13 FOR I = 2 1 1000
+        RETAIN KLD_14 FOR I = 2 1 1000
+        RETAIN KLD_21 FOR I = 2 1 1000
+        RETAIN KLD_22 FOR I = 2 1 1000
+        RETAIN KLD_23 FOR I = 2 1 1000
+        RETAIN KLD_24 FOR I = 2 1 1000
+        RETAIN KLD_31 FOR I = 2 1 1000
+        RETAIN KLD_33 FOR I = 2 1 1000
+        RETAIN KLD_34 FOR I = 2 1 1000
+        RETAIN KLD_41 FOR I = 2 1 1000
+        RETAIN KLD_42 FOR I = 2 1 1000
+        RETAIN KLD_43 FOR I = 2 1 1000
+        RETAIN KLD_44 FOR I = 2 1 1000
+        
+    .   Visualize KL-Divergence Scores
+
+        .   Calculate the Highest Posterior Density Interval (HDPI) at 90% 
+        .   This approach will work for univariate distributions, use something a bit more robust for multivariate cases
+        .   R-Estimate Using Rethinking: 0.0185 0.0343 
+            LET prob = 0.9
+
+        .   Creating Iteration Values
+            LET i_values = DISTINCT p_id_c3
+            LET n = SIZE i_values
+
+        .   Generating Plot Values
+            LOOP FOR K = 1 1 N
+                .   Setting i_value 
+                    LET i_value = i_values(^K)
+
+                .   Getting Kernel Density Estimates
+                    SET WRITE DECIMALS 3
+                    LET kld_max = MAXIMUM kld_3^i_value
+                    LET kld_max = ROUND(kld_max,3)
+
+                    X1LIMIT 0  kld_max
+                    KERNEL DENSITY kld_3^i_value
+                    LET p_x = XPLOT
+                    LET p_y = YPLOT
+
+                    LET Y_^i_value = p_y
+                    LET X_^i_value = p_x
+                    RETAIN Y_^i_value X_^i_value  SUBSET X_^i_value = 0 TO kld_max
+            END OF LOOP
+
+        .   Plot Settings
+            set x11 hardware fill off
+            set aqua hardware fill off
+            MAJOR TIC MARK NUMBER 5
+            REGION FILL OFF ON ON
+            REGION FILL COLOR BROWN ALL
+            REGION BASE 0 ALL
+            X1LABEL KL-Divergence Score
+            X1LABEL SIZE 4
+            X1LABEL DISPLACEMENT 13
+            TIC MARK LABEL SIZE 3
+            TITLE SIZE 4
+
+            LET n_value = SIZE i_values
+            MULTIPLOT 2 2
+            LOOP FOR K = 1 1 n_value
+               .    Setting i_value 
+                    LET i_value = i_values(^K)
+
+                .   Calculating HDPI
+                    LET n = SIZE kld_3^i_value
+                    LET x_sorted = SORT kld_3^i_value
+
+                    LET num_keep = prob * n
+                    LET num_keep = CEIL(num_keep)
+                    LET num_drop = n - num_keep
+            
+                    LET drop_n = num_drop + 1
+                    LET keep_n = n - num_drop
+            
+                    LET x_low = x_sorted FOR I = 1 1 num_drop
+                    LET VAL = DATA 1 0
+                    LET REP = DATA num_drop keep_n
+                    LET index = SEQUENCE VAL REP
+                    RETAIN x_low SUBSET index = 1
+
+                    LET x_high = x_sorted FOR I = keep_n 1 n
+                    LET VAL = DATA 0 1
+                    LET REP = DATA keep_n num_drop
+                    LET index = SEQUENCE VAL REP
+                    RETAIN x_high SUBSET index = 1
+                    DELTE REP VAL index
+           
+                    LET span = x_high - x_low
+                    LET span_min = MINIMUM span
+                    LET s_values = span SUBSET span = span_min
+                    RETAIN x_high x_low SUBSET s_values > 0
+            
+                    LET x_max = x_high(1)
+                    LET x_min = x_low(1)
+                    LET x_low = 1 SUBSET x_sorted >  x_min
+                    LET x_values = x_sorted
+                    RETAIN x_values SUBSET x_low > 0
+                    LET x_high = 1 SUBSET x_values <  x_max
+                    RETAIN x_values SUBSET x_high > 0
+                    DELETE x_sorted val rep index span s_values x_low x_high
+
+                .   Dataplot Is Crashing When Values are Less than 0 Currently
+                .   Negative Values Are Not Particularly Meaningful Here, so Truncating
+                    LET sim_val = c3_kl_1(^K)
+                    LET y_val = MAXIMUM y_^i_value 
+                    LINE COLOR BLACK 
+                    TITLE Position ^i_value
+                    LET kld_max = MAXIMUM kld_3^i_value
+                    LET kld_max = ROUND(kld_max,3)
+                    X1LIMIT 0  kld_max
+                    PLOT y_^i_value x_^i_value AND
+                    PLOT y_^i_value x_^i_value  SUBSET x_^i_value <= x_min AND
+                    PLOT y_^i_value x_^i_value  SUBSET x_^i_value >= x_max
+                    LINE COLOR BLUE
+                    DRAW DATA sim_val 0 sim_val y_val
+                    MOVEDATA sim_val y_val 
+                    COLOR BLUE
+                    HW 2 1
+                    FONT COMPLEX
+                    TEXT Simulation Value
+                    DELTE sim_val y_val x_min x_max
+            END OF LOOP
+            END OF MULTIPLOT
+
+        .   Saving Condition 1-4
+            DEVICE 3 CLOSE
+            SYSTEM cp dppl2f.dat CogExchange_Cond1_Random.ps
+            SYSTEM cp dppl2f.dat CogExchange_Cond2_Random.ps
+            SYSTEM cp dppl2f.dat CogExchange_Cond3_Random.ps
+            SYSTEM cp dppl2f.dat CogExchange_Cond4_Random.ps
+        
 . #############
 . #   NOTES   #
 . #############
+
+.   When calling external functions for more than a few iterations, minimize the amount of data being piped between applicaitons.
+.   For example, have loops and the metrics being generated in them be done in the same program and ship the results rather than call the command in a loop.
+.   In the null analysis above, this strategy allows you to do 14 calls rather than 14,000.
+
+.   More Efficent Version of the Null-Analysis
+
+.   Efficient Way to Plot the 5th and 95 Percentiles from x/y Plot Elements Using Match: Alan Heckert
+    CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts
+    READ kld_11_density.DAT p_x p_y
+    LET YTEMP = P_Y
+    LET XTEMP = P_X
+    RETAIN YTEMP XTEMP  SUBSET XTEMP = 0 TO 0.047
+
+    LET YSUM   = SUM YTEMP
+    LET YCUM   = CUMULATIVE SUM YTEMP
+    LET YZ     = YCUM/YSUM
+    LET CUTOFF = DATA  0.05 0.95
+    LET XINDX  = MATCH YZ CUTOFF
+    LET IVAL   = XINDX(1)
+    LET XLOW   = XTEMP(IVAL)
+    LET IVAL   = XINDX(2)
+    LET XUPP   = XTEMP(IVAL)
 
 .   Alternative specifications for the Density Plots
 
@@ -1338,4 +1707,68 @@ COMMENT Performing Quantile Analysis of the Empirical and Simulation Data
     LET y_max = MAXIMUM y2
     LET r_y = y2/y_max
     PLOT r_y x2
-    
+
+.   Filled Area Base = 0
+    REGION FILL ON OFF
+    REGION BASE 0 ALL
+    TITLE NORPDF FROM -1.5 TO -1
+    PLOT NORPDF(X) FOR X = -1.5 0.01 -1 AND
+    PLOT NORPDF(X) FOR X = -3 0.01 3
+
+.   Filled Area Plot: Example 1
+    CD /Users/jonathan.h.morgan/dataplot/lib/data
+    SKIP 25
+    READ TEXAS.DAT X Y
+    CD /Users/jonathan.h.morgan/Desktop/DNAC/Cog.Exchange/Data_Scripts/DP_Scripts
+
+    .   Texas 1
+        REGION FILL ON
+        REGION BASE POLYGON ON
+        FRAME OFF
+        TITLE MAP OF TEXAS
+        PLOT Y X
+        REGION BASE 0
+
+    .   Texas Multiplot
+        FRAME OFF
+        FRAME CORNER COORDINATES 5 5 95 95
+        MULTIPLOT 2 2; MULTIPLOT CORNER COORDINATES 0 0 100 100
+            PRE-SORT OFF
+            PLOT Y X
+            PRE-SORT ON
+            REGION BASE POLYGON
+            FILL ON
+            PLOT Y X
+            REGION FILL COLOR G50
+            PLOT Y X
+            REGION PATTERN D1D2
+            PATTERN SPACING 5
+            PLOT Y X
+        END OF MULTIPLOT
+
+
+.   Filled Area Plot: Example 2
+    . PERCENTAGE BELOW POVERTY LEVEL
+    . SOURCE: “SOCIAL INDICATORS 1976”, US CENSUS BUREAU
+    . Y1 = 22-42 Y2 = 65+
+
+    LET Y1 = DATA 9.8 9.1 8.2 7.7 8.3 8.5 8.2 7.6 7.7 8.8
+    LET Y2 = DATA 28.5 29.5 25.0 25.3 24.5 21.6 18.6 16.3 14.6 15.3
+    LET X = SEQUENCE 1966 1 1975
+    LET XREV = X
+    LET N = SIZE Y1
+    LET INDX = SEQUENCE N -1 1
+    LET INDX = SORTC INDX XREV Y2
+
+    EXTEND Y1 Y2
+    EXTEND X XREV
+    REGION BASE POLYGON
+    REGION FILL ON ALL
+    XLIMITS 1966 1975
+    XTIC OFFSET 1 1
+    MAJOR X1TIC MARK NUMBER N
+    MINOR X1TICMARK NUMBER 0
+    TITLE FILLED AREA PLOT
+    PLOT Y1 X
+
+   
