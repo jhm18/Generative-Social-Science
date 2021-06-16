@@ -9,7 +9,8 @@
 .          If  P(x) > 0, then the log(P(x)/Q(x)) term will contribute to the overall KL Divergence.
 .          This implementation is "zero avoiding", namely there is no cases of P(x) > 0 that are not covered by Q(x).
 .          This is desirable when you want to assess the differences between the distributions, but poor when trying to minimize the divergence between them because
-.          in covering all the cases the score will make some wrong choices (see https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/ for more details).
+.          in covering all the cases there will be cases of P(x) that are wrongly covered by Q(x).
+.          See https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/ for more details.
 .          If the goal is to minimize the divergence, then reverse KL Divergence is beter; this acheived by changing the if condition to weight by Q(x).
 
 .           To Run this Macro:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP sample_a=x sample_b=x_1
@@ -33,6 +34,8 @@ COMMENT Normalizing to Meet Probability Assumption (Values Sum to One)
     DELETE sum_a sum_b
 
 COMMENT Looping through values of a and b
+    ECHO OFF
+    FEEDBACK OFF
     LOOP FOR K = 1 1 N
         .   Getting Iteration Values
             LET ai = $sample_a(K)
@@ -47,3 +50,5 @@ COMMENT Looping through values of a and b
                 LET r = r + bi
             END OF IF
     END OF LOOP
+    FEEDBACK ON
+    ECHO ON
