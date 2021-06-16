@@ -10,7 +10,7 @@
 .          This implementation is "zero avoiding", namely there is no cases of P(x) > 0 that are not covered by Q(x).
 .          This is desirable when you want to assess the differences between the distributions, but poor when trying to minimize the divergence between them because
 .          in covering all the cases the score will make some wrong choices (see https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/ for more details).
-.          If the goal is to minimize the divergence, then reverse KL Divergence is beter; this acheived by chaning the if condition to weight by Q(x).
+.          If the goal is to minimize the divergence, then reverse KL Divergence is beter; this acheived by changing the if condition to weight by Q(x).
 
 .           To Run this Macro:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP sample_a=x sample_b=x_1
 
