@@ -35,10 +35,10 @@ COMMENT Normalizing to Meet Probability Assumption (Values Sum to One)
 .   LET sum_b = SUM $samp_b
     LET sum_b = SUM samp_b
 
-.   LET $sample_a = $samp_a/sum_a
-    LET sample_a = samp_a/sum_a
-.   LET $sample_b = $samp_b/sum_b
-    LET sample_b = samp_b/sum_b
+.   LET $samp_a = $samp_a/sum_a
+    LET samp_a = samp_a/sum_a
+.   LET $samp_b = $samp_b/sum_b
+    LET samp_b = samp_b/sum_b
     DELETE sum_a sum_b
 
 COMMENT Looping through values of a and b
