@@ -4,7 +4,7 @@
 
 .   Note:  Some applications support using Base 2 Log of X LOG2(X) or Base 10 LOG10(2) rather than the natural log.
 .          I am doing the most basic implementation here using LOG.
-.          Also, this is a  forward KL, the difference between P(x) and Q(x) is weighted by P(x).
+.          Also, this is a  forward KL Divergence score, the difference between P(x) and Q(x) is weighted by P(x).
 .          This weighing is implemented through the if condition. 
 .          If  P(x) > 0, then the log(P(x)/Q(x)) term will contribute to the overall KL Divergence.
 .          This implementation is "zero avoiding", namely there is no cases of P(x) > 0 that are not covered by Q(x).
