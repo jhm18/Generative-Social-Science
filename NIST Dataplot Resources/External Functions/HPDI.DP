@@ -1,0 +1,88 @@
+.   Calculating the Highest Posterior Density Interval
+.   Jonathan H. Morgan
+.   16 June 2021
+
+.   Sources:    https://github.com/cran/coda/blob/master/R/HPDinterval.R
+
+.   Function takes two arguments: x and prob
+.   x refers to the variable for which we are calculating the HDPI.
+.   prob referes to the credible interval percentage.
+
+COMMENT: Creating Test Data
+.   LET x_1 = DATA -1.54885527  0.67030975 -1.09974788  0.64389562 -0.70228692 -0.40188754  1.05177253  0.49623104 -0.72004657  1.18172148 -0.25134551
+.   LET x_2 = DATA  0.12061112  0.41915052 -1.06401817 -1.07627107  0.43920859  1.39840713  2.00080511 -0.28251990  0.45570687 -0.80787803  1.45060102
+.   LET x_3 = DATA -0.63888213 -1.40674573  0.59507936 -0.14949558  1.49574880 -0.81189912  0.21984584  0.07459318 -0.09698709  0.11133980  1.15008583
+.   LET x_4 = DATA -0.34983699 -0.31936607  0.29074258  2.25288636 -0.82376315  0.26662795  0.12393385  0.89679628 -0.38363652 -0.53517742  0.95956587
+.   LET x_5 = DATA -1.45268125 -0.13500581 -0.41711303  1.49975087 -1.24696021  0.10845578  0.64736889  0.15962213 -0.44123222 -1.73757029  0.37132784
+.   LET x_6 = DATA 1.06679430 -2.10179502  0.56593114 -0.70346520  2.01988977  1.55577448  2.73279542  0.35771511 -0.93041756  1.01531545  1.43040657
+.   LET x_7 = DATA 1.43982500  0.58259451  0.69397403 -1.17053593  1.57929967  0.97597968 -2.14108456  0.76608101  0.22354803 -0.22606971  1.76976488
+.   LET x_8 = DATA 0.18179238 -0.64206078  0.51080669  0.47079816  0.54337591 -0.85468727  1.48618209  0.60377926 -1.88254930 -0.03048204 -1.52378251
+.   LET x_9 = DATA -1.46866847 -0.87900959 -0.08485521  0.09102797 -1.26415637 -1.18979845 -0.56140290  1.99741972 -0.54185403  1.52212221 -1.46643153 0.99195569
+.   LET x = COMBINE x_1 x_2 x_3 x_4 x_5 x_6 x_7 x_8 x_9
+.   DELETE x_1 x_2 x_3 x_4 x_5 x_6 x_7 x_8 x_9
+
+COMMENT Assessing Data Attributes
+    .   Checking distributions
+    .   LINE COLOR BLUE
+    .   LET mean_x = MEAN x
+    .   KERNEL DENSITY x
+    .   LINE COLOR BROWN
+    .   DRAW DATA mean_x 0 mean_x 0.35
+
+    .   HDPI |0.89     0.89| -1.548855  1.579300 
+    .   PCI    5%       94%  -1.499257  1.685008 
+
+COMMENT: Calculating the Interval
+    .   Calculating Sample n and Sorting in Ascending Order
+        LET  nsamp = SIZE x
+        LET vals = SORT x
+
+    .   Calculating Gap
+        LET num_keep = prob * nsamp
+        LET num_keep = CEIL(num_keep)
+        LET n_check = nsamp - 1
+        LET n_check = COMBINE num_keep n_check
+        LET gap_min = MINIMUM n_check
+        LET g_check = COMBINE 1 gap_min
+        LET gap = MAXIMUM g_check
+        DELETE num_keep n_check gap_min g_check
+
+    .   Generating Iteration Value
+        LET i_value = nsamp - gap
+        LET j_value = gap + 1
+    
+    .   Calculating Minimum Interval
+        LET x_high = vals
+        RETAIN x_high FOR I = j_value 1 nsamp
+        LET x_low = vals
+        RETAIN x_low FOR I = 1 1 i_value
+        LET span = x_high - x_low
+        LET span_n = SIZE span
+        LET init = SEQUENCE 1 1 span_n
+        LET index = SORTC span init
+        LET inds = init(1)
+        DELETE x_high x_low span init index i_value j_value
+
+    .   Calculating Interval
+        LET u_value = inds + gap
+        LET lci = vals(inds)
+        LET uci = vals(u_value)
+
+    .   Creating Final object
+        LET hdpi = COMBINE lci uci
+        DELETE vals nsamp gap span_n inds u_value LCI UCI
+
+COMMENT Visualizing HDI Interval
+.   SET X11 HARDWARE FILL OFF 
+.   REGION FILL OFF ON ON
+.   REGION FILL COLOR BROWN ALL
+.   REGION BASE 0 ALL
+
+.   LET p_x = XPLOT
+.   LET p_y = YPLOT
+.   LET lci = HDPI(1)
+.   LET uci = HDPI(2)
+
+.   PLOT p_y p_x   AND
+.   PLOT p_y p_x SUBSET p_x <= lci AND
+.   PLOT p_y p_x SUBSET p_x >= uci
