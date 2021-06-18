@@ -2,6 +2,10 @@
 .   Jonathan H. Morgan
 .   15 June 2021
 
+.   Function takes one argument: x
+.   Passes two arguments to Julia: x as datafile.dat and the directory from which the call was made.
+.   Returns the kl-divergence scores of a 1,000 permutations of the variable.
+
 COMMENT Setting Decimal Format to Write All Value Before Moving to Exponential Notation
     SET WRITE DECIMALS 10
     ECHO OFF
@@ -23,7 +27,7 @@ COMMENT Exporting Data Elements for Julia to Read
 COMMENT Calling kl_divergence.jl
     SYSTEM julia /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/iterative_kld.jl
 
-COMMENT Importing Scores into Dataplot
+COMMENT Importing Data
     READ kl_divergence.dat kl_div
 
 COMMENT Removing Files
