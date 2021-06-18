@@ -1,3 +1,6 @@
+ ECHO OFF
+ FEEDBACK OFF
+ 
 .   Calculating a Percentile Confidence/Credible Interval
 .   Jonathan H. Morgan
 .   16 June 2021
@@ -33,8 +36,6 @@ COMMENT Assessing Data Attributes
     .   PCI    5%       94%  -1.499257  1.685008 
 
 COMMENT Specifiying Method and Settings
-    ECHO OFF
-    FEEDBACK OFF
     SET QUANTILE METHOD r7
 
 COMMENT Calculating the Interval
@@ -50,9 +51,6 @@ COMMENT Creating Final object
     LET PCI = COMBINE LCL UCL
     DELETE LCL UCL
 
-    FEEDBACK ON
-    ECHO ON
-
 COMMENT Viualizing Interval
 .  SET X11 HARDWARE FILL OFF 
 .  REGION FILL OFF ON ON
@@ -67,3 +65,6 @@ COMMENT Viualizing Interval
 .   PLOT p_y p_x   AND
 .   PLOT p_y p_x SUBSET p_x <= lci AND
 .   PLOT p_y p_x SUBSET p_x >= uci
+
+FEEDBACK ON
+ECHO ON
