@@ -32,7 +32,9 @@ COMMENT Assessing Data Attributes
     .   HDPI |0.89     0.89| -1.548855  1.579300 
     .   PCI    5%       94%  -1.499257  1.685008 
 
-COMMENT Specifiying Method
+COMMENT Specifiying Method and Settings
+    ECHO OFF
+    FEEDBACK OFF
     SET QUANTILE METHOD r7
 
 COMMENT Calculating the Interval
@@ -47,6 +49,9 @@ COMMENT Calculating the Interval
 COMMENT Creating Final object
     LET PCI = COMBINE LCL UCL
     DELETE LCL UCL
+
+    FEEDBACK ON
+    ECHO ON
 
 COMMENT Viualizing Interval
 .  SET X11 HARDWARE FILL OFF 
