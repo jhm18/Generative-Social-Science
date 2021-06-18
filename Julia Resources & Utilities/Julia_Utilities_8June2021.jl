@@ -51,6 +51,7 @@ module Julia_Utilities
         using Glob              #Useful Package for String Manipulation
         using RCall             #Used to work with R Objects
         using StatsBase         #Using Countmap Functionality
+        using Statistics        #Julia's statistics standard library
         using TableView         #Used to Show Table Contents
         using Blink             #Creating a Julia Table View
 
