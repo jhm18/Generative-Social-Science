@@ -5,7 +5,7 @@
 .   Source:    https://github.com/rmcelreath/rethinking/blob/master/R/utilities.r
 
 .   Function takes two arguments: x and prob
-.   x refers to the variable for which we are calculating the HDPI.
+.   x refers to the variable for which we are calculating the PCI.
 .   prob referes to the credible interval percentage.
 
 COMMENT: Creating Test Data
