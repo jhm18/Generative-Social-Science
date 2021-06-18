@@ -1,3 +1,6 @@
+ECHO OFF
+FEEDBACK OFF
+
 .   Calculating the Highest Posterior Density Interval
 .   Jonathan H. Morgan
 .   16 June 2021
@@ -86,3 +89,6 @@ COMMENT Visualizing HDI Interval
 .   PLOT p_y p_x   AND
 .   PLOT p_y p_x SUBSET p_x <= lci AND
 .   PLOT p_y p_x SUBSET p_x >= uci
+
+FEEDBACK ON
+ECHO ON
