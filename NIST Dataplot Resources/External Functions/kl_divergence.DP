@@ -1,3 +1,6 @@
+ECHO OFF
+FEEDBACK OFF
+
 .   Calculating Kullback–Leibler Divergence
 .   Jonathan H. Morgan
 .   16 June 2021
@@ -32,7 +35,6 @@ COMMENT Setting Initial Values of n and R
     LET n = SIZE samp_a
     LET r = 0.0
  
-
 COMMENT Normalizing to Meet Probability Assumption (Values Sum to One)
 .   LET sum_a = SUM $samp_a
     LET sum_a = SUM samp_a
@@ -46,8 +48,6 @@ COMMENT Normalizing to Meet Probability Assumption (Values Sum to One)
     DELETE sum_a sum_b
 
 COMMENT Looping through values of a and b
-    ECHO OFF
-    FEEDBACK OFF
     LOOP FOR I = 1 1 N
         .   Getting Iteration Values
         .   LET ai = $samp_a(I)
@@ -64,5 +64,6 @@ COMMENT Looping through values of a and b
                 LET r = r + bi
             END OF IF
     END OF LOOP
-    FEEDBACK ON
-    ECHO ON
+    
+  FEEDBACK ON
+  ECHO ON
