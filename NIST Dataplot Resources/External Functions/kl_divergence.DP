@@ -2,6 +2,10 @@
 .   Jonathan H. Morgan
 .   16 June 2021
 
+.   Function takes two arguments: samp_a and samp_b
+.   samp_a and samp_b are the two distributions for which we are calculating the divergence.
+.   Returns the kl-divergence of the two distributions as a constant.
+
 .   Note:  Some applications support using Base 2 Log of X LOG2(X) or Base 10 LOG10(2) rather than the natural log.
 .          I am doing the most basic implementation here using LOG.
 .          Also, this is a  forward KL Divergence score, the difference between P(x) and Q(x) is weighted by P(x).
@@ -13,8 +17,8 @@
 .          See https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/ for more details.
 .          If the goal is to minimize the divergence, then reverse KL Divergence is beter; this acheived by changing the if condition to weight by Q(x).
 
-.           To Run this Macro with Arguments:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP samp_a=x samp_b=x_1
-.           I have commented out the arguments, and use NAME in the call script because I often call this function within a loop.
+.          To Run this Macro with Arguments:  CALL /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/kl_divergence.DP samp_a=x samp_b=x_1
+.          I have commented out the arguments, and use NAME in the call script because I often call this function within a loop.
 
 COMMENT Creating Test Samples
 .    LET sample_a = DATA 0.02 0.03 0.05 0.14 0.16 0.15 0.12 0.08 0.1 0.08 0.07
