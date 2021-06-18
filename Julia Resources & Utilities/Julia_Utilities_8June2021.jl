@@ -57,6 +57,7 @@ module Julia_Utilities
     #   Exported Functions
         export get_pkg_status
         export OLSestimator
+        export pci
         export myshowall
         export show_df
         export remove!
@@ -91,6 +92,21 @@ module Julia_Utilities
             estimate = inv(x'*x)*(x'*y)
             return estimate
         end
+
+    #   Percentile Credible Interval
+        function pci(x, prob)
+            #   Setting Interval Span
+                a = (1-prob)/2
+            
+            #   Determining the Lower and Upper Confidence Intervals
+                pci_interval = zeros(2);
+                Statistics.quantile!(pci_interval, x, [a, (1-a)]) 
+
+            #   Returning Percentile Credible Interval
+                return pci_interval
+        end
+
+        # pci(samples, 0.89)
 
     #   Displays all the elements of a data object
         function myshowall(io, x, limit = false)
