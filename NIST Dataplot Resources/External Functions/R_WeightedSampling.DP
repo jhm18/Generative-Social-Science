@@ -4,7 +4,7 @@ ECHO OFF
 .   Jonathan H. Morgan
 .   19 June 2021
 
-.   Function takes two arguments: x, n_sample replace, weights
+.   Function takes four arguments: x, n_sample replace, weights
 .   x refers to the variable you are sampling.
 .   n_sample the number of items from which to sample.
 .   replace refers to sampling with and without replacement.
