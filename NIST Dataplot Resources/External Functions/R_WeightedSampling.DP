@@ -1,0 +1,92 @@
+ECHO OFF
+
+.   Perfroming a Weighted Sampling in R
+.   Jonathan H. Morgan
+.   19 June 2021
+
+.   Function takes two arguments: x, n_sample replace, weights
+.   x refers to the variable you are sampling.
+.   n_sample the number of items from which to sample.
+.   replace refers to sampling with and without replacement.
+.   weights are probability weights used to generate weighted draws from the sample.
+
+.   Function returns weighted samples as a .DAT file, samples.DAT, which is read into Dataplot.
+
+COMMENT Writing-Out Data and Commands
+    .   Writing-Out Replace Command
+        CAPTURE /Users/jonathan.h.morgan/Desktop/replace.dat
+            WRITE replace
+        END OF CAPTURE
+
+    .   Writing-Out Size Command
+        CAPTURE /Users/jonathan.h.morgan/Desktop/n_sample.dat
+            WRITE n_sample
+        END OF CAPTURE
+
+    .   Writing-Out Directory
+        CAPTURE /Users/jonathan.h.morgan/Desktop/directory.dat
+            PWD
+        END OF CAPTURE
+
+    .   Writing-Out Sample Data
+        SET WRITE DECIMALS 5
+        CAPTURE sample_data.csv
+            WRITE x
+        END OF CAPTURE
+
+    .   Writing-Out weights
+        CAPTURE sample_weights.csv
+            WRITE weights
+        END OF CAPTURE
+    
+COMMENT Specifying R script
+    CAPTURE SCRIPT weighted_sampling.R
+        #   Specifying a quick function to clean-up the directory string
+            trim <- function (x) gsub("^\\s+|\\s+$", "", x)
+
+        #   Getting Replace Specification
+            replace_spec <- readLines("/Users/jonathan.h.morgan/Desktop/replace.dat")
+            replace_spec <- strsplit(replace_spec, "--")[[4]][[2]]
+            replace_spec <- as.logical(replace_spec)
+
+        #   Getting sample size
+            sample_n <- readLines("/Users/jonathan.h.morgan/Desktop/n_sample.dat")
+            sample_n <- strsplit(sample_n, "--")[[4]][[2]]
+            sample_n <- as.numeric(sample_n)
+  
+        #   Setting Work Directory
+            directory <- readLines("/Users/jonathan.h.morgan/Desktop/directory.dat")
+            directory <- strsplit(directory, ":")[[1]][[2]]
+            directory <- trim(directory)
+            (directory)
+
+        #   Importing Sample Data
+            sample <- readr::read_csv("sample_data.csv",skip = 3)
+            sample <- as.numeric(sample[[1]])
+  
+        #   Importing Weights
+            sample_weights <- readr::read_csv("sample_weights.csv",skip = 3)
+            sample_weights <- as.numeric(sample_weights[[1]])
+  
+        #   Sampling Data
+            sample_data = base::sample(sample, prob=sample_weights, size=sample_n, replace=replace_spec)
+
+        #   Writing Out Samples
+            sample_data <- as.character(sample_data)
+            fileConn<-file("samples.DAT")
+            writeLines(sample_data, fileConn)
+    END OF CAPTURE
+
+COMMENT Executing Program
+    RSCRIPT  weighted_sampling.R
+
+COMMENT Reading-In Samples
+    READ samples.DAT samples
+
+COMMENT Remove Files
+    RM /Users/jonathan.h.morgan/Desktop/replace.dat
+    RM /Users/jonathan.h.morgan/Desktop/n_sample.dat
+    RM /Users/jonathan.h.morgan/Desktop/directory.dat
+    RM weighted_sampling.R sample_data.csv sample_weights.csv samples.DAT
+
+ECHO ON
