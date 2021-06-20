@@ -6,7 +6,7 @@ ECHO OFF
 
 .   Function takes two argument: x and n_sample
 .   Passes two arguments to Julia: x as datafile.dat and n_sample as a n_sample.dat
-.   Returns the kl-divergence scores of a 1,000 permutations of the variable.
+.   Returns the kl-divergence scores of n_sample permutations of the variable.
 
 COMMENT Setting Decimal Format to Write All Value Before Moving to Exponential Notation
     SET WRITE DECIMALS 10
