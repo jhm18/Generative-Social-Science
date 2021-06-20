@@ -14,18 +14,13 @@ ECHO OFF
 
 COMMENT Writing-Out Data and Commands
     .   Writing-Out Replace Command
-        CAPTURE /Users/jonathan.h.morgan/Desktop/replace.dat
+        CAPTURE replace.dat
             WRITE replace
         END OF CAPTURE
 
     .   Writing-Out Size Command
-        CAPTURE /Users/jonathan.h.morgan/Desktop/n_sample.dat
+        CAPTURE n_sample.dat
             WRITE n_sample
-        END OF CAPTURE
-
-    .   Writing-Out Directory
-        CAPTURE /Users/jonathan.h.morgan/Desktop/directory.dat
-            PWD
         END OF CAPTURE
 
     .   Writing-Out Sample Data
@@ -41,25 +36,26 @@ COMMENT Writing-Out Data and Commands
     
 COMMENT Specifying R script
     CAPTURE SCRIPT weighted_sampling.R
+        #   Installing Necessary Packages
+            list.of.packages <- c('readr')
+            new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+
+            if(length(new.packages)) install.packages(new.packages)
+            rm(list.of.packages, new.packages)
+
         #   Specifying a quick function to clean-up the directory string
             trim <- function (x) gsub("^\\s+|\\s+$", "", x)
 
         #   Getting Replace Specification
-            replace_spec <- readLines("/Users/jonathan.h.morgan/Desktop/replace.dat")
+            replace_spec <- readLines("replace.dat")
             replace_spec <- strsplit(replace_spec, "--")[[4]][[2]]
             replace_spec <- as.logical(replace_spec)
 
         #   Getting sample size
-            sample_n <- readLines("/Users/jonathan.h.morgan/Desktop/n_sample.dat")
+            sample_n <- readLines("n_sample.dat")
             sample_n <- strsplit(sample_n, "--")[[4]][[2]]
             sample_n <- as.numeric(sample_n)
   
-        #   Setting Work Directory
-            directory <- readLines("/Users/jonathan.h.morgan/Desktop/directory.dat")
-            directory <- strsplit(directory, ":")[[1]][[2]]
-            directory <- trim(directory)
-            (directory)
-
         #   Importing Sample Data
             sample <- readr::read_csv("sample_data.csv",skip = 3)
             sample <- as.numeric(sample[[1]])
@@ -84,9 +80,8 @@ COMMENT Reading-In Samples
     READ samples.DAT samples
 
 COMMENT Remove Files
-    RM /Users/jonathan.h.morgan/Desktop/replace.dat
-    RM /Users/jonathan.h.morgan/Desktop/n_sample.dat
-    RM /Users/jonathan.h.morgan/Desktop/directory.dat
+    RM replace.dat
+    RM n_sample.dat
     RM weighted_sampling.R sample_data.csv sample_weights.csv samples.DAT
 
 ECHO ON
