@@ -1,28 +1,142 @@
+ECHO OFF
+
 .   Calculating Kullback–Leibler Divergences from a Random Sample
 .   Jonathan H. Morgan
 .   15 June 2021
 
-.   Function takes one argument: x
-.   Passes two arguments to Julia: x as datafile.dat and the directory from which the call was made.
+.   Function takes two argument: x and n_sample
+.   Passes two arguments to Julia: x as datafile.dat and n_sample as a n_sample.dat
 .   Returns the kl-divergence scores of a 1,000 permutations of the variable.
 
 COMMENT Setting Decimal Format to Write All Value Before Moving to Exponential Notation
     SET WRITE DECIMALS 10
-    ECHO OFF
 
 COMMENT Exporting Data Elements for Julia to Read
     .   Note: I'm not passing arguments.
     .         Instead, I am using the NAME command as I expect most applications of this command will be in a loop, and the NAME command is more stable.
+
+    .   Specifying the number of samples to permuted
+        CAPTURE n_sample.dat
+            WRITE n_sample
+        END OF CAPTURE
+       
     .   Data
         CAPTURE datafile.dat
             WRITE x 
         END OF CAPTURE
         SET WRITE DECIMALS 3
+        
+COMMENT Specifying Julia script
+    TERMINATOR CHARACTER `
+    CAPTURE SCRIPT iterative_kld.jl
+    #   Setting Working Directory
+        dir = dirname(@__FILE__)
+        cd(dir)
 
-    .   Directory
-        CAPTURE /Users/jonathan.h.morgan/Desktop/directory.dat
-            PWD
-        END OF CAPTURE
+    #   Checking Packages
+        using Pkg
+        io = IOBuffer()
+        Pkg.status(; io)
+        package_string = String(take!(io));
+        package_string = split(package_string, '\n')[2:end-1]
+
+        env_packages = vec(fill("a", 1 ,length(package_string)))
+        for i in eachindex(package_string)
+            package_i = split(package_string[i])[2]
+            env_packages[i] = package_i
+        end
+        script_pacakages = sort(["DataFrames"; "DataFramesMeta"; "Distributions"; "Glob"; "StatsBase"])
+    
+        if length(intersect(script_pacakages, env_packages))  < length(script_pacakages)
+            cd(mktempdir()) do
+                Pkg.activate(".")
+                Pkg.add(PackageSpec(name="DataFrames", version="1.1.1"))
+                Pkg.add(PackageSpec(name="DataFramesMeta", version="0.6.1"))
+                Pkg.add(PackageSpec(name="Distributions", version="0.25.3"))
+                Pkg.add(PackageSpec(name="Glob", version="1.3.0"))
+                Pkg.add(PackageSpec(name="StatsBase", version="0.33.8"),
+                preserve=Pkg.PRESERVE_DIRECT)
+                Pkg.status()
+            end
+        else
+            script_packages = script_pacakages
+        end 
+
+    #   Loading Packages
+        using Glob               #Useful Package for String Manipulation
+        using DataFrames         #Generates Julia Style DataFrames and DataFrame Manipulation
+        using DataFramesMeta     #Facilitates DataFrame Manipulation
+        using StatsBase          #Supports basic statistical operations
+        using Distributions      #Supports sampling from a variety of probability distributions
+        using Random             #Used to shuffle values
+
+    #   Importing Data   
+
+    #   Pulling-In the Sample n
+        n_sample = readlines("n_sample.dat", keep=true)
+        n_sample = split.(n_sample, "\n")[4][1]
+        n_sample = parse(Float64, split(n_sample, "--")[2])
+        n_sample = convert(Int64, n_sample)
+
+    #   Pulling-In Data
+        file = readlines("datafile.dat", keep=true)
+
+    #   Isolating Variable Names from DAT Files
+        v_names = Symbol.(split(file[3]))
+
+    #   Isolating Data Contents, Stripping, and Splitting
+        file = file[5:(length(file)-1)]
+        file = strip.(file)
+        file = split.(file)
+
+    #   Construct an empty DataFrame
+        file_df  = DataFrames.DataFrame()
+
+    #   Populating DataFrame
+        for (j, name) in enumerate(v_names)
+            file_df[:,name] = [file[l][j] for l in 1:length(file)]
+        end
+
+    #   Parsing File
+        for j in 1:size(file_df)[2]
+            var_j = parse.(Float64,file_df[:,j])
+            if (sum(isinteger.(var_j)) == size(file_df)[1])
+                file_df[!,j] = convert.(Int64, parse.(Float64,file_df[:,j]))
+            else
+                file_df[!,j] = parse.(Float64,file_df[:,j])
+            end
+        end
+
+    #   Performing KL-Divergence  
+
+    #   Normalizing vectors
+        for i in 1:size(file_df)[2]
+            file_df[:,i] =  file_df[:,i]/sum(file_df[:,i])
+        end
+
+    #   Looping through Random Permutations
+        kld_scores = vec(fill(0.0, 1, n_sample))
+        for i in 1:length(kld_scores)
+            #   Creating random Permutation
+                sample_b = Random.shuffle(file_df[:,1])
+
+            #   Calculating the Divergence
+                kld_score = StatsBase.kldivergence(file_df[:,1], sample_b)
+
+            #   Populating vector
+                kld_scores[i] = kld_score
+        end
+
+    #   Writing-Out Data   
+
+        outfile = string("kl_divergence", ".dat")
+        open(outfile, "w") do f
+        for i in eachindex(kld_scores)
+            println(f, kld_scores[i])
+        end
+        end
+    END OF CAPTURE
+    TERMINATOR CHARACTER
 
 COMMENT Calling kl_divergence.jl
     SYSTEM julia /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Utilities/iterative_kld.jl
@@ -31,9 +145,7 @@ COMMENT Importing Data
     READ kl_divergence.dat kl_div
 
 COMMENT Removing Files
-    RM /Users/jonathan.h.morgan/Desktop/directory.dat
-    RM datafile.dat
-    RM kl_divergence.dat
+    RM n_sample.dat datafile.dat kl_divergence.dat
 
 COMMENT Restoring Settings
     ECHO ON
