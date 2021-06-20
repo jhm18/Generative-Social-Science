@@ -147,5 +147,4 @@ COMMENT Importing Data
 COMMENT Removing Files
     RM n_sample.dat datafile.dat kl_divergence.dat
 
-COMMENT Restoring Settings
-    ECHO ON
+ECHO ON
