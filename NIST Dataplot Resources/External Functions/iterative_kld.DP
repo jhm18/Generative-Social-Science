@@ -145,6 +145,6 @@ COMMENT Importing Data
     READ kl_divergence.dat kl_div
 
 COMMENT Removing Files
-    RM n_sample.dat datafile.dat kl_divergence.dat
+    RM n_sample.dat datafile.dat kl_divergence.dat iterative_kld.jl
 
 ECHO ON
