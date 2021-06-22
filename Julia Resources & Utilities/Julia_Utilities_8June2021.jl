@@ -7,6 +7,7 @@
     using Pkg
     Pkg.activate("/Users/jonathan.h.morgan/Julia Resources")
     Pkg.status()
+    Pkg.update()
 
 #   Checking for Dat File
     path = pwd()
