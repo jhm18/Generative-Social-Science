@@ -1,0 +1,251 @@
+ECHO OFF
+
+.   Performing Quadratic Approximation in R
+.   Jonathan H. Morgan
+.   22 June 2021
+
+.   Function takes arguments: data, var_list, m_list.R, and n_sample.
+.   Passes data, var_list, m_list, and n_sample to R to use in the specifying the model.
+.   Returns the vector of variances from the model's variance-covariance matrix, the correlation matrix of the variance-covariance matrix, 
+.   and n_sample posterior samples of theta.
+.   Function outputs are written-out to: dpst1f.dat, dpst2f.dat, dpst3f.dat, and the posterior samples of the parameters as a .DP file respectively.
+
+.   data refers to the combination of parameters values used to define the posterior probability.
+.   data is specified as a matrix within Dataplot and written-out 
+.   var_list is the list variable names to be associated with the matrix columns. These names should correspond to the names used in the model list used to specify the model.
+.   var_list is written out as a STRING in Dataplot, and then passed to R.
+.   m_list refers to the model specification inputted to R as an alist object, for more details see: https://www.rdocumentation.org/packages/rethinking/versions/2.13/topics/quap.
+.   m_list is passed as a R script that is then sourced.
+.   n_sample refers to the number of posterior samples specified, with a default of 1,000 if not otherwise specified.
+.   n_sample cannot exceed the number of rows specified for the dataplot session.
+
+.   Note:   Make sure to leave a space between the end of the list and the END OF CAPTURE command to avoid including part of the capture statement.
+.           R is case sensitive so the variable names used in the model specification must match those passed to R in the var_list.
+
+COMMENT Example CALL
+    . LET DATA = CREATE MATRIX male height weight age
+    . LET STRING var_list = Male Height Weight Age
+    . LET n_sample = 10000
+
+    . CAPTURE SCRIPT m_list.R
+    .    flist <- alist(
+    .            Height ~ dnorm(mu, sigma),
+    .            mu ~ dnorm(178, 20),
+    .            sigma ~ dunif(0, 50)
+    .        )
+    .END OF CAPTURE
+
+COMMENT Specifying Settings
+    SET WRITE DECIMALS 10
+   
+COMMENT Writing-Out Data and Variable list
+    .   Writing-Out Data
+        CAPTURE data.csv
+            WRITE data
+        END OF CAPTURE
+
+    .   Writing-Out Variable List
+        CAPTURE var_list.dat
+            WRITE var_list
+        END OF CAPTURE
+
+    .   Writing-Out Sample n
+        
+        CAPTURE n_sample.dat
+            WRITE ^n_sample
+        END OF CAPTURE
+
+COMMENT Specifying R script
+    CAPTURE SCRIPT quap_estimation.R
+        #   Ensuring Exponential Notation is Not Used
+            options(scipen = 999)
+ 
+        #   Installing Necessary Packages
+            list.of.packages <- c('readr', 'rethinking')
+            new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+ 
+            if(length(new.packages)) install.packages(new.packages)
+            rm(list.of.packages, new.packages)
+            
+        #   Importing Data
+            m_data <- readr::read_table2("data.csv", col_names = FALSE,skip = 6)
+ 
+        #   Reading-In Variable Names
+            var_names <- readLines("var_list.dat")
+            var_names <- strsplit(var_names, "--")[[4]][[2]]
+            var_names <- strsplit(var_names, " ")[[1]]
+ 
+        #   Applying Variable Names
+            names(m_data) <- var_names
+            rm(var_names)
+ 
+        #   Sourcing Model Specification
+            source("m_list.R")
+ 
+        #   Reading-In Specified Sample Size
+            dp_list <- base::list.files(pattern="*.dat", getwd())
+            if("n_sample.dat" %in% dp_list == TRUE){
+                n_sample <- readLines("n_sample.dat")
+            }else{
+                n_sample <- ' '
+            }
+ 
+            if(length(n_sample) > 1){
+                n_sample <- strsplit(n_sample, "--")[[4]]
+                if(grepl("[[:digit:]]", n_sample) == TRUE  ){
+                        n_sample <- as.numeric(n_sample)  
+                }else{
+                        n_sample <- ' '    
+                }
+            }else{
+                n_sample <- n_sample
+            }
+ 
+        #   Estimating the Model Using quap
+            model <- rethinking::quap(flist, data=m_data)
+ 
+        #   Eliminating dpst files Before Writing New Files
+            file_list <- c('dpst1f.dat', 'dpst2f.dat', 'dpst3f.dat', 'dpst4f.dat', 'p_names.dat')
+            clear_list <- dp_list[(dp_list %in% file_list)]
+            file.remove(clear_list)
+            rm(dp_list, file_list, clear_list)
+ 
+        #   Writing-Out vcov to dpst2f.dat
+            out <- capture.output(rethinking::vcov(model))
+            cat(out, file= "dpst2f.dat",sep="\n",append=TRUE)
+ 
+        #   Write-out to dpst3f.dat
+            out <- capture.output(diag(rethinking::vcov(model)))
+            cat(out, file= "dpst3f.dat",sep="\n",append=TRUE)
+ 
+        #   Write-out to dpst4f.dat
+            out <- capture.output(cov2cor(rethinking::vcov(model)))
+            cat(out, file= "dpst4f.dat",sep="\n",append=TRUE)
+ 
+        #   Write-out to dpst1f.dat
+            out <- capture.output(rethinking::precis(model))
+            cat(out, file= "dpst1f.dat",sep="\n",append=TRUE)
+            rm(out)
+ 
+        #   Extracting Model Posterior as Variables
+            if (!is.na(as.numeric(n_sample)) == TRUE){
+                m_post <- rethinking::extract.samples(model, n=n_sample)
+            }else{
+                m_post <- rethinking::extract.samples(model, n=1000)
+            }
+ 
+        #   Moving Model Posterior Variables into Dataplot Format
+            read_formats <- vector('list', ncol(m_post))
+            variable_list <- vector('list', ncol(m_post))
+            for(i in 1:ncol(m_post)) {
+                if(sum(m_post[[i]] == round(m_post[[i]])) != length(m_post[[i]])) {
+                        whole_numbers <- vector('character', length(m_post[[i]]))
+                        remainders <- vector('character', length(m_post[[i]]))
+ 
+                        for(j in seq_along(m_post[[i]])) {
+                                j_value <- as.character(m_post[[i]][[j]])
+                                j_value <- strsplit(j_value, '[.]')
+                                whole_numbers[[j]] <- j_value[[1]][[1]]
+                                remainders[[j]] <- j_value[[1]][[2]]
+                                rm(j_value)
+                        }
+ 
+                        w_max <- max(nchar(whole_numbers))
+                        r_max <- max(nchar(remainders))
+ 
+                        for(j in seq_along(whole_numbers)) {
+                                j_value <- whole_numbers[[j]]
+                                if(nchar(j_value) < w_max) {
+                                   n_char <- nchar(j_value)
+                                   zeros <- paste0(rep("0", w_max - n_char), collapse = '')
+                                   j_value <- paste0(zeros, j_value)
+                                   whole_numbers[[j]] <- j_value
+                                   rm(j_value, n_char, zeros)
+                                }else{
+                                   whole_numbers[[j]] <-  whole_numbers[[j]]
+                                }
+                        }
+ 
+                        for(j in seq_along(remainders)) {
+                                j_value <- remainders[[j]]
+                                if(nchar(j_value) < r_max) {
+                                        n_char <- nchar(j_value)
+                                        zeros <- paste0(rep("0", r_max - n_char), collapse='')
+                                        j_value <- paste0(j_value, zeros)
+                                        remainders[[j]] <- j_value
+                                        rm(j_value, n_char, zeros)
+                                }else{
+                                        remainders[[j]] <-  remainders[[j]]
+                                        rm(j_value)
+                                }
+                        }
+ 
+                        variable_list[[i]] <- paste0(whole_numbers,'.', remainders)
+                        read_formats[[i]] <- paste0(1,'F', unique(nchar(variable_list[[i]])),'.', unique(nchar(remainders)))
+                        rm(whole_numbers, remainders, r_max, w_max)
+                }else{
+                        m_post[[i]] <- as.integer(m_post[[i]])
+                        w_max <- max(nchar(m_post[[i]]))
+                        variable_list[[i]] <- m_post[[i]]
+ 
+                        for(j in seq_along(variable_list[[i]])) {
+                                j_value <- m_post[[i]][[j]]
+                                if(nchar(j_value) < w_max) {
+                                        n_char <- nchar(j_value)
+                                        zeros <- paste0(rep("0", w_max - n_char), collapse = '')
+                                        j_value <- paste0(zeros, j_value)
+                                        variable_list[[i]][[j]] <- j_value
+                                        rm(j_value, n_char, zeros)
+                                }else{
+                                        variable_list[[i]][[j]] <- variable_list[[i]][[j]]
+                                        rm(j_value)
+                                }
+                        }
+ 
+                        read_formats[[i]] <- paste0(1,'F', unique(nchar(variable_list[[i]])),'.','0')
+                        rm(w_max)
+                }
+            }
+ 
+        #   Writing-Out Variables to File
+            for(i in seq_along(variable_list)) {
+                read_formats[[i]] <- paste("SET READ FORMAT", read_formats[[i]])
+                read_command <- paste("READ", names(m_post)[[i]])
+                delimiter_command <- c("END OF DATA")
+                space_element <- c(' ')
+                variable_list[[i]] <- c(read_formats[[i]], read_command, variable_list[[i]], delimiter_command, space_element)
+            }
+ 
+            posterior_samples <- variable_list[[1]]
+            for(i in 2:length(variable_list)){
+                posterior_samples <- c(posterior_samples, variable_list[[i]])
+            }
+            rm(delimiter_command, n_sample, read_command, space_element)
+            
+            fileConn<-file("m_post.DP")
+            writeLines(posterior_samples, fileConn)
+            closeAllConnections()
+            rm(fileConn)
+    END OF CAPTURE
+
+COMMENT Executing R Script
+    RSCRIPT quap_estimation.R
+
+COMMENT Print File contents
+    LET STRING out_1 = Model Summary: dpst1f.dat
+    LET STRING out_2 = Variance-Co-Variance: dpst2f.dat
+    LET STRING out_3 = Vector of Variances: dpst3f.dat
+    LET STRING out_4 =  Correlation Matrix of the Variance-Co-Variance Matrix: dpst4f.dat
+    WRITE out_1 out_2 out_3 out_4
+
+COMMENT Reading-In Posterior Samples
+    CALL m_post.DP
+    SET WRITE DIGITS 5
+
+COMMENT Removing Temporary Files
+    RM data.csv var_list.dat n_sample.dat 
+    RM m_list.R quap_estimation.R
+    RM m_post.DP
+    DELETE out_1 out_2 out_3 out_4
+
+ECHO ON
