@@ -1,0 +1,69 @@
+. � Weighted Sampling with Replacement
+. Alan Heckert
+. 23 June 2021
+.
+.   Step 1: Read the sample data and sample weights
+.
+dimension 20 columns
+skip 4
+read sample_data.csv p_grid
+read sample_weights.csv  post
+skip 0
+.
+.   Step 2: Set the random number generator and seed
+.
+set random number generator fibonacci congruential
+seed 33497
+.
+.   Step 3: Initialize some settings
+.
+LET n_samp = 10000
+. LET n_samp = 100000
+LET maxloop = 200000
+. LET maxloop = 1000000
+LET LOC = 0
+LET SCALE = 0.004
+LET i_loc = 1
+LET i_scale = 1000
+.
+.   Step 4: Generate two sets of uniform random numbers
+.
+LET i_value = UNIFORM RANDOM NUMBERS FOR I = 1 1 MAXLOOP
+LET i_value = LOC + SCALE*i_value
+.
+LET ind = UNIFORM RANDOM NUMBERS FOR I = 1 1 MAXLOOP
+LET ind = i_loc + i_scale*ind
+LET index = CEIL(ind) - 1
+.
+.   Step 5: Now generate the weighted samples
+.
+LET INDEX2 = SEQUENCE 1 1 MAXLOOP
+LET VAL_I  = GATHER I_VALUE INDEX2
+LET VAL    = GATHER POST INDEX
+.
+LET TAG = 0 FOR I = 1 1 MAXLOOP
+LET DIFF = VAL - VAL_I
+LET TAG = 1 SUBSET DIFF > 0
+RETAIN INDEX SUBSET TAG = 1
+RETAIN INDEX FOR I = 1 1 N_SAMP
+LET SAMPLES = GATHER P_GRID INDEX
+.
+cpu time
+.
+let smean = mean          samples
+let smed  = median        samples
+let s10   = 10 percentile samples
+let s25   = 25 percentile samples
+let s50   = 50 percentile samples
+let s75   = 75 percentile samples
+let s80   = 80 percentile samples
+let s90   = 90 percentile samples
+let s95   = 95 percentile samples
+.
+print "Sample Mean:      ^smean"
+print "Sample Median:    ^smed"
+print "Sample 10%:       ^s10"
+print "Sample 25%:       ^s25"
+print "Sample 75%:       ^s75"
+print "Sample 90%:       ^s90"
+print "Sample 95%:       ^s95"
