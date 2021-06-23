@@ -10,7 +10,7 @@ ECHO OFF
 .   replace refers to sampling with and without replacement.
 .   weights are probability weights used to generate weighted draws from the sample.
 
-.   Function returns weighted samples as a .DAT file, samples.DAT, which is read into Dataplot.
+.   Function returns weighted samples as a .DP file, samples.DP, which is read into Dataplot as a formatted file.
 
 COMMENT Writing-Out Data and Commands
     .   Writing-Out Replace Command
