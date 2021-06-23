@@ -8,7 +8,7 @@ ECHO OFF
 .   Passes data, var_list, m_list, and n_sample to R to use in the specifying the model.
 .   Returns the vector of variances from the model's variance-covariance matrix, the correlation matrix of the variance-covariance matrix, 
 .   and n_sample posterior samples of theta.
-.   Function outputs are written-out to: dpst1f.dat, dpst2f.dat, dpst3f.dat, and the posterior samples of the parameters as a .DP file respectively.
+.   Function outputs are written-out to: dpst1f.dat, dpst2f.dat, dpst3f.dat,  dpst4f.dat, and the posterior samples of the parameters as a .DP file respectively.
 
 .   data refers to the combination of parameters values used to define the posterior probability.
 .   data is specified as a matrix within Dataplot and written-out 
