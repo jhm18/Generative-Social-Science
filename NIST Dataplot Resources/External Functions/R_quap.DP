@@ -14,7 +14,7 @@ ECHO OFF
 .   data is specified as a matrix within Dataplot and written-out 
 .   var_list is the list variable names to be associated with the matrix columns. These names should correspond to the names used in the model list used to specify the model.
 .   var_list is written out as a STRING in Dataplot, and then passed to R.
-.   m_list refers to the model specification inputted to R as an alist object, for more details see: https://www.rdocumentation.org/packages/rethinking/versions/2.13/topics/quap.
+.   m_list refers to the model specification sent to R as an alist object, for more details see: https://www.rdocumentation.org/packages/rethinking/versions/2.13/topics/quap.
 .   m_list is passed as a R script that is then sourced.
 .   n_sample refers to the number of posterior samples specified, with a default of 1,000 if not otherwise specified.
 .   n_sample cannot exceed the number of rows specified for the dataplot session.
