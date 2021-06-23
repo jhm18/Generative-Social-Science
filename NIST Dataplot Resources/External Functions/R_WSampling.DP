@@ -36,52 +36,138 @@ COMMENT Writing-Out Data and Commands
     
 COMMENT Specifying R script
     CAPTURE SCRIPT weighted_sampling.R
+        #   Ensuring Exponential Notation is Not Used
+            options(scipen = 999)
+
         #   Installing Necessary Packages
             list.of.packages <- c('readr')
             new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-
+ 
             if(length(new.packages)) install.packages(new.packages)
             rm(list.of.packages, new.packages)
-
+ 
         #   Specifying a quick function to clean-up the directory string
-            trim <- function (x) gsub("^\\s+|\\s+$", "", x)
-
+            trim <- function (x) gsub(" \\s+|\\s+$", "", x)
+ 
         #   Getting Replace Specification
             replace_spec <- readLines("replace.dat")
             replace_spec <- strsplit(replace_spec, "--")[[4]][[2]]
             replace_spec <- as.logical(replace_spec)
-
+ 
         #   Getting sample size
             sample_n <- readLines("n_sample.dat")
             sample_n <- strsplit(sample_n, "--")[[4]][[2]]
             sample_n <- as.numeric(sample_n)
-  
+ 
         #   Importing Sample Data
             sample <- readr::read_csv("sample_data.csv",skip = 3)
             sample <- as.numeric(sample[[1]])
-  
+ 
         #   Importing Weights
             sample_weights <- readr::read_csv("sample_weights.csv",skip = 3)
             sample_weights <- as.numeric(sample_weights[[1]])
-  
+ 
         #   Sampling Data
             sample_data = base::sample(sample, prob=sample_weights, size=sample_n, replace=replace_spec)
-
+            
+        #   Moving Model Posterior Variables into Dataplot Format
+            read_formats <- vector('list', 1)
+            variable_list <- vector('list', 1)
+            for(i in 1:length(variable_list)) {
+              if(sum(sample_data == round(sample_data)) != length(sample_data)) {
+                whole_numbers <- vector('character', length(sample_data))
+                remainders <- vector('character', length(sample_data))
+                
+                for(j in seq_along(sample_data)) {
+                  j_value <- as.character(sample_data[[j]])
+                  j_value <- strsplit(j_value, '[.]')
+                  whole_numbers[[j]] <- j_value[[1]][[1]]
+                  remainders[[j]] <- j_value[[1]][[2]]
+                  rm(j_value)
+                }
+                
+                w_max <- max(nchar(whole_numbers))
+                r_max <- max(nchar(remainders))
+                
+                for(j in seq_along(whole_numbers)) {
+                  j_value <- whole_numbers[[j]]
+                  if(nchar(j_value) < w_max) {
+                    n_char <- nchar(j_value)
+                    zeros <- paste0(rep("0", w_max - n_char), collapse = '')
+                    j_value <- paste0(zeros, j_value)
+                    whole_numbers[[j]] <- j_value
+                    rm(j_value, n_char, zeros)
+                  }else{
+                    whole_numbers[[j]] <-  whole_numbers[[j]]
+                  }
+                }
+                
+                for(j in seq_along(remainders)) {
+                  j_value <- remainders[[j]]
+                  if(nchar(j_value) < r_max) {
+                    n_char <- nchar(j_value)
+                    zeros <- paste0(rep("0", r_max - n_char), collapse='')
+                    j_value <- paste0(j_value, zeros)
+                    remainders[[j]] <- j_value
+                    rm(j_value, n_char, zeros)
+                  }else{
+                    remainders[[j]] <-  remainders[[j]]
+                    rm(j_value)
+                  }
+                }
+                
+                variable_list[[i]] <- paste0(whole_numbers,'.', remainders)
+                read_formats[[i]] <- paste0(1,'F', unique(nchar(variable_list[[i]])),'.', unique(nchar(remainders)))
+                rm(whole_numbers, remainders, r_max, w_max)
+              }else{
+                sample_data <- as.integer(sample_data)
+                w_max <- max(nchar(sample_data))
+                variable_list[[i]] <- sample_data
+                
+                for(j in seq_along(variable_list[[i]])) {
+                  j_value <- sample_data[[j]]
+                  if(nchar(j_value) < w_max) {
+                    n_char <- nchar(j_value)
+                    zeros <- paste0(rep("0", w_max - n_char), collapse = '')
+                    j_value <- paste0(zeros, j_value)
+                    variable_list[[i]][[j]] <- j_value
+                    rm(j_value, n_char, zeros)
+                  }else{
+                    variable_list[[i]][[j]] <- variable_list[[i]][[j]]
+                    rm(j_value)
+                  }
+                }
+                
+                read_formats[[i]] <- paste0(1,'F', unique(nchar(variable_list[[i]])),'.','0')
+                rm(w_max)
+              }
+            }
+            
+        #   Writing-Out Variables to File
+            for(i in seq_along(variable_list)) {
+              read_formats[[i]] <- paste("SET READ FORMAT", read_formats[[i]])
+              read_command <- paste("READ", "sample")
+              delimiter_command <- c("END OF DATA")
+              variable_list[[i]] <- c(read_formats[[i]], read_command, variable_list[[i]], delimiter_command)
+            }
+            
         #   Writing Out Samples
-            sample_data <- as.character(sample_data)
-            fileConn<-file("samples.DAT")
+            sample_data <- variable_list[[1]]
+            fileConn<-file("samples.DP")
             writeLines(sample_data, fileConn)
+            closeAllConnections()
+            rm(fileConn, read_command, space_element, delimiter_command, read_formats, variable_list)
     END OF CAPTURE
 
 COMMENT Executing Program
     RSCRIPT  weighted_sampling.R
 
 COMMENT Reading-In Samples
-    READ samples.DAT samples
+    CALL samples.DP
 
 COMMENT Remove Files
     RM replace.dat
     RM n_sample.dat
-    RM weighted_sampling.R sample_data.csv sample_weights.csv samples.DAT
+    RM weighted_sampling.R sample_data.csv sample_weights.csv samples.DP
 
 ECHO ON
