@@ -146,7 +146,7 @@ COMMENT Specifying R script
         #   Writing-Out Variables to File
             for(i in seq_along(variable_list)) {
               read_formats[[i]] <- paste("SET READ FORMAT", read_formats[[i]])
-              read_command <- paste("READ", "sample")
+              read_command <- paste("READ", "samples")
               delimiter_command <- c("END OF DATA")
               variable_list[[i]] <- c(read_formats[[i]], read_command, variable_list[[i]], delimiter_command)
             }
