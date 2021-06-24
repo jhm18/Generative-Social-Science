@@ -2,7 +2,7 @@ ECHO OFF
 FEEDBACK OFF
 
 .   Generating Weighted Samples with Replacement
-.   Alan Heckert
+.   Alan Heckert & Jonathan H. Morgan
 .   23 June 2021
 
 .   Function takes four arguments: n_samp,  maxloop, weights, x
