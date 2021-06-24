@@ -8,18 +8,19 @@ ECHO OFF
 .   Passes data, var_list, m_list, and n_sample to R to use in the specifying the model.
 .   Returns the vector of variances from the model's variance-covariance matrix, the correlation matrix of the variance-covariance matrix, 
 .   and n_sample posterior samples of theta.
-.   Function outputs are written-out to: dpst1f.dat, dpst2f.dat, dpst3f.dat,  dpst4f.dat, and the posterior samples of the parameters as a .DP file respectively.
+.   Function outputs are written-out to: dpst1f.dat, dpst2f.dat, dpst3f.dat, and the posterior samples of the parameters as a .DP file respectively.
 
 .   data refers to the combination of parameters values used to define the posterior probability.
 .   data is specified as a matrix within Dataplot and written-out 
 .   var_list is the list variable names to be associated with the matrix columns. These names should correspond to the names used in the model list used to specify the model.
 .   var_list is written out as a STRING in Dataplot, and then passed to R.
-.   m_list refers to the model specification sent to R as an alist object, for more details see: https://www.rdocumentation.org/packages/rethinking/versions/2.13/topics/quap.
+.   m_list refers to the model specification inputted to R as an alist object, for more details see: https://www.rdocumentation.org/packages/rethinking/versions/2.13/topics/quap.
 .   m_list is passed as a R script that is then sourced.
 .   n_sample refers to the number of posterior samples specified, with a default of 1,000 if not otherwise specified.
 .   n_sample cannot exceed the number of rows specified for the dataplot session.
 
-.   Note: R is case sensitive so the variable names used in the model specification must match those passed to R in the var_list.
+.   Note:   Make sure to leave a space between the end of the list and the END OF CAPTURE command to avoid including part of the capture statement.
+.           R is case sensitive so the variable names used in the model specification must match those passed to R in the var_list.
 
 COMMENT Example CALL
     . LET DATA = CREATE MATRIX male height weight age
@@ -32,7 +33,7 @@ COMMENT Example CALL
     .            mu ~ dnorm(178, 20),
     .            sigma ~ dunif(0, 50)
     .        )
-    .END OF CAPTURE
+    . END OF CAPTURE
 
 COMMENT Specifying Settings
     SET WRITE DECIMALS 10
@@ -221,10 +222,10 @@ COMMENT Specifying R script
             }
             rm(delimiter_command, n_sample, read_command, space_element)
             
-            fileConn<-file("m_post.DP")
-            writeLines(posterior_samples, fileConn)
-            closeAllConnections()
-            rm(fileConn)
+            cat(posterior_samples[[1]], file="m_post.DP", sep="\n")   
+            for (i in 2:length(posterior_samples)){
+                    cat(posterior_samples[[i]], file="m_post.DP", sep="\n", append=TRUE)   
+            }
     END OF CAPTURE
 
 COMMENT Executing R Script
