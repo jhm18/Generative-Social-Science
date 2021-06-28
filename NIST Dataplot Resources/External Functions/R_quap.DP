@@ -241,6 +241,7 @@ COMMENT Print File contents
 COMMENT Reading-In Posterior Samples
     CALL m_post.DP
     SET WRITE DIGITS 5
+    SET READ FORMAT
 
 COMMENT Removing Temporary Files
     RM data.csv var_list.dat n_sample.dat 
