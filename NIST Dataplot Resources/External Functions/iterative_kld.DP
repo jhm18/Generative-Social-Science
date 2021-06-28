@@ -143,6 +143,7 @@ COMMENT Calling kl_divergence.jl
 
 COMMENT Importing Data
     READ kl_divergence.dat kl_div
+    SET READ FORMAT 
 
 COMMENT Removing Files
     RM n_sample.dat datafile.dat kl_divergence.dat iterative_kld.jl
