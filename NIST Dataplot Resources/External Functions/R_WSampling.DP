@@ -164,6 +164,7 @@ COMMENT Executing Program
 
 COMMENT Reading-In Samples
     CALL samples.DP
+    SET READ FORMAT
 
 COMMENT Remove Files
     RM replace.dat
