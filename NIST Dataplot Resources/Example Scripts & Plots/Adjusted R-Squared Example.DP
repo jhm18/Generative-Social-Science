@@ -1,0 +1,144 @@
+.   Adjusted R-Squared Example
+.   Jonathan H. Morgan
+.   30 June 2021
+
+COMMENT I/0 and Visualization Settings
+    cd /Users/jonathan.h.morgan/Dataplot_Resources/Dataplot_Tests
+    dataplot
+    CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+
+COMMENT Importing Fisher's Iris Data
+    SKIP 25
+    READ /Users/jonathan.h.morgan/lib/dataplot/data/IRIS.DAT sepal_l sepal_w pedal_l pedal_w species
+    SKIP
+
+COMMENT Quick Inspection of the DATA
+    LINE COLOR BROWN
+    BAR BORDER COLOR BROWN
+    CHARACTER COLOR BROWN
+    
+    4PLOT sepal_l
+    MOVE 50 90
+    JUSTIFICATION center
+    TEXT Fisher's Iris Data: Sepal Length
+
+    4PLOT sepal_w
+    MOVE 50 90
+    JUSTIFICATION center
+    TEXT Fisher's Iris Data: Sepal Width
+
+    4PLOT pedal_l
+    MOVE 50 90
+    JUSTIFICATION center
+    TEXT Fisher's Iris Data: Pedal Length
+
+    4PLOT pedal_w
+    MOVE 50 90
+    JUSTIFICATION center
+    TEXT Fisher's Iris Data: Pedal Width
+
+COMMENT Looking at Data by Species as the 4PLOTs Clearly Indicate Grouped Values
+    .   Tabulating Minimums and Maximums for the Purposes of Plotting
+        TABULATE MINIMUM sepal_l  species
+        TABULATE MAXIMUM sepal_l  species
+
+    .   A slightly nicer version of these plots would replace the species numbers with thier names, but this is for exploaration only.
+
+    .   Creating Stip Plots by Measure
+        SET STRIP PLOT INCREMENT 0.1
+        SET STRIP PLOT STYLE STACK
+        CHARACTER CIRCLE ALL
+        CHARACTER COLOR BROWN BLUE BLACK
+        CHARACTER HW 1 0.75 ALL
+        CHARACTER FILL ON ALL
+        LINE BLANK ALL
+
+        Y1LIMITS 1 3
+        MAJOR YTIC MARK NUMBER 3
+        MINOR YTICK MARK NUMBER 0
+        Y1TIC MARK OFFSET 1 1
+        TIC OFFSET UNIT DATA
+        GRID OFF
+        YGRID ON
+
+        X1LABEL Data Values
+        Y1LABEL Species
+        Y1LABEL DISPLACEMENT 8
+        X1LABEL DISPLACEMENT 12
+        Y1LABEL SIZE 4
+        X1LABEL SIZE 4
+        TITLE SIZE 4
+        X1TIC MARK LABEL SIZE 4
+        Y1TIC MARK LABEL SIZE 4
+
+        MULTIPLOT ON
+            TITLE Sepal Length
+            BATCH STRIP PLOT sepal_l species
+
+            TITLE Sepal Width
+            BATCH STRIP PLOT sepal_w species
+
+            TITLE Pedal Length
+            BATCH STRIP PLOT pedal_l species
+
+            TITLE Pedal Width
+            BATCH STRIP PLOT pedal_w species
+        END OF MULTIPLOT
+
+COMMENT Performing Simple Regression to Demonstrate R-Squared vs. Adjusted R-Squared
+    .   Restoring Graphics Presets
+        RESET GRAPHICS
+        CALL /Users/jonathan.h.morgan/bin/Default_VizSettings.DP
+    
+    .   Quickly Looking at Correlation Values
+        GRID OFF
+        XGRID ON
+        LINE BLANK DASH
+        CHARACTER COLOR BROWN
+        CHARACTER SIZE 3.0 1.0
+        CHARACTER CIRCLE BLANK
+        CHARACTER FILL ALL ON
+        XTIC OFFSET 0.2 0.2
+        MAJOR XTIC MARK NUMBER 3
+        Y1LABEL Pearson Correlation
+        X1LABEL Species
+        TITLE  Sepal Length vs. Sepal Width
+        LINEAR CORRELATION PLOT sepal_l sepal_w species
+
+    .   Doing Very Simple Regression for the Sake of Demonstration/Self-Learning
+    .   Performing Fit Using Iris Setosa based on the strong correlation between sepal length and sepal width in this species.
+        FIT sepal_w sepal_l SUBSET species = 1
+
+    .   Isolating y and y_hat
+        LET y_hat = PRED
+        LET y = sepal_w SUBSET species = 1
+        RETAIN y SUBSET species = 1
+        RETAIN y_hat SUBSET species = 1
+        WRITE y y_hat
+
+    .   Calculating R-Squared: Compare Value to that in dpst5f.dat
+        . Note: Dataplot Provides the SS_RES, SS_TOT, ADJ_R, R_SQU values and more when preforming a fit.
+        . Simply Demonstrating the Calculation for the Purposes of Reinforcement.
+        . R-SQUARE           =  0.5513756
+
+        .   Calculating Total Explained Variance
+            LET y_mean = MEAN y
+            LET y_hat_d = y - y_hat
+            LET y_hat_d = y_hat_d**2
+            LET ss_res = SUM y_hat_d
+
+        .   Calculating Total Variance
+            LET y_mean_d = y - y_mean
+            LET y_mean_d = y_mean_d**2
+            LET ss_tot = SUM y_mean_d
+
+        .   Calculating R-Squared: The Ratio of Explained Variance/Total Variance
+            LET r_squ = 1 - (ss_res/ss_tot)
+
+    .   Calculating Adjusted R-Squared (Adjusting for the Number of Parameters)
+        . ADJUSTED R-SQUARE  =  0.5420292
+
+        LET n = SIZE y 
+        LET p_num = 1
+        LET adj_r_2 = 1 - (1 - r_squ) * ((n-1)/(n-p_num-1))
+        DELETE y_hat_d y_mean_d n p_num 
