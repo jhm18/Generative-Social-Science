@@ -5,7 +5,7 @@ FEEDBACK OFF
 .   Jonathan H. Morgan
 .   16 June 2021
 
-.   Sources:    https://github.com/cran/coda/blob/master/R/HPDinterval.R
+.   Source:    https://github.com/cran/coda/blob/master/R/HPDinterval.R
 
 .   Function takes two arguments: x and prob
 .   x refers to the variable for which we are calculating the HDPI.
@@ -72,7 +72,7 @@ COMMENT: Calculating the Interval
         LET uci = vals(u_value)
 
     .   Creating Final object
-        LET hdpi = COMBINE lci uci
+        LET hpdi = COMBINE lci uci
         DELETE vals nsamp gap span_n inds u_value LCI UCI
 
 COMMENT Visualizing HDI Interval
