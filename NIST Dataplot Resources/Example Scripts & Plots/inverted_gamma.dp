@@ -1,0 +1,62 @@
+. Name:     inverted_gamma.dp
+. Author:   Alan Heckert
+. Data:     28 July 2021
+. Purpose:  Compare analytical and simulated solutions for
+.           inverted gamma distribution
+.
+. Step 0:   Open output devices
+.
+device 2 close
+let string fplot = inverted_gamma.ps
+set ipl1na ^fplot
+call checksys.dp
+capture screen on
+echo on
+capture inverted_gamma.out
+.
+. Step 1:
+.
+LET prob = SEQUENCE 0 0.001 0.999
+LET ngroup = SIZE prob
+LET alpha = 4
+LET beta = 3309
+.
+. Step 2:  Analytical Solution
+.
+LET post = IGAPPF(prob,alpha,0,beta)
+RETAIN post prob FOR I = 1 1 1000; . This step not really needed
+.
+. Step 3:  Simulation
+.
+LET beta = 1/3309
+.
+LET NTEMP = NGROUP*ALPHA
+LET U = UNIFORM RANDOM NUMBERS FOR I = 1 1 NTEMP
+LET TAG = SEQUENCE 1 ALPHA 1 NGROUP
+SET LET CROSS TABULATE COLLAPSE
+LET U_PROD = CROSS TABULATE PRODUCT U TAG
+LET sim_val = 1/((-1 * beta) * log(u_prod))
+.
+. Step 3:  Plot to compare
+.
+. �        Descriptive Statistics
+.
+LET p_median = MEDIAN post
+LET s_median = MEDIAN sim_val
+.
+X1LABEL Mean Time Between Failures Objective; Y1LABEL Density
+X1LIMIT 0 6000; Y1LIMIT 0 0.001
+Y1LABEL DISPLACEMENT 11
+MAJOR XTIC MARK NUMBER 5; MAJOR YTIC MARK NUMBER 3
+LINE COLOR BROWN BLUE
+MULTIPLE�KERNEL DENSITY post sim_val
+.
+end of capture
+.
+. Step 4:  Close device
+.
+device 2 close
+system ps2pdf ^fplot
+.
+cpu time
+. quit
