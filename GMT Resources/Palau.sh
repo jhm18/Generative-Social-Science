@@ -44,8 +44,8 @@ gmt begin contour_palau pdf
 
     #   Adding Map Inset of Entire Region of Palau
         gmt inset begin -DjTL+w1.5i+o0.15i/0.1i -F+gwhite+p1p+c0.1c
-			gmt coast -Rg -JG133/5.5N/? -Da -Ggrey -A5000 -Bg -Wfaint -EDE+gbrown
-		gmt inset end
+		gmt coast -Rg -JG133/5.5N/? -Da -Ggrey -A5000 -Bg -Wfaint -EDE+gbrown
+	gmt inset end
 
     #   Adding Scale
         gmt basemap --FONT_ANNOT_PRIMARY=9p -LjLB+c19:23N+f+w50k+lKm.+u+o0.5c --FONT_LABEL=10p
@@ -67,9 +67,9 @@ gmt begin palau_population pdf
     #   Plot Grid Image: -I controlls illumnination, with a controlling the angle of the illumination, N indicates that a cumulative Laplace distribution was used to normalize the intensity.
     #   The following commands plot the coast, overlay the image, cut what does not fit in the polygon, redraws the polygon.
         gmt coast -R133.5/6.75/135/8.5+r -JC134.25/7.5/15c  -Gc
-		gmt grdimage gpw_v4_population_density_rev11_2015_30_sec.grd -R133.5/6.75/135/8.5+r -JC134.25/7.5/15c -Q -B -Clajolla -I+a15+ne0.75 
-		gmt clip -C
-		gmt coast -R133.5/6.75/135/8.5+r -JC134.25/7.5/15c -Wthin -N1/thinner,darkred
+	gmt grdimage gpw_v4_population_density_rev11_2015_30_sec.grd -R133.5/6.75/135/8.5+r -JC134.25/7.5/15c -Q -B -Clajolla -I+a15+ne0.75 
+	gmt clip -C
+	gmt coast -R133.5/6.75/135/8.5+r -JC134.25/7.5/15c -Wthin -N1/thinner,darkred
 
     #   Restrict to the negative contours by passing -Ln (N would include 0)
         gmt grdcontour N00E090.earth_relief_03m_p.nc  -Ln \
@@ -91,8 +91,8 @@ gmt begin palau_population pdf
 
    #   Adding Map Inset of Entire Region of Palau
         gmt inset begin -DjTL+w1.5i+o0.15i/0.1i -F+gwhite+p1p+c0.1c
-			gmt coast -Rg -JG133/5.5N/? -Da -Ggrey -A5000 -Bg -Wfaint -EDE+gbrown
-		gmt inset end
+		gmt coast -Rg -JG133/5.5N/? -Da -Ggrey -A5000 -Bg -Wfaint -EDE+gbrown
+	gmt inset end
 
     #   Adding Colorbar
         gmt colorbar -DJRM+o1c/0+e+mc -Bx25 -By+l"Per Sq. Km."
