@@ -31,6 +31,7 @@
 
 #   Creating and Writing Out Files List for Iterative Processing in Dataplot
     using Glob
+    using DataFrames
     dat_files = glob("*.DAT",path)
 
     if length(dat_files) >= 1
