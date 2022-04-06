@@ -509,7 +509,12 @@ module Julia_Utilities
             #   Specifying Dataplot IO Settings
                 io_commands = vec(fill("a", 4, 1))
                 if (size(base_data)[2] > 10)
-                    io_commands[1] = string("DIMENSION", " ", size(base_data)[1], " ", "ROWS")
+                    if (size(data_frame)[1] < 1000 )
+                        io_commands[1] = string("DIMENSION", " ","1000", " ", "ROWS")
+                    else
+                        io_commands[1] = string("DIMENSION", " ", size(base_data)[1], " ", "ROWS")
+                    end
+                    
                     io_commands[2] = "MAXIMUM RECORD LENGTH  9999"
                     io_commands[3] = "SET DATA MISSING VALUE missing"
                     io_commands[4] = "SET READ MISSING VALUE 999"
@@ -534,7 +539,7 @@ module Julia_Utilities
                         e_index = findall(x -> occursin("e", x), s_variable)
                         if (size(e_index)[1] > 0)
                             for j in 1:length(e_index)
-                                s_variable[e_index[j]] = Formatting.format(s_variable[e_index[j]])
+                                s_variable[e_index[j]] = Formatting.format(variable[e_index[j]])
                             end
                         else
                             s_variable = s_variable
@@ -572,8 +577,8 @@ module Julia_Utilities
                         #   Checking that not scientific notation is present
                             e_index = findall(x -> occursin("e", x), s_variable)
                             if (size(e_index)[1] > 0 )
-                                for j in 1:length(e_index)
-                                    s_variable[e_index[j]] = Formatting.format(s_variable[e_index[j]])
+                                for j in eachindex(e_index)
+                                    s_variable[e_index[j]] = Formatting.format(variable[e_index[j]])
                                 end
                             else 
                                 e_index = e_index 
