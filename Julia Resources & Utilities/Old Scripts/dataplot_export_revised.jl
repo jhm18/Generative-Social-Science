@@ -170,7 +170,7 @@
                         e_index = findall(x -> occursin("e", x), s_variable)
                         if (size(e_index)[1] > 0)
                             for j in 1:length(e_index)
-                                s_variable[e_index[j]] = Formatting.format(s_variable[e_index[j]])
+                                s_variable[e_index[j]] = Formatting.format(variable[e_index[j]])
                             end
                         else
                             s_variable = s_variable
@@ -209,7 +209,7 @@
                             e_index = findall(x -> occursin("e", x), s_variable)
                             if (size(e_index)[1] > 0 )
                                 for j in 1:length(e_index)
-                                    s_variable[e_index[j]] = Formatting.format(s_variable[e_index[j]])
+                                    s_variable[e_index[j]] = Formatting.format(variable[e_index[j]])
                                 end
                             else 
                                 e_index = e_index 
