@@ -1,7 +1,7 @@
 #Useful Data Management Functions
 #Jonathan H. Morgan
 #Earliest Version: 28 May 2020
-#Current Vesion: 8 April 2022
+#Current Vesion: 3 July 2022
 
 #   Create Local Environment
     using Pkg
@@ -40,6 +40,34 @@
         dat_files = dat_files
     end
 
+
+ #  Clears objects from memmory by assigning them a value of nothing
+    function clear(workspace_objects::Union{Vector{String}, String})
+        #   Isolate Subset from names(Main)
+            named_objects = string.(names(Main))
+            if(length(workspace_objects) > 1)
+                named_objects = named_objects[in(workspace_objects).(named_objects)]
+            else
+                named_objects = named_objects[(named_objects .== workspace_objects)]
+            end
+            named_objects = Symbol.(named_objects)
+
+        #   Looping through and the named objects and making them equal to nothing.
+            for name in named_objects
+                eval(:(
+                    $name isa Function ? Base.delete_method.(methods($name)) :
+                        $name isa Module || ($name = nothing)))
+            end
+
+        #   Forcing Garbage Collection
+            GC.gc()
+    end
+
+    #clear("x")
+    #clear(["x", "y"])
+    #clear(string.(names(Main)))
+
+
 module Julia_Utilities
 
     #   Loading Dependencies
@@ -50,6 +78,7 @@ module Julia_Utilities
         using Distributions     #Julia Package for Estimating Univariate Statistics
         using Formatting        #Convert exponential numbers to decimal format
         using Glob              #Useful Package for String Manipulation
+        using Missings          #Useful Package for Handling Data Objects with Missing Values
         using RCall             #Used to work with R Objects
         using StatsBase         #Using Countmap Functionality
         using Statistics        #Julia's statistics standard library
@@ -64,6 +93,7 @@ module Julia_Utilities
         export show_df
         export remove!
         export partition_array_indices
+        export replace_conversion
         export best_fit_parse
         export dataplot_import
         export dataplot_export
@@ -145,6 +175,31 @@ module Julia_Utilities
             end
             return ids
         end
+        
+    #   Function for transforming vectors with missing vlaues to either a Float or Integer
+        function replace_conversion(type::DataType, vector)
+            #   In the event there are missing values
+                z = missings(type, length(vector))
+                for i in eachindex(z)
+                    if(ismissing(vector[i]) == false)
+                        if(typeof(vector) == Vector{Int64})
+                            vector[i] = parse(type, string.(vector[i]))
+                        else
+                            vector[i] = convert(type, vector[i])
+                        end
+                
+                        z[i] = vector[i]
+                    else
+                        z[i] = z[i]
+                    end
+                end
+
+            #   Return vector
+                vector = z
+        end
+
+        #x = replace_conversion(Float64, x)
+        #y = replace_conversion(Int64, y)
 
     #   Parsing Dataplot Best Fit Output
         function best_fit_parse(;dat_files::String=dat_files, results=results)
