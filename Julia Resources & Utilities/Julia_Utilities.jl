@@ -20,6 +20,7 @@
     Pkg.add("Distributions")
     Pkg.add("Formatting")
     Pkg.add("Glob")
+    Pkg.add("Missings")
     Pkg.add("RCall")
     Pkg.add("StatsBase")
     Pkg.add("TableView")
