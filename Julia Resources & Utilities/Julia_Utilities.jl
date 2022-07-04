@@ -140,7 +140,7 @@
     #vector = keep([1.0, missing, 3.0, missing, 5.0, 9.0, 10.0], missing)
 
 #   Creates an index of the a DataFrame's column IDs, names, and types.
-    function column_index(data::DataFrames.DataFrame, data_name::String)
+     function column_index(data::DataFrames.DataFrame, data_name::String)
         #   Getting Column Names
             data_names = names(data)
 
@@ -149,6 +149,55 @@
 
         #   Adding types
             data_index.type = eltype.(eachcol(data))
+
+        #   Identifying Missing Values (missing, NaN, "", nothing)
+            column_totals = vec(fill(0, 1, size(data)[2]))
+            for i in eachindex(column_totals)
+                count = i
+                #   Isolate vector
+                    vector = data[:,i]
+
+                #   Identify if a string
+                    vector_type = string(typeof(vector))
+                    string_check = length(findall("String", vector_type))
+    
+                #   Check for missing
+                    missing_sum = sum(ismissing.(vector))
+
+                #   Check for NaN, nothing, string missing, and empty values
+                    if(string_check > 0)
+                        empty_sum = length(vector[vector .== ""])
+                        nothing_sum = length(vector[vector .== "nothing"])
+                        s_missing_sum = length(vector[vector .== "missing"])
+                        s_NaN_sum = length(string.(vector)[string.(vector) .== "NaN"])
+                        s_nan_sum = length(string.(vector)[string.(vector) .== "nan"])
+
+                        total = missing_sum + empty_sum + nothing_sum + s_missing_sum + s_NaN_sum + s_nan_sum
+                    else
+                        NaN_sum = length(string.(vector)[string.(vector) .== "NaN"])
+                        nan_sum = length(string.(vector)[string.(vector) .== "nan"])
+                        nothing_sum = sum(isnothing.(vector))
+
+                        total = missing_sum + NaN_sum + nan_sum + nothing_sum
+                    end
+
+                #   Populating column_totals
+                    column_totals[i] = total
+            end
+            column_percentages = column_totals ./ size(data)[1]  
+            column_percentages = round.(column_percentages * 100, digits=2)   
+            data_index.percent_missing = column_percentages
+
+        #   Identifying the Number of Unique Values
+            unique_values = vec(fill(0, 1, size(data)[2]))
+            for i in eachindex(unique_values)
+                #   Getting the Number of Unique Values
+                    unique_frequency = length(unique(data[:,i]))
+
+                #   Populating unique_values
+                    unique_values[i] = unique_frequency
+            end
+            data_index.total_unique = unique_values
 
         #   Creating index name
             output_name = string(data_name,"_index")
