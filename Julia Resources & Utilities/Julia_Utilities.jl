@@ -44,6 +44,13 @@
 
  #  Clears objects from memmory by assigning them a value of nothing
     function clear(workspace_objects::Union{Vector{String}, String})
+        #   Checking if element is a string or vector of strings
+            if(typeof(workspace_objects) == String)
+                workspace_objects = [workspace_objects]
+            else
+                workspace_objects = workspace_objects
+            end
+
         #   Isolate Subset from names(Main)
             named_objects = string.(names(Main))
             if(length(workspace_objects) > 1)
