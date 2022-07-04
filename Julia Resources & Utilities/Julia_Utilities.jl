@@ -153,7 +153,6 @@
         #   Identifying Missing Values (missing, NaN, "", nothing)
             column_totals = vec(fill(0, 1, size(data)[2]))
             for i in eachindex(column_totals)
-                count = i
                 #   Isolate vector
                     vector = data[:,i]
 
