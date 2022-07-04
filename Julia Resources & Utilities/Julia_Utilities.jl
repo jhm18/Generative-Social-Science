@@ -1,13 +1,13 @@
 #Useful Data Management Functions
 #Jonathan H. Morgan
 #Earliest Version: 28 May 2020
-#Current Vesion: 3 July 2022
+#Current Vesion: 4 July 2022
 
 #   Create Local Environment
     using Pkg
-    Pkg.activate("/Users/jonathan.h.morgan/Julia Resources")
+    Pkg.activate("/mnt/c/Users/metal/Julia_Resources")
     Pkg.status()
-    Pkg.update()
+    Pkg.update() 
 
 #   Checking for Dat File
     path = pwd()
@@ -68,6 +68,89 @@
     #clear(["x", "y"])
     #clear(string.(names(Main)))
 
+#   Dropping either a single element or multiple elements from a String, Integer, or Float Vector
+    function drop(vector, element)
+        #   Checking if element is a string for the purpose of determining length
+            if(typeof(element) == String || typeof(element) == Missing)
+                element = [element]
+            else
+                element = element
+            end
+        
+        #   Filtering by either equality or using in.() functionality
+            if (length(element) == 1)
+                if(typeof(element[1])  == Missing)
+                    vector = vector[(ismissing.(vector) .!= 1)]
+                else
+                    vector = vector[(vector .!= element)]
+                end
+            else
+                check = in(element).(vector)
+                index = [1:1:length(vector);]
+                index = [index check]
+                retained_elements = index[(index[:,2] .!= 1), 1]
+                vector = vector[retained_elements]
+            end
+
+        #   Return Object
+            return vector
+    end
+
+    #vector = drop(["1", "2", "3", "4", "5", "9", "10"], ["3", "3", "4"])
+    #vector = drop([1, 2, 3, 4, 5, 9, 10], [2, 3])
+    #vector = drop([1.0, 2.0, 3.0, 4.0, 5.0, 9.0, 10.0], [2.0, 3.0])
+    #vector = drop([1.0, 2.0, 3.0, 4.0, 5.0, 9.0, 10.0], 1.0)
+    #vector = drop([1.0, missing, 3.0, missing, 5.0, 9.0, 10.0], missing)
+
+#   Keeping either a single element or multiple elements from a String, Integer, or Float Vector
+    function keep(vector, element)
+        #   Checking if element is a string for the purpose of determining length
+            if(typeof(element) == String || typeof(element) == Missing)
+                element = [element]
+            else
+                element = element
+            end
+
+        #   Filtering by either equality or using in.() functionality
+            if (length(element) == 1)
+                if(typeof(element[1])  == Missing)
+                    vector = vector[(ismissing.(vector) .== 1)]
+                else
+                    vector = vector[(vector .== element)]
+                end
+            else
+                vector = vector[in(element).(vector)]
+            end
+
+        #   Return Object
+            return vector
+    end
+
+    #vector = keep(["1", "2", "3", "4", "5", "9", "10"], ["3", "3", "4"])
+    #vector = keep([1, 2, 3, 4, 5, 9, 10], [2, 3])
+    #vector = keep([1.0, 2.0, 3.0, 4.0, 5.0, 9.0, 10.0], [2.0, 3.0])
+    #vector = keep([1.0, 2.0, 3.0, 4.0, 5.0, 9.0, 10.0], 3.0)
+    #vector = keep([1.0, missing, 3.0, missing, 5.0, 9.0, 10.0], missing)
+
+#   Creates an index of the a DataFrame's column IDs, names, and types.
+    function column_index(data::DataFrames.DataFrame, data_name::String)
+        #   Getting Column Names
+            data_names = names(data)
+
+        #   Creating index
+            data_index = DataFrames.DataFrame(id=[1: 1: length(data_names);], label=data_names)
+
+        #   Adding types
+            data_index.type = eltype.(eachcol(data))
+
+        #   Creating index name
+            output_name = string(data_name,"_index")
+
+        #   Assigning output name to data_index using @eval & Returning Object
+            return @eval $(Symbol(output_name)) = $data_index
+    end
+
+    #column_index(countries, "countries")
 
 module Julia_Utilities
 
@@ -95,6 +178,7 @@ module Julia_Utilities
         export remove!
         export partition_array_indices
         export replace_conversion
+        export string_to_parse
         export best_fit_parse
         export dataplot_import
         export dataplot_export
@@ -158,9 +242,9 @@ module Julia_Utilities
         # show_df(df)
 
     #   Remove an element from a string
-        function remove!(a, item)
-            deleteat!(a, findall(x->x==item, a))
-        end
+    #   function remove!(a, item)
+    #       deleteat!(a, findall(x->x==item, a))
+    #   end
 
     #   Nice Function that Divides a large dataset into chunks for processing
         function partition_array_indices(nb_data::Int, nb_data_per_chunk::Int)
@@ -201,6 +285,44 @@ module Julia_Utilities
 
         #x = replace_conversion(Float64, x)
         #y = replace_conversion(Int64, y)
+
+    #   Converting vectors with missing values from Strings
+        function string_to_parse(T, vector)
+            #   Transforming values into a string
+                str = string.(vector)
+
+            #   Replace missing with "" for the purpose of parsing
+                str =  replace(str, "missing" => "")
+
+            #   Parsing & Adding Back Missing
+                vector_type = string(typeof(vector))
+                float_check = length(findall("Float", vector_type))
+                if(string(T)[1:3] == "Int" && float_check == 1)
+                    for j in eachindex(str)
+                        if(str[j] != "")
+                            str[j] = string(convert(T, vector[j]))
+                        else
+                            str[j] = str[j]
+                        end
+                    end
+
+                    str = something(tryparse.(T, str), missing)
+
+                    str =  replace(str, nothing => missing)
+                else
+                    str = something(tryparse.(T, str), missing)
+
+                    str =  replace(str, nothing => missing)
+                end
+
+            #   Returning transformed vector
+                return str
+        end
+
+        #x = string.([missing, 2, 3])
+        #x = string_to_parse(Float64, x)
+        #x = string_to_parse(Int64, x)
+        #x = string_to_parse(Float64, x)
 
     #   Parsing Dataplot Best Fit Output
         function best_fit_parse(;dat_files::String=dat_files, results=results)
@@ -520,7 +642,7 @@ module Julia_Utilities
     
             #   Creating Row-ID Variable if not already present
                 if (size(true_names[findall(x -> occursin("Obs_ID", x), names(base_data)), :])[1] == 0)
-                    DataFrames.insertcols!(base_data, 1, :Obs_ID => [1: 1: nrow(base_data); ])
+                    DataFrames.insertcols!(base_data, 1, :Obs_ID => [1:1:size(base_data)[1];])
                 else
                     base_data = base_data
                 end
