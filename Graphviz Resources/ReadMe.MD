@@ -11,7 +11,7 @@ Helpful Graphviz resources and examples:
     <td>Adrian Ancona's Tutorial</td>
     <td>https://ncona.com/2020/06/create-diagrams-with-code-using-graphviz/</td>  
     <td>Tony Ballantyne's Drawing Guide</td>
-    <td>https://www.tonyballantyne.com/graphs.html#orgheadline17</td>
+    <td>https://github.com/ballantony/dot-graphviz/blob/main/graphs.org</td>
   </tr>
   <tr>
     <td>Graphviz Drawing Gallary</td>
